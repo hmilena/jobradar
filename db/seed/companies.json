@@ -1,0 +1,461 @@
+[
+  {
+    "name": "Caixa Geral de Depósitos",
+    "slug": "caixa-geral-depositos",
+    "domain": "https://www.cgd.pt",
+    "careers_url": "https://www.cgd.pt/Institucional/Recursos-Humanos/Recrutamento/Pages/Recrutamento.aspx",
+    "category": "banco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='emprego'], a[href*='recrutamento'], a[href*='job']"
+  },
+  {
+    "name": "Millennium BCP",
+    "slug": "millennium-bcp",
+    "domain": "https://www.millenniumbcp.pt",
+    "careers_url": "https://www.millenniumbcp.pt/site/conteudo/sobre-o-banco/trabalhar-bcp/",
+    "category": "banco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='vaga']"
+  },
+  {
+    "name": "Novo Banco",
+    "slug": "novo-banco",
+    "domain": "https://www.novobanco.pt",
+    "careers_url": "https://novobanco.pt/site/cms.aspx?labelid=trabnosconosconosconosco",
+    "category": "banco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Santander Portugal",
+    "slug": "santander-portugal",
+    "domain": "https://www.santander.pt",
+    "careers_url": "https://www.santander.pt/sobre-nos/trabalhar-no-santander",
+    "category": "banco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "BNP Paribas Portugal",
+    "slug": "bnp-paribas-portugal",
+    "domain": "https://www.bnpparibas.pt",
+    "careers_url": "https://careers.bnpparibas.com/searches?country=Portugal",
+    "category": "banco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='offer']"
+  },
+  {
+    "name": "SIBS",
+    "slug": "sibs",
+    "domain": "https://www.sibs.com",
+    "careers_url": "https://www.sibs.com/carreiras/",
+    "category": "fintech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='vaga']"
+  },
+  {
+    "name": "Euronext",
+    "slug": "euronext",
+    "domain": "https://www.euronext.com",
+    "careers_url": "https://www.euronext.com/en/about/careers",
+    "category": "fintech",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Joom",
+    "slug": "joom",
+    "domain": "https://about.joom.com",
+    "careers_url": "https://about.joom.com/en/vacancies#vacancies",
+    "category": "fintech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='vacanc'], a[href*='job']"
+  },
+  {
+    "name": "GoCardless",
+    "slug": "gocardless",
+    "domain": "https://gocardless.com",
+    "careers_url": "https://job-boards.greenhouse.io/gocardless?offices[]=246085",
+    "category": "fintech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='greenhouse']"
+  },
+  {
+    "name": "Mollie",
+    "slug": "mollie",
+    "domain": "https://www.mollie.com",
+    "careers_url": "https://jobs.mollie.com/vacancies",
+    "category": "fintech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='vacanc'], a[href*='job']"
+  },
+  {
+    "name": "Pictet Technologies",
+    "slug": "pictet-technologies",
+    "domain": "https://www.pictet.com",
+    "careers_url": "https://www.linkedin.com/company/pictet-technologies-sa/jobs/",
+    "category": "fintech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "NOS Comunicações",
+    "slug": "nos",
+    "domain": "https://www.nos.pt",
+    "careers_url": "https://www.nos.pt/corporativo/recrutamento/Pages/Homepage.aspx",
+    "category": "telco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='recrutamento']"
+  },
+  {
+    "name": "MEO / Altice Portugal",
+    "slug": "meo-altice",
+    "domain": "https://www.meo.pt",
+    "careers_url": "https://www.altice.pt/pessoas-e-cultura/oportunidades",
+    "category": "telco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='opportunit']"
+  },
+  {
+    "name": "Vodafone Portugal",
+    "slug": "vodafone-portugal",
+    "domain": "https://www.vodafone.pt",
+    "careers_url": "https://careers.vodafone.com/search/?q=&locationsearch=Portugal",
+    "category": "telco",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Fidelidade",
+    "slug": "fidelidade",
+    "domain": "https://www.fidelidade.pt",
+    "careers_url": "https://www.fidelidade.pt/PT/grupo/pessoas/Pages/Recrutamento.aspx",
+    "category": "seguradora",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='recrutamento']"
+  },
+  {
+    "name": "Ageas Portugal",
+    "slug": "ageas-portugal",
+    "domain": "https://www.ageas.pt",
+    "careers_url": "https://www.ageas.pt/sobre-nos/pessoas-e-cultura/trabalhe-connosco/",
+    "category": "seguradora",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Tranquilidade",
+    "slug": "tranquilidade",
+    "domain": "https://www.tranquilidade.pt",
+    "careers_url": "https://www.tranquilidade.pt/sobre-nos/trabalhe-connosco",
+    "category": "seguradora",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "OutSystems",
+    "slug": "outsystems",
+    "domain": "https://www.outsystems.com",
+    "careers_url": "https://www.outsystems.com/careers/job-list/",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='position']"
+  },
+  {
+    "name": "Farfetch",
+    "slug": "farfetch",
+    "domain": "https://www.farfetch.com",
+    "careers_url": "https://www.farfetchcareers.com/",
+    "category": "ecommerce",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Feedzai",
+    "slug": "feedzai",
+    "domain": "https://feedzai.com",
+    "careers_url": "https://careers.feedzai.com/",
+    "category": "software",
+    "city": "Coimbra",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='position']"
+  },
+  {
+    "name": "Talkdesk",
+    "slug": "talkdesk",
+    "domain": "https://www.talkdesk.com",
+    "careers_url": "https://www.talkdesk.com/careers/",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Unbabel",
+    "slug": "unbabel",
+    "domain": "https://unbabel.com",
+    "careers_url": "https://unbabel.com/careers/",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Sword Health",
+    "slug": "sword-health",
+    "domain": "https://swordhealth.com",
+    "careers_url": "https://swordhealth.com/careers",
+    "category": "healthtech",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "AUTODOC",
+    "slug": "autodoc",
+    "domain": "https://www.autodoc.pt",
+    "careers_url": "https://careers.autodoc.eu/jobs?location=Portugal",
+    "category": "ecommerce",
+    "city": "Oeiras",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Catawiki",
+    "slug": "catawiki",
+    "domain": "https://www.catawiki.com",
+    "careers_url": "https://catawiki.careers/vacancies",
+    "category": "ecommerce",
+    "city": "Lisboa",
+    "job_selector": "a[href*='vacanc'], a[href*='job']"
+  },
+  {
+    "name": "Snyk",
+    "slug": "snyk",
+    "domain": "https://snyk.io",
+    "careers_url": "https://snyk.io/pt-BR/careers/all-jobs/?location=Portugal",
+    "category": "ciberseguranca",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Upwork",
+    "slug": "upwork",
+    "domain": "https://www.upwork.com",
+    "careers_url": "https://www.upwork.com/careers/jobs/explore",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Critical TechWorks (BMW)",
+    "slug": "critical-techworks",
+    "domain": "https://www.criticaltechworks.com",
+    "careers_url": "https://www.criticaltechworks.com/positions",
+    "category": "automotive_tech",
+    "city": "Porto",
+    "job_selector": "a[href*='position'], a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Mercedes-Benz.io",
+    "slug": "mercedes-benz-io",
+    "domain": "https://www.mercedes-benz.io",
+    "careers_url": "https://www.mercedes-benz.io/working-here",
+    "category": "automotive_tech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Volkswagen Digital Solutions",
+    "slug": "volkswagen-digital-solutions",
+    "domain": "https://www.vwds.pt",
+    "careers_url": "https://www.vwds.pt/careers/",
+    "category": "automotive_tech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "EnBW IT-Solutions",
+    "slug": "enbw",
+    "domain": "https://www.enbw.com",
+    "careers_url": "https://careers.enbw.com/en_US/careers/SearchJobs/?2402=[46754575]&listFilterMode=1",
+    "category": "energia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "EDP",
+    "slug": "edp",
+    "domain": "https://www.edp.com",
+    "careers_url": "https://careers.edp.com/",
+    "category": "energia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='offer']"
+  },
+  {
+    "name": "Galp",
+    "slug": "galp",
+    "domain": "https://www.galp.com",
+    "careers_url": "https://careers.galp.com/jobs/",
+    "category": "energia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Siemens Portugal",
+    "slug": "siemens-portugal",
+    "domain": "https://www.siemens.com/pt",
+    "careers_url": "https://jobs.siemens.com/careers?location=Portugal",
+    "category": "industrial_tech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Bosch Portugal",
+    "slug": "bosch-portugal",
+    "domain": "https://www.bosch.pt",
+    "careers_url": "https://www.bosch.pt/carreiras/ofertas-de-emprego/",
+    "category": "industrial_tech",
+    "city": "Aveiro",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='oferta']"
+  },
+  {
+    "name": "Sonae (Continente)",
+    "slug": "sonae",
+    "domain": "https://www.sonae.pt",
+    "careers_url": "https://careers.sonae.pt/",
+    "category": "retalho",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Jerónimo Martins",
+    "slug": "jeronimo-martins",
+    "domain": "https://www.jeronimomartins.com",
+    "careers_url": "https://www.jeronimomartins.com/people/join-us/job-opportunities/",
+    "category": "retalho",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "AstraZeneca",
+    "slug": "astrazeneca",
+    "domain": "https://www.astrazeneca.com",
+    "careers_url": "https://careers.astrazeneca.com/search-jobs/Lisbon%20District%2C%20PT/7684/3/2264397-2267056/39/-9x13333/100/2",
+    "category": "pharma",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Organon",
+    "slug": "organon",
+    "domain": "https://www.organon.com",
+    "careers_url": "https://jobs.organon.com/us/en/search-results",
+    "category": "pharma",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Vantiva",
+    "slug": "vantiva",
+    "domain": "https://www.vantiva.com",
+    "careers_url": "https://www.vantiva.com/job-opportunities/",
+    "category": "iot",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='opportunit']"
+  },
+  {
+    "name": "Carbyne",
+    "slug": "carbyne",
+    "domain": "https://carbyne.com",
+    "careers_url": "https://carbyne.com/company/careers/",
+    "category": "seguranca_publica",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "TUI Portugal",
+    "slug": "tui-portugal",
+    "domain": "https://www.tui.pt",
+    "careers_url": "https://careers.tuigroup.com/jobs/search?location=Portugal",
+    "category": "turismo",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "XpandIT",
+    "slug": "xpandit",
+    "domain": "https://www.xpand-it.com",
+    "careers_url": "https://www.xpand-it.com/careers/",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Worten",
+    "slug": "worten",
+    "domain": "https://www.worten.pt",
+    "careers_url": "https://www.worten.pt/institucional/trabalhna-worten",
+    "category": "retalho",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "WYgroup",
+    "slug": "wygroup",
+    "domain": "https://www.wygroup.net",
+    "careers_url": "https://www.wygroup.net/careers/",
+    "category": "agencia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Ogilvy Portugal",
+    "slug": "ogilvy-portugal",
+    "domain": "https://www.ogilvy.com",
+    "careers_url": "https://www.ogilvy.com/careers",
+    "category": "agencia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Havas Portugal",
+    "slug": "havas-portugal",
+    "domain": "https://www.havas.com",
+    "careers_url": "https://havas.com/careers/",
+    "category": "agencia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "REN",
+    "slug": "ren",
+    "domain": "https://www.ren.pt",
+    "careers_url": "https://www.ren.pt/pt-PT/carreiras/emprego/",
+    "category": "energia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='emprego'], a[href*='career']"
+  },
+  {
+    "name": "Air Liquide / ALEBS",
+    "slug": "air-liquide",
+    "domain": "https://www.airliquide.com",
+    "careers_url": "https://airliquidehr.wd3.myworkdayjobs.com/en-GB/AirLiquideExternalCareer?locationCountry=2e8c5034deb045d49315417c347472ca",
+    "category": "industrial_tech",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Intapp",
+    "slug": "intapp",
+    "domain": "https://www.intapp.com",
+    "careers_url": "https://www.intapp.com/careers/",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Techem",
+    "slug": "techem",
+    "domain": "https://www.techem.com",
+    "careers_url": "https://www.techem.com/en/careers/job-offers/",
+    "category": "iot",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='offer']"
+  }
+]
