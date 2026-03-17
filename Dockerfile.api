@@ -2,17 +2,13 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Dependências do sistema para Playwright
-RUN apt-get update && apt-get install -y \
-    libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libgbm1 \
-    libasound2 libxrandr2 libxdamage1 libxcomposite1 libxfixes3 \
-    curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-COPY scraper/requirements.txt .
+# Só as dependências da API (sem Playwright)
+COPY api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN playwright install chromium && playwright install-deps chromium
 
-COPY . .
+COPY api/ ./api/
 
 EXPOSE 8000
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

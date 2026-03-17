@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: jobrador-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.api
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false   # definir manualmente no dashboard do Render
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
