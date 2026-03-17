@@ -29,15 +29,32 @@ SKIP_TITLE_KEYWORDS = [
 ]
 
 
-def is_job_link(href: str, text: str) -> bool:
-    """Heurística simples para identificar links de vagas."""
+def is_job_link(href: str, text: str, careers_url: str = "") -> bool:
+    """Heurística para identificar links de vagas individuais (não navegação)."""
     if not href or not text:
         return False
-    if len(text.strip()) < 5 or len(text.strip()) > 200:
+
+    text = text.strip()
+    if len(text) < 5 or len(text) > 200:
         return False
+
     text_lower = text.lower()
     if any(kw in text_lower for kw in SKIP_TITLE_KEYWORDS):
         return False
+
+    # Rejeita se o link aponta para a própria careers_url ou para um URL "pai" dela
+    if careers_url:
+        if href.rstrip("/") == careers_url.rstrip("/"):
+            return False
+        # Rejeita se é mais curto ou igual em profundidade (link de navegação)
+        parsed_href = urlparse(href)
+        parsed_careers = urlparse(careers_url)
+        if parsed_href.netloc == parsed_careers.netloc:
+            href_parts = [p for p in parsed_href.path.split("/") if p]
+            careers_parts = [p for p in parsed_careers.path.split("/") if p]
+            if len(href_parts) <= len(careers_parts):
+                return False
+
     href_lower = href.lower()
     return any(kw in href_lower for kw in JOB_HREF_KEYWORDS)
 
@@ -68,7 +85,7 @@ async def extract_jobs_from_page(
                 if href in seen_urls:
                     continue
 
-                if is_job_link(href, text):
+                if is_job_link(href, text, base_url):
                     seen_urls.add(href)
                     jobs.append(
                         RawJob(

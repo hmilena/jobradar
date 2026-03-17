@@ -31,7 +31,12 @@ def seed():
             INSERT INTO companies (name, slug, domain, careers_url, category, city, job_selector)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (slug) DO UPDATE SET
+                name = EXCLUDED.name,
+                domain = EXCLUDED.domain,
                 careers_url = EXCLUDED.careers_url,
+                category = EXCLUDED.category,
+                city = EXCLUDED.city,
+                job_selector = EXCLUDED.job_selector,
                 updated_at = NOW()
             """,
             (

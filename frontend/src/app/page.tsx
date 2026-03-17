@@ -112,7 +112,10 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white py-8">
         <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-          <p className="font-medium text-slate-500">JobRadar Portugal</p>
+          <p className="font-medium text-slate-500">
+            JobRadar Portugal{" "}
+            <span className="text-xs text-slate-400">por Mia</span>
+          </p>
           <p>
             Vagas atualizadas a cada 6 horas ·{" "}
             <a

@@ -153,6 +153,15 @@
     "job_selector": "a[href*='job'], a[href*='career']"
   },
   {
+    "name": "Zurich Portugal",
+    "slug": "zurich-portugal",
+    "domain": "https://www.zurich.pt",
+    "careers_url": "https://careers.zurich.com/search/?q=&locationsearch=Portugal",
+    "category": "seguradora",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
     "name": "OutSystems",
     "slug": "outsystems",
     "domain": "https://www.outsystems.com",
@@ -457,5 +466,113 @@
     "category": "iot",
     "city": "Porto",
     "job_selector": "a[href*='job'], a[href*='career'], a[href*='offer']"
+  },
+  {
+    "name": "Bounce",
+    "slug": "bounce",
+    "domain": "https://bounce.com",
+    "careers_url": "https://bounce.com/careers",
+    "category": "turismo",
+    "city": "Lisboa",
+    "job_selector": "a[href*='jobs.ashbyhq.com/Bounce/']"
+  },
+  {
+    "name": "LastPass",
+    "slug": "lastpass",
+    "domain": "https://www.lastpass.com",
+    "careers_url": "https://www.lastpass.com/pt/company/careers",
+    "category": "ciberseguranca",
+    "city": null,
+    "job_selector": "a[href*='job'], a[href*='career']"
+  },
+  {
+    "name": "Aceve",
+    "slug": "aceve",
+    "domain": "https://www.aceve.com",
+    "careers_url": "https://career.aceve.com/jobs",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='career.aceve.com/jobs']"
+  },
+  {
+    "name": "Google Lisboa",
+    "slug": "google-lisboa",
+    "domain": "https://www.google.com",
+    "careers_url": "https://careers.google.com/jobs/results/?hl=pt&location=Lisbon%2C+Portugal",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='careers.google.com/jobs']"
+  },
+  {
+    "name": "Microsoft Portugal",
+    "slug": "microsoft-portugal",
+    "domain": "https://www.microsoft.com/pt-pt",
+    "careers_url": "https://careers.microsoft.com/us/en/search-results?qstate=Lisbon&qcountry=Portugal",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='careers.microsoft.com'], a[href*='jobs.careers.microsoft.com']"
+  },
+  {
+    "name": "JYSK Portugal",
+    "slug": "jysk-portugal",
+    "domain": "https://www.jysk.pt",
+    "careers_url": "https://emprego.jysk.pt/vagas-pt",
+    "category": "retalho",
+    "city": "Lisboa",
+    "job_selector": "a[href*='vagas']"
+  },
+  {
+    "name": "Foursys Portugal",
+    "slug": "foursys-portugal",
+    "domain": "https://www.foursys.com.br",
+    "careers_url": "https://jobs.rankdone.com/foursys/",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='rankdone.com/foursys']"
+  },
+  {
+    "name": "FNAC Portugal",
+    "slug": "fnac-portugal",
+    "domain": "https://www.fnac.pt",
+    "careers_url": "https://recrutamento.fnac.pt/go/Todas-as-oportunidades/8935955/",
+    "category": "retalho",
+    "city": "Lisboa",
+    "job_selector": "a[href*='recrutamento.fnac.pt'], a[href*='job'], a[href*='oportunidade']"
+  },
+  {
+    "name": "BBDO Portugal",
+    "slug": "bbdo-portugal",
+    "domain": "https://www.bbdo.pt",
+    "careers_url": "https://www.bbdo.pt/",
+    "category": "agencia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='vaga']"
+  },
+  {
+    "name": "Fullsix Portugal",
+    "slug": "fullsix-portugal",
+    "domain": "https://fullsix.pt",
+    "careers_url": "https://fullsix.pt/vagas",
+    "category": "agencia",
+    "city": "Lisboa",
+    "job_selector": "a[href*='/vaga/']"
+  },
+  {
+    "name": "Softway",
+    "slug": "softway",
+    "domain": "https://www.softway.pt",
+    "careers_url": "https://www.softway.pt/recrutamento/",
+    "category": "agencia",
+    "city": "Cascais",
+    "job_selector": "a[href*='/recrutamento/']"
+  },
+  {
+    "name": "Wedigitek",
+    "slug": "wedigitek",
+    "domain": "https://wedigitek.com",
+    "careers_url": "https://wedigitek.com/",
+    "category": "agencia",
+    "city": "Setúbal",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='vaga']"
   }
 ]
