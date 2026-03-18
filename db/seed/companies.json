@@ -628,5 +628,14 @@
     "category": "turismo",
     "city": "Lisboa",
     "job_selector": "a[href*='careers.tripadvisor.com/jobs'], a[href*='job']"
+  },
+  {
+    "name": "Cyncly",
+    "slug": "cyncly",
+    "domain": "https://www.cyncly.com",
+    "careers_url": "https://fa-ewdg-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CynclyJobs/jobs",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='job'], a[href*='requisitionId']"
   }
 ]
