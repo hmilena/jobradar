@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "0 */6 * * *"   # a cada 6 horas
   workflow_dispatch:          # permite rodar manualmente no GitHub
+  push:
+    paths:
+      - "db/seed/companies.json"  # dispara ao adicionar empresas
 
 jobs:
   scrape:
