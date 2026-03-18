@@ -56,8 +56,8 @@ def build_jobs_query(
         conditions.append("j.role = %s")
         params.append(role)
     if q:
-        conditions.append("(j.title ILIKE %s OR j.description_clean ILIKE %s)")
-        params.extend([f"%{q}%", f"%{q}%"])
+        conditions.append("(j.title ILIKE %s OR j.description_clean ILIKE %s OR c.name ILIKE %s)")
+        params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
 
     where = " AND ".join(conditions)
 
