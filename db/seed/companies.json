@@ -93,10 +93,10 @@
     "name": "Pictet Technologies",
     "slug": "pictet-technologies",
     "domain": "https://www.pictet.com",
-    "careers_url": "https://www.linkedin.com/company/pictet-technologies-sa/jobs/",
+    "careers_url": "https://career012.successfactors.eu/career?company=banquepict",
     "category": "fintech",
     "city": "Lisboa",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "job_selector": "a[href*='career'], a[href*='job']"
   },
   {
     "name": "NOS Comunicações",
