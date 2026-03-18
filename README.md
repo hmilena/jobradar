@@ -146,6 +146,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 - [Google Lisboa](https://www.google.com) — Lisboa
 - [Intapp](https://www.intapp.com) — Lisboa
 - [Microsoft Portugal](https://www.microsoft.com/pt-pt) — Lisboa
+- [Moxie](https://www.moxie.pt) — Lisboa
 - [OutSystems](https://www.outsystems.com) — Lisboa
 - [Talkdesk](https://www.talkdesk.com) — Lisboa
 - [Unbabel](https://unbabel.com) — Lisboa

@@ -585,6 +585,15 @@
     "job_selector": "a[href*='recrutamento'], a[href*='vaga'], a[href*='job']"
   },
   {
+    "name": "Moxie",
+    "slug": "moxie",
+    "domain": "https://www.moxie.pt",
+    "careers_url": "https://jobs.ashbyhq.com/moxie",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='ashbyhq.com/moxie']"
+  },
+  {
     "name": "Viator (TripAdvisor)",
     "slug": "viator-tripadvisor",
     "domain": "https://www.viator.com",
