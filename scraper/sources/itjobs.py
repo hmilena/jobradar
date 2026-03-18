@@ -4,6 +4,7 @@ ITJobs tem uma API REST não documentada mas estável.
 Filtramos as vagas de consultorias depois via classifier.
 """
 import logging
+from datetime import datetime, timezone, timedelta
 from typing import AsyncIterator
 
 import httpx
@@ -14,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 ITJOBS_API = "https://api.itjobs.pt/job/list.json"
 ITJOBS_API_KEY = "itjobs"  # chave pública, sem autenticação real necessária
+MAX_JOB_AGE_DAYS = 60  # ignora vagas publicadas há mais de 60 dias
 
 # Categorias de tech no ITJobs
 TECH_TYPE_IDS = [
@@ -61,7 +63,17 @@ class ITJobsScraper(BaseSource):
                         if not results:
                             break
 
+                        cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_JOB_AGE_DAYS)
                         for job in results:
+                            published_at = job.get("publishedAt") or job.get("updatedAt")
+                            if published_at:
+                                try:
+                                    pub_date = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
+                                    if pub_date < cutoff:
+                                        continue
+                                except (ValueError, AttributeError):
+                                    pass
+
                             company = job.get("company", {})
                             yield RawJob(
                                 title=job.get("title", ""),
