@@ -58,6 +58,110 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 
 ---
 
+## PT — Empresas que contratam diretamente em Portugal
+
+> Lista curada de empresas tech que contratam sem intermediários. Queres adicionar uma empresa? Abre um PR editando `db/seed/companies.json`.
+
+### Agências & Marketing Digital
+- [BBDO Portugal](https://www.bbdo.pt) — Lisboa
+- [Fullsix Portugal](https://fullsix.pt) — Lisboa
+- [Havas Portugal](https://www.havas.com) — Lisboa
+- [Ogilvy Portugal](https://www.ogilvy.com) — Lisboa
+- [Softway](https://www.softway.pt) — Cascais
+- [Wedigitek](https://wedigitek.com) — Setúbal
+- [WYgroup](https://www.wygroup.net) — Lisboa
+
+### Automotive Tech
+- [Critical TechWorks (BMW)](https://www.criticaltechworks.com) — Porto
+- [Mercedes-Benz.io](https://www.mercedes-benz.io) — Lisboa
+- [Volkswagen Digital Solutions](https://www.vwds.pt) — Lisboa
+
+### Bancos
+- [BNP Paribas Portugal](https://www.bnpparibas.pt) — Lisboa
+- [Caixa Geral de Depósitos](https://www.cgd.pt) — Lisboa
+- [Millennium BCP](https://www.millenniumbcp.pt) — Lisboa
+- [Novo Banco](https://www.novobanco.pt) — Lisboa
+- [Santander Portugal](https://www.santander.pt) — Lisboa
+
+### Cibersegurança
+- [LastPass](https://www.lastpass.com) — Remote
+- [Snyk](https://snyk.io) — Lisboa
+
+### E-commerce
+- [AUTODOC](https://www.autodoc.pt) — Oeiras
+- [Catawiki](https://www.catawiki.com) — Lisboa
+- [Farfetch](https://www.farfetch.com) — Porto
+
+### Energia
+- [EDP](https://www.edp.com) — Lisboa
+- [EnBW IT-Solutions](https://www.enbw.com) — Lisboa
+- [Galp](https://www.galp.com) — Lisboa
+- [REN](https://www.ren.pt) — Lisboa
+
+### Fintech
+- [Euronext](https://www.euronext.com) — Porto
+- [GoCardless](https://gocardless.com) — Lisboa
+- [Joom](https://about.joom.com) — Lisboa
+- [Mollie](https://www.mollie.com) — Lisboa
+- [Pictet Technologies](https://www.pictet.com) — Lisboa
+- [SIBS](https://www.sibs.com) — Lisboa
+
+### Healthtech
+- [Sword Health](https://swordhealth.com) — Porto
+
+### Industrial Tech
+- [Air Liquide / ALEBS](https://www.airliquide.com) — Lisboa
+- [Bosch Portugal](https://www.bosch.pt) — Aveiro
+- [Siemens Portugal](https://www.siemens.com/pt) — Lisboa
+
+### IoT
+- [Techem](https://www.techem.com) — Porto
+- [Vantiva](https://www.vantiva.com) — Lisboa
+
+### Farmacêutica
+- [AstraZeneca](https://www.astrazeneca.com) — Lisboa
+- [Organon](https://www.organon.com) — Lisboa
+
+### Retalho
+- [FNAC Portugal](https://www.fnac.pt) — Lisboa
+- [Jerónimo Martins](https://www.jeronimomartins.com) — Lisboa
+- [JYSK Portugal](https://www.jysk.pt) — Lisboa
+- [Sonae (Continente)](https://www.sonae.pt) — Porto
+- [Worten](https://www.worten.pt) — Lisboa
+
+### Seguradoras
+- [Ageas Portugal](https://www.ageas.pt) — Lisboa
+- [Fidelidade](https://www.fidelidade.pt) — Lisboa
+- [Tranquilidade](https://www.tranquilidade.pt) — Lisboa
+- [Zurich Portugal](https://www.zurich.pt) — Lisboa
+
+### Segurança Pública
+- [Carbyne](https://carbyne.com) — Lisboa
+
+### Software & Produto
+- [Aceve](https://www.aceve.com) — Lisboa
+- [Feedzai](https://feedzai.com) — Coimbra
+- [Foursys Portugal](https://www.foursys.com.br) — Lisboa
+- [Google Lisboa](https://www.google.com) — Lisboa
+- [Intapp](https://www.intapp.com) — Lisboa
+- [Microsoft Portugal](https://www.microsoft.com/pt-pt) — Lisboa
+- [OutSystems](https://www.outsystems.com) — Lisboa
+- [Talkdesk](https://www.talkdesk.com) — Lisboa
+- [Unbabel](https://unbabel.com) — Lisboa
+- [Upwork](https://www.upwork.com) — Lisboa
+- [XpandIT](https://www.xpand-it.com) — Lisboa
+
+### Telecomunicações
+- [MEO / Altice Portugal](https://www.meo.pt) — Lisboa
+- [NOS Comunicações](https://www.nos.pt) — Lisboa
+- [Vodafone Portugal](https://www.vodafone.pt) — Lisboa
+
+### Turismo
+- [Bounce](https://bounce.com) — Lisboa
+- [TUI Portugal](https://www.tui.pt) — Porto
+
+---
+
 ## What it does
 
 **Direct Contract** is an automated aggregator that lists tech job openings exclusively from companies known to hire directly in Portugal — no agencies, no outsourcing firms, no intermediaries.
