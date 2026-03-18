@@ -77,12 +77,17 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
         """
         INSERT INTO jobs (
             company_id, title, url, location, remote_type, seniority,
-            tech_stack, description_clean, source, hash,
+            tech_stack, description_clean, source, hash, role,
             is_consultoria, classifier_confidence, classifier_reason, classifier_ran_at
         ) VALUES (
-            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW()
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW()
         )
-        ON CONFLICT (hash) DO NOTHING
+        ON CONFLICT (hash) DO UPDATE SET
+            last_seen_at = NOW(),
+            remote_type = EXCLUDED.remote_type,
+            seniority = EXCLUDED.seniority,
+            tech_stack = EXCLUDED.tech_stack,
+            role = EXCLUDED.role
         """,
         (
             company_id,
@@ -95,6 +100,7 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
             job.description,
             job.source,
             job_hash,
+            job.role or "unknown",
             classifier_result.is_consultoria,
             classifier_result.confidence,
             classifier_result.reason,

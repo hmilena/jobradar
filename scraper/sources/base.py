@@ -18,6 +18,7 @@ class RawJob:
     remote_type: str | None = None
     tech_stack: list[str] = field(default_factory=list)
     seniority: str | None = None
+    role: str | None = None
 
 
 class BaseSource(ABC):

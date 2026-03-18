@@ -71,9 +71,9 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
 # Remote type detection
 # ----------------------------------------------------------------
 REMOTE_PATTERNS: list[tuple[str, list[str]]] = [
-    ("remote", ["full remote", "100% remoto", "100% remote", "trabalho remoto", "fully remote"]),
-    ("hybrid", ["híbrido", "hibrido", "hybrid", "modelo híbrido"]),
-    ("onsite", ["presencial", "on-site", "onsite", "escritório"]),
+    ("remote", ["full remote", "100% remoto", "100% remote", "trabalho remoto", "fully remote", "(remote)", "- remote", "| remote", "remote only", "remote-first"]),
+    ("hybrid", ["híbrido", "hibrido", "hybrid", "modelo híbrido", "(hybrid)", "- hybrid", "| hybrid"]),
+    ("onsite", ["presencial", "on-site", "onsite", "escritório", "(on-site)", "(onsite)"]),
 ]
 
 
@@ -118,7 +118,7 @@ def extract_remote_type(description: str = "") -> str:
     if not description:
         return "unknown"
     desc_lower = description.lower()
-    for remote_type, patterns in REMOTE_PATTERNS.items():
+    for remote_type, patterns in REMOTE_PATTERNS:
         if any(p in desc_lower for p in patterns):
             return remote_type
     return "unknown"
@@ -132,7 +132,7 @@ def enrich_raw_job(job: RawJob) -> RawJob:
     if not job.seniority:
         job.seniority = extract_seniority(job.title, desc)
     if not job.remote_type or job.remote_type == "unknown":
-        job.remote_type = extract_remote_type(desc)
+        job.remote_type = extract_remote_type(f"{job.title} {desc}")
     if not getattr(job, "role", None):
         job.role = extract_role(job.title, desc)
     return job
