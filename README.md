@@ -99,6 +99,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 - [REN](https://www.ren.pt) — Lisboa
 
 ### Fintech
+- [Coverflex](https://www.coverflex.com) — Braga
 - [Doutor Finanças](https://www.doutorfinancas.pt) — Algés
 - [Euronext](https://www.euronext.com) — Porto
 - [GoCardless](https://gocardless.com) — Lisboa
@@ -149,6 +150,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 - [Microsoft Portugal](https://www.microsoft.com/pt-pt) — Lisboa
 - [Moxie](https://www.moxie.pt) — Lisboa
 - [OutSystems](https://www.outsystems.com) — Lisboa
+- [Rows](https://rows.com) — Porto
 - [Talkdesk](https://www.talkdesk.com) — Lisboa
 - [Unbabel](https://unbabel.com) — Lisboa
 - [Upwork](https://www.upwork.com) — Lisboa

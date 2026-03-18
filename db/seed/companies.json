@@ -585,6 +585,24 @@
     "job_selector": "a[href*='recrutamento'], a[href*='vaga'], a[href*='job']"
   },
   {
+    "name": "Coverflex",
+    "slug": "coverflex",
+    "domain": "https://www.coverflex.com",
+    "careers_url": "https://careers.coverflex.com/jobs",
+    "category": "fintech",
+    "city": "Braga",
+    "job_selector": "a[href*='careers.coverflex.com/jobs']"
+  },
+  {
+    "name": "Rows",
+    "slug": "rows",
+    "domain": "https://rows.com",
+    "careers_url": "https://rows.com/about",
+    "category": "software",
+    "city": "Porto",
+    "job_selector": "a[href*='job'], a[href*='career'], a[href*='join']"
+  },
+  {
     "name": "Wellhub",
     "slug": "wellhub",
     "domain": "https://wellhub.com",
