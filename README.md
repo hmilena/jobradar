@@ -109,6 +109,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 
 ### Healthtech
 - [Sword Health](https://swordhealth.com) — Porto
+- [Wellhub](https://wellhub.com) — Lisboa
 
 ### Industrial Tech
 - [Air Liquide / ALEBS](https://www.airliquide.com) — Lisboa
