@@ -201,6 +201,19 @@ async def main(source: str = "all", dry_run: bool = False):
 
     conn.commit()
 
+    # Marca como inativas vagas não vistas há mais de 30 dias
+    cur.execute(
+        """
+        UPDATE jobs SET is_active = FALSE
+        WHERE is_active = TRUE
+          AND last_seen_at < NOW() - INTERVAL '30 days'
+        """
+    )
+    deactivated = cur.rowcount
+    conn.commit()
+    if deactivated:
+        logger.info(f"🗑️ {deactivated} vagas marcadas como inativas (não vistas há +30 dias)")
+
     # Atualiza run com resultado
     cur.execute(
         """
