@@ -43,7 +43,7 @@ export default function Header() {
             Empresas
           </Link>
           <a
-            href="https://github.com/hmilena/direct-contract"
+            href="https://github.com/hmilena/jobradar"
             target="_blank"
             rel="noopener noreferrer"
             className="ml-2 btn-primary text-xs py-1.5 px-3"

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "JobRadar Portugal",
     description: "Vagas de tech diretas em Portugal. Zero consultorias.",
-    url: "https://jobrador.pt",
+    url: "https://jobradarpt.vercel.app/",
     siteName: "JobRadar Portugal",
     locale: "pt_PT",
     type: "website",

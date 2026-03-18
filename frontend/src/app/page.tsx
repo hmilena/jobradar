@@ -119,7 +119,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           <p>
             Vagas atualizadas a cada 6 horas ·{" "}
             <a
-              href="https://github.com/hmilena/direct-contract"
+              href="https://github.com/hmilena/jobradar"
               className="underline underline-offset-2 hover:text-slate-600 transition-colors"
               target="_blank"
               rel="noopener noreferrer"
