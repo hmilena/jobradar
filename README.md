@@ -18,6 +18,7 @@ Plataformas como o ITJobs.pt ou o Landing.jobs misturam, sem distinção, empres
 - **Opacidade** — é difícil saber o que a empresa cliente realmente paga, o que torna a negociação desequilibrada.
 - **Cansaço de processo** — entrevistas com a consultoria, depois com o cliente, às vezes com um segundo intermediário. O programador gasta energia enorme para chegar ao mesmo sítio.
 - **Vínculo fraco** — o programador trabalha *para* uma empresa mas é *empregado de* outra. A progressão de carreira, a cultura, o investimento da empresa na pessoa — tudo isso fica diluído.
+- **Precarização disfarçada** — uma prática cada vez mais comum é contratar como recibos verdes quem, na prática, trabalha como um funcionário a tempo inteiro: horário fixo, integração na equipa, dependência de um único cliente. É a aparência da flexibilidade com toda a instabilidade — sem direito a subsídio de férias, de natal, baixa médica ou proteção no desemprego. O risco é transferido para o trabalhador; a liquidez fica do lado da empresa.
 
 ### O manifesto
 
@@ -41,6 +42,7 @@ Platforms like ITJobs.pt or Landing.jobs mix product companies and staffing agen
 - **Opacity** — it's hard to know what the client company actually pays, which makes negotiation inherently unbalanced.
 - **Process fatigue** — interviews with the agency, then with the client, sometimes with a second intermediary. Developers spend enormous energy to end up in the same place.
 - **Weak employment bond** — the developer works *for* a company but is *employed by* another. Career progression, culture, the company's investment in the person — all of it gets diluted.
+- **Disguised precarity** — an increasingly common practice is hiring developers as self-employed contractors ("recibos verdes") who, in practice, work exactly like full-time employees: fixed hours, embedded in the team, dependent on a single client. It's the appearance of flexibility with all the instability — no paid holidays, no Christmas bonus, no sick leave, no unemployment protection. The risk is transferred to the worker; the liquidity stays with the company.
 
 ### The manifesto
 
