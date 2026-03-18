@@ -53,6 +53,21 @@ SENIORITY_PATTERNS: list[tuple[str, list[str]]] = [
 ]
 
 # ----------------------------------------------------------------
+# Role detection
+# ----------------------------------------------------------------
+ROLE_PATTERNS: list[tuple[str, list[str]]] = [
+    ("QA", ["qa ", "quality assurance", "tester", "test engineer", "quality engineer", "qa engineer", "automation engineer", "qa analyst", "software tester", "testing engineer"]),
+    ("Frontend", ["frontend", "front-end", "front end", "ui developer", "ui engineer"]),
+    ("Backend", ["backend", "back-end", "back end", "server-side"]),
+    ("Fullstack", ["fullstack", "full-stack", "full stack"]),
+    ("DevOps", ["devops", "dev ops", "sre", "site reliability", "platform engineer", "infrastructure engineer", "cloud engineer"]),
+    ("Data", ["data engineer", "data scientist", "data analyst", "analytics engineer", "ml engineer", "machine learning engineer", "ai engineer"]),
+    ("Mobile", ["mobile", "android developer", "ios developer", "react native"]),
+    ("Security", ["security engineer", "security analyst", "appsec", "cybersecurity", "pen tester", "penetration tester"]),
+    ("Design", ["ux designer", "ui designer", "ui/ux", "product designer", "ux researcher"]),
+]
+
+# ----------------------------------------------------------------
 # Remote type detection
 # ----------------------------------------------------------------
 REMOTE_PATTERNS: list[tuple[str, list[str]]] = [
@@ -89,6 +104,15 @@ def extract_seniority(title: str, description: str = "") -> str:
     return "unknown"
 
 
+def extract_role(title: str, description: str = "") -> str:
+    """Infere a área/role a partir do título e descrição."""
+    combined = f"{title} {description}".lower()
+    for role, patterns in ROLE_PATTERNS:
+        if any(p in combined for p in patterns):
+            return role
+    return "unknown"
+
+
 def extract_remote_type(description: str = "") -> str:
     """Infere o modelo de trabalho a partir da descrição."""
     if not description:
@@ -109,4 +133,6 @@ def enrich_raw_job(job: RawJob) -> RawJob:
         job.seniority = extract_seniority(job.title, desc)
     if not job.remote_type or job.remote_type == "unknown":
         job.remote_type = extract_remote_type(desc)
+    if not getattr(job, "role", None):
+        job.role = extract_role(job.title, desc)
     return job

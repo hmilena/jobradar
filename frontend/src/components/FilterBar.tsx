@@ -20,6 +20,7 @@ export default function FilterBar({ filters }: Props) {
     city: params.get("city") ?? "",
     category: params.get("category") ?? "",
     tech: params.get("tech") ?? "",
+    role: params.get("role") ?? "",
   };
 
   function updateParam(key: string, value: string) {
@@ -83,6 +84,12 @@ export default function FilterBar({ filters }: Props) {
             label: "Setor",
             value: current.category,
             options: filters.categories.map((c) => ({ value: c, label: CATEGORY_LABELS[c] ?? c })),
+          },
+          {
+            key: "role",
+            label: "Área",
+            value: current.role,
+            options: (filters.roles ?? []).map((r) => ({ value: r, label: r })),
           },
           {
             key: "tech",

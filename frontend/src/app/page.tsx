@@ -14,6 +14,7 @@ interface PageProps {
     city?: string;
     category?: string;
     tech?: string;
+    role?: string;
     page?: string;
   };
 }

@@ -25,6 +25,7 @@ def build_jobs_query(
     city: str | None,
     category: str | None,
     tech: str | None,
+    role: str | None,
     q: str | None,
     limit: int,
     offset: int,
@@ -51,6 +52,9 @@ def build_jobs_query(
     if tech:
         conditions.append("%s = ANY(j.tech_stack)")
         params.append(tech)
+    if role:
+        conditions.append("j.role = %s")
+        params.append(role)
     if q:
         conditions.append("(j.title ILIKE %s OR j.description_clean ILIKE %s)")
         params.extend([f"%{q}%", f"%{q}%"])
@@ -60,7 +64,7 @@ def build_jobs_query(
     query = f"""
         SELECT
             j.id, j.title, j.url, j.location, j.remote_type, j.seniority,
-            j.tech_stack, j.first_seen_at, j.last_seen_at,
+            j.tech_stack, j.role, j.first_seen_at, j.last_seen_at,
             c.id as company_id, c.name as company_name, c.slug as company_slug,
             c.domain as company_domain, c.category as company_category,
             c.city as company_city, c.logo_url as company_logo_url
@@ -85,6 +89,7 @@ def row_to_job(row: dict) -> dict:
         "remote_type": row["remote_type"],
         "seniority": row["seniority"],
         "tech_stack": row["tech_stack"] or [],
+        "role": row["role"],
         "first_seen_at": row["first_seen_at"],
         "last_seen_at": row["last_seen_at"],
         "company": {
@@ -107,6 +112,7 @@ def list_jobs(
     city: Annotated[str | None, Query()] = None,
     category: Annotated[str | None, Query(description="Categoria da empresa")] = None,
     tech: Annotated[str | None, Query(description="Tecnologia (ex: Python, React)")] = None,
+    role: Annotated[str | None, Query(description="Área (ex: QA, Frontend, Backend)")] = None,
     page: Annotated[int, Query(ge=1)] = 1,
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
 ):
@@ -117,7 +123,7 @@ def list_jobs(
         offset = (page - 1) * limit
 
         query, count_query, params_paginated, params_base = build_jobs_query(
-            remote_type, seniority, city, category, tech, q, limit, offset
+            remote_type, seniority, city, category, tech, role, q, limit, offset
         )
 
         cur.execute(count_query, params_base)
@@ -176,12 +182,19 @@ def get_filters():
         """)
         techs = sorted({r["tech"] for r in cur.fetchall() if r["tech"]})
 
+        cur.execute("""
+            SELECT DISTINCT role FROM jobs
+            WHERE is_active = TRUE AND is_consultoria = FALSE AND role IS NOT NULL AND role != 'unknown'
+        """)
+        roles = sorted({r["role"] for r in cur.fetchall() if r["role"]})
+
         return {
             "remote_types": sorted(remote_types),
             "seniorities": sorted(seniorities),
             "cities": sorted(cities),
             "categories": sorted(categories),
             "tech_stack": techs,
+            "roles": roles,
         }
     finally:
         pool.putconn(conn)

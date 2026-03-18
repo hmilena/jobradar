@@ -20,6 +20,7 @@ export interface Job {
   remote_type: "remote" | "hybrid" | "onsite" | "unknown" | null;
   seniority: "intern" | "junior" | "mid" | "senior" | "lead" | "manager" | "unknown" | null;
   tech_stack: string[];
+  role: string | null;
   company: Company;
   first_seen_at: string;
   last_seen_at: string;
@@ -38,6 +39,7 @@ export interface Filters {
   cities: string[];
   categories: string[];
   tech_stack: string[];
+  roles: string[];
 }
 
 export interface Stats {
@@ -53,6 +55,7 @@ export interface JobFiltersParams {
   city?: string;
   category?: string;
   tech?: string;
+  role?: string;
   page?: number;
   limit?: number;
 }
@@ -84,6 +87,7 @@ export const api = {
       ...(params.city && { city: params.city }),
       ...(params.category && { category: params.category }),
       ...(params.tech && { tech: params.tech }),
+      ...(params.role && { role: params.role }),
       page: String(params.page ?? 1),
       limit: String(params.limit ?? 20),
     }),
