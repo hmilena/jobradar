@@ -9,6 +9,7 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    environment: Production
 
     steps:
       - name: Checkout
