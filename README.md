@@ -99,6 +99,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 - [REN](https://www.ren.pt) — Lisboa
 
 ### Fintech
+- [Doutor Finanças](https://www.doutorfinancas.pt) — Algés
 - [Euronext](https://www.euronext.com) — Porto
 - [GoCardless](https://gocardless.com) — Lisboa
 - [Joom](https://about.joom.com) — Lisboa
@@ -159,6 +160,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 ### Turismo
 - [Bounce](https://bounce.com) — Lisboa
 - [TUI Portugal](https://www.tui.pt) — Porto
+- [Viator (TripAdvisor)](https://www.viator.com) — Lisboa
 
 ---
 

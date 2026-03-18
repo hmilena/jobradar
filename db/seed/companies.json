@@ -574,5 +574,23 @@
     "category": "agencia",
     "city": "Setúbal",
     "job_selector": "a[href*='job'], a[href*='career'], a[href*='vaga']"
+  },
+  {
+    "name": "Doutor Finanças",
+    "slug": "doutor-financas",
+    "domain": "https://www.doutorfinancas.pt",
+    "careers_url": "https://www.doutorfinancas.pt/recrutamento/",
+    "category": "fintech",
+    "city": "Algés",
+    "job_selector": "a[href*='recrutamento'], a[href*='vaga'], a[href*='job']"
+  },
+  {
+    "name": "Viator (TripAdvisor)",
+    "slug": "viator-tripadvisor",
+    "domain": "https://www.viator.com",
+    "careers_url": "https://careers.tripadvisor.com/jobs?location=Lisbon%2C+Portugal",
+    "category": "turismo",
+    "city": "Lisboa",
+    "job_selector": "a[href*='careers.tripadvisor.com/jobs'], a[href*='job']"
   }
 ]
