@@ -70,7 +70,7 @@ async function apiFetch<T>(path: string, params?: Record<string, string>): Promi
     });
   }
   const res = await fetch(url.toString(), {
-    next: { revalidate: 300 }, // cache de 5 minutos no Next.js
+    next: { revalidate: 60 }, // cache de 1 minuto
   });
   if (!res.ok) {
     throw new Error(`API error ${res.status}: ${await res.text()}`);
