@@ -113,6 +113,59 @@ async def extract_jobs_from_page(
     return jobs
 
 
+# Selectores comuns de "carregar mais" / "próxima página"
+LOAD_MORE_SELECTORS = [
+    "button:has-text('Load more')",
+    "button:has-text('Show more')",
+    "button:has-text('Ver mais')",
+    "button:has-text('Carregar mais')",
+    "button:has-text('More jobs')",
+    "a:has-text('Next')",
+    "a:has-text('Próximo')",
+    "button:has-text('Next')",
+    "[aria-label='Next page']",
+    "[aria-label='next']",
+    ".pagination [rel='next']",
+    "li.next a",
+    "a.next",
+]
+
+
+async def load_all_content(page: Page) -> None:
+    """
+    Combina scroll infinito + clique em 'Load more' / 'Next page'
+    para garantir que todo o conteúdo dinâmico é carregado.
+    """
+    # 1. Scroll repetido até a altura parar de crescer
+    prev_height = 0
+    for _ in range(15):
+        height = await page.evaluate("document.body.scrollHeight")
+        if height == prev_height:
+            break
+        await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        await page.wait_for_timeout(1000)
+        prev_height = height
+
+    # 2. Clicar em botões de "carregar mais" repetidamente
+    for _ in range(20):
+        clicked = False
+        for sel in LOAD_MORE_SELECTORS:
+            try:
+                btn = await page.query_selector(sel)
+                if btn and await btn.is_visible() and await btn.is_enabled():
+                    await btn.click()
+                    await page.wait_for_timeout(1500)
+                    # Scroll após o clique para revelar novo conteúdo
+                    await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                    await page.wait_for_timeout(500)
+                    clicked = True
+                    break
+            except Exception:
+                continue
+        if not clicked:
+            break
+
+
 class CareersPageScraper(BaseSource):
     """
     Scrapa páginas de careers das empresas em companies.json.
@@ -147,9 +200,7 @@ class CareersPageScraper(BaseSource):
 
                 try:
                     await page.goto(careers_url, timeout=20_000, wait_until="networkidle")
-                    # Scroll para forçar lazy-load
-                    await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                    await page.wait_for_timeout(1500)
+                    await load_all_content(page)
 
                     jobs = await extract_jobs_from_page(page, company, careers_url)
                     logger.info(f"  ✅ {len(jobs)} vagas encontradas")
