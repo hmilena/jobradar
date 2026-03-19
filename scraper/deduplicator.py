@@ -57,7 +57,18 @@ SENIORITY_PATTERNS: list[tuple[str, list[str]]] = [
 # ----------------------------------------------------------------
 ROLE_PATTERNS: list[tuple[str, list[str]]] = [
     ("QA", ["qa ", "quality assurance", "tester", "test engineer", "quality engineer", "qa engineer", "automation engineer", "qa analyst", "software tester", "testing engineer"]),
-    ("Frontend", ["frontend", "front-end", "front end", "ui developer", "ui engineer"]),
+    ("Frontend", [
+        "frontend", "front-end", "front end",
+        "web developer", "web engineer", "web programmer",
+        "programador web", "programador ui", "programador ux",
+        "programador ux/ui", "programador front",
+        "ui developer", "ui engineer", "ui/ux developer", "ui/ux engineer",
+        "ux/ui developer", "ux/ui engineer",
+        "javascript developer", "javascript engineer",
+        "react developer", "react engineer",
+        "vue developer", "angular developer",
+        "html", "css developer",
+    ]),
     ("Backend", ["backend", "back-end", "back end", "server-side"]),
     ("Fullstack", ["fullstack", "full-stack", "full stack"]),
     ("DevOps", ["devops", "dev ops", "sre", "site reliability", "platform engineer", "infrastructure engineer", "cloud engineer"]),
