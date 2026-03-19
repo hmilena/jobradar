@@ -144,6 +144,7 @@ Fairer salaries. Shorter processes. Clearer working relationships. That's what d
 ### Software & Produto
 - [Aceve](https://www.aceve.com) — Lisboa
 - [Cyncly](https://www.cyncly.com) — Lisboa
+- [EverAI](https://everai.ai) — Remote
 - [Feedzai](https://feedzai.com) — Coimbra
 - [Foursys Portugal](https://www.foursys.com.br) — Lisboa
 - [Google Lisboa](https://www.google.com) — Lisboa

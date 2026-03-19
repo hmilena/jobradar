@@ -637,5 +637,14 @@
     "category": "software",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='requisitionId']"
+  },
+  {
+    "name": "EverAI",
+    "slug": "everai",
+    "domain": "https://everai.ai",
+    "careers_url": "https://jobs.ashbyhq.com/everai",
+    "category": "software",
+    "city": null,
+    "job_selector": "a[href*='ashbyhq.com/everai']"
   }
 ]
