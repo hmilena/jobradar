@@ -1,6 +1,7 @@
 """
 Scraper para páginas /careers das empresas curadas em companies.json.
 Usa Playwright para renderizar JavaScript antes de extrair links.
+Para empresas com ATS conhecido (Greenhouse, Ashby, Lever), usa a API JSON diretamente.
 """
 import json
 import logging
@@ -8,6 +9,7 @@ from pathlib import Path
 from typing import AsyncIterator
 from urllib.parse import urljoin, urlparse
 
+import httpx
 from playwright.async_api import async_playwright, Browser, Page
 
 from .base import BaseSource, RawJob
@@ -166,6 +168,83 @@ async def load_all_content(page: Page) -> None:
             break
 
 
+async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
+    """Usa a API pública do Greenhouse para obter todas as vagas."""
+    board = company["greenhouse_board"]
+    try:
+        resp = await client.get(
+            f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs",
+            params={"content": "true"},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        jobs = []
+        for job in resp.json().get("jobs", []):
+            location = job.get("location", {}).get("name", "") or ""
+            jobs.append(RawJob(
+                title=job["title"],
+                company_name=company["name"],
+                url=job["absolute_url"],
+                source="careers_page",
+                location=location,
+            ))
+        return jobs
+    except Exception as e:
+        logger.error(f"Greenhouse API error ({board}): {e}")
+        return []
+
+
+async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
+    """Usa a API pública do Ashby para obter todas as vagas."""
+    board = company["ashby_board"]
+    try:
+        resp = await client.post(
+            "https://api.ashbyhq.com/posting-api/job-board",
+            json={"organizationHostedJobsPageName": board},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        jobs = []
+        for job in resp.json().get("jobs", []):
+            jobs.append(RawJob(
+                title=job["title"],
+                company_name=company["name"],
+                url=job["jobUrl"],
+                source="careers_page",
+                location=job.get("location", company.get("city")),
+            ))
+        return jobs
+    except Exception as e:
+        logger.error(f"Ashby API error ({board}): {e}")
+        return []
+
+
+async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
+    """Usa a API pública do Lever para obter todas as vagas."""
+    board = company["lever_board"]
+    try:
+        resp = await client.get(
+            f"https://api.lever.co/v0/postings/{board}",
+            params={"mode": "json"},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        jobs = []
+        for job in resp.json():
+            location = job.get("categories", {}).get("location", company.get("city"))
+            jobs.append(RawJob(
+                title=job["text"],
+                company_name=company["name"],
+                url=job["hostedUrl"],
+                source="careers_page",
+                location=location,
+            ))
+        return jobs
+    except Exception as e:
+        logger.error(f"Lever API error ({board}): {e}")
+        return []
+
+
 class CareersPageScraper(BaseSource):
     """
     Scrapa páginas de careers das empresas em companies.json.
@@ -176,42 +255,82 @@ class CareersPageScraper(BaseSource):
         self.companies = json.loads(companies_file.read_text())
 
     async def fetch(self) -> AsyncIterator[RawJob]:
-        async with async_playwright() as p:
-            browser: Browser = await p.chromium.launch(
-                headless=True,
-                args=["--no-sandbox", "--disable-dev-shm-usage"],
-            )
-            context = await browser.new_context(
-                user_agent=(
-                    "Mozilla/5.0 (X11; Linux x86_64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/120.0.0.0 Safari/537.36"
-                ),
-                viewport={"width": 1280, "height": 800},
-            )
+        async with httpx.AsyncClient() as http_client:
+            async with async_playwright() as p:
+                browser: Browser = await p.chromium.launch(
+                    headless=True,
+                    args=["--no-sandbox", "--disable-dev-shm-usage"],
+                )
+                context = await browser.new_context(
+                    user_agent=(
+                        "Mozilla/5.0 (X11; Linux x86_64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/120.0.0.0 Safari/537.36"
+                    ),
+                    viewport={"width": 1280, "height": 800},
+                )
 
-            for company in self.companies:
-                careers_url = company.get("careers_url")
-                if not careers_url or not company.get("is_active", True):
-                    continue
+                for company in self.companies:
+                    if not company.get("is_active", True):
+                        continue
 
-                logger.info(f"🔍 Scraping: {company['name']} → {careers_url}")
-                page = await context.new_page()
+                    name = company["name"]
 
-                try:
-                    await page.goto(careers_url, timeout=20_000, wait_until="networkidle")
-                    await load_all_content(page)
+                    # ATS com API pública — sem Playwright
+                    if company.get("greenhouse_board"):
+                        logger.info(f"🌿 Greenhouse API: {name}")
+                        jobs = await fetch_greenhouse(company, http_client)
+                        logger.info(f"  ✅ {len(jobs)} vagas")
+                        for job in jobs:
+                            yield job
+                        continue
 
-                    jobs = await extract_jobs_from_page(page, company, careers_url)
-                    logger.info(f"  ✅ {len(jobs)} vagas encontradas")
+                    if company.get("ashby_board"):
+                        logger.info(f"🟣 Ashby API: {name}")
+                        jobs = await fetch_ashby(company, http_client)
+                        logger.info(f"  ✅ {len(jobs)} vagas")
+                        for job in jobs:
+                            yield job
+                        continue
 
-                    for job in jobs:
-                        yield job
+                    if company.get("lever_board"):
+                        logger.info(f"🔵 Lever API: {name}")
+                        jobs = await fetch_lever(company, http_client)
+                        logger.info(f"  ✅ {len(jobs)} vagas")
+                        for job in jobs:
+                            yield job
+                        continue
 
-                except Exception as e:
-                    logger.error(f"  ❌ Falhou {company['name']}: {e}")
-                finally:
-                    await page.close()
+                    # Fallback: Playwright para sites sem API conhecida
+                    careers_url = company.get("careers_url")
+                    if not careers_url:
+                        continue
 
-            await context.close()
-            await browser.close()
+                    logger.info(f"🔍 Playwright: {name} → {careers_url}")
+                    page = await context.new_page()
+
+                    try:
+                        await page.goto(careers_url, timeout=30_000, wait_until="networkidle")
+
+                        selector = company.get("job_selector", "a")
+                        if selector != "a":
+                            try:
+                                await page.wait_for_selector(selector, timeout=10_000)
+                            except Exception:
+                                pass
+
+                        await load_all_content(page)
+
+                        jobs = await extract_jobs_from_page(page, company, careers_url)
+                        logger.info(f"  ✅ {len(jobs)} vagas encontradas")
+
+                        for job in jobs:
+                            yield job
+
+                    except Exception as e:
+                        logger.error(f"  ❌ Falhou {name}: {e}")
+                    finally:
+                        await page.close()
+
+                await context.close()
+                await browser.close()

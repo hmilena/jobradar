@@ -183,7 +183,8 @@
     "name": "Feedzai",
     "slug": "feedzai",
     "domain": "https://feedzai.com",
-    "careers_url": "https://careers.feedzai.com/all-jobs/",
+    "careers_url": "https://careers.feedzai.com/",
+    "greenhouse_board": "feedzai",
     "category": "software",
     "city": "Coimbra",
     "job_selector": "a[href*='gh_jid']"
@@ -616,6 +617,7 @@
     "slug": "moxie",
     "domain": "https://www.moxie.pt",
     "careers_url": "https://jobs.ashbyhq.com/moxie",
+    "ashby_board": "moxie",
     "category": "software",
     "city": "Lisboa",
     "job_selector": "a[href*='ashbyhq.com/moxie']"
