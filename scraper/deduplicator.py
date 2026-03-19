@@ -75,7 +75,7 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
     ("Data", ["data engineer", "data scientist", "data analyst", "analytics engineer", "ml engineer", "machine learning engineer", "ai engineer"]),
     ("Mobile", ["mobile", "android developer", "ios developer", "react native"]),
     ("Security", ["security engineer", "security analyst", "appsec", "cybersecurity", "pen tester", "penetration tester"]),
-    ("Design", ["ux designer", "ui designer", "ui/ux", "product designer", "ux researcher"]),
+    ("Design", ["ux designer", "ui designer", "ui/ux", "ux/ui", "product designer", "ux researcher", "web designer", "graphic designer"]),
 ]
 
 # ----------------------------------------------------------------
