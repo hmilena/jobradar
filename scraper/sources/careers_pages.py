@@ -66,6 +66,9 @@ async def extract_jobs_from_page(
     jobs = []
     selector = company.get("job_selector", "a")
 
+    # Se o selector é específico (não genérico "a"), confia nele e salta heurísticas
+    use_heuristics = selector == "a"
+
     try:
         links = await page.query_selector_all(selector)
         seen_urls = set()
@@ -85,17 +88,22 @@ async def extract_jobs_from_page(
                 if href in seen_urls:
                     continue
 
-                if is_job_link(href, text, base_url):
-                    seen_urls.add(href)
-                    jobs.append(
-                        RawJob(
-                            title=text,
-                            company_name=company["name"],
-                            url=href,
-                            source="careers_page",
-                            location=company.get("city"),
-                        )
+                if use_heuristics and not is_job_link(href, text, base_url):
+                    continue
+
+                if not use_heuristics and (not text or len(text) < 5 or len(text) > 200):
+                    continue
+
+                seen_urls.add(href)
+                jobs.append(
+                    RawJob(
+                        title=text,
+                        company_name=company["name"],
+                        url=href,
+                        source="careers_page",
+                        location=company.get("city"),
                     )
+                )
             except Exception as e:
                 logger.debug(f"Erro ao processar link: {e}")
 
