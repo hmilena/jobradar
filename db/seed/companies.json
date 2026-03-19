@@ -183,10 +183,10 @@
     "name": "Feedzai",
     "slug": "feedzai",
     "domain": "https://feedzai.com",
-    "careers_url": "https://careers.feedzai.com/",
+    "careers_url": "https://careers.feedzai.com/all-jobs/",
     "category": "software",
     "city": "Coimbra",
-    "job_selector": "a[href*='job'], a[href*='career'], a[href*='position']"
+    "job_selector": "a[href*='gh_jid']"
   },
   {
     "name": "Talkdesk",
