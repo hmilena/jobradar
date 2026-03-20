@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { api } from "@/lib/api";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { CATEGORY_LABELS, getDomain } from "@/lib/utils";
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -115,11 +116,7 @@ export default async function EmpresasPage() {
         </div>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-8">
-        <div className="mx-auto max-w-6xl px-4 text-center text-sm text-slate-400">
-          JobRadar Portugal · Vagas atualizadas a cada 6 horas
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

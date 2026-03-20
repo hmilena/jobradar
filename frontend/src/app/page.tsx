@@ -6,6 +6,7 @@ import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
 import StatsBar from "@/components/StatsBar";
+import { Footer } from "@/components/Footer";
 
 interface PageProps {
   searchParams: {
@@ -143,26 +144,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         </Suspense>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-8">
-        <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-          <p className="font-medium text-slate-500">
-            JobRadar Portugal{" "}
-            <span className="text-xs text-slate-400">por Mia</span>
-          </p>
-          <p>
-            Vagas atualizadas a cada 6 horas ·{" "}
-            <a
-              href="https://github.com/hmilena/jobradar"
-              className="underline underline-offset-2 hover:text-slate-600 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open Source
-            </a>
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

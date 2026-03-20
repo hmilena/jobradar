@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink, MapPin, Briefcase } from "lucide-react";
 import { api } from "@/lib/api";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
+import { Footer } from "@/components/Footer";
 import { CATEGORY_LABELS, getDomain } from "@/lib/utils";
 
 interface Props {
@@ -129,11 +130,7 @@ export default async function EmpresaDetailPage({ params }: Props) {
           )}
         </main>
 
-        <footer className="border-t border-slate-200 bg-white py-8 mt-8">
-          <div className="mx-auto max-w-6xl px-4 text-center text-sm text-slate-400">
-            JobRadar Portugal · Vagas atualizadas a cada 6 horas
-          </div>
-        </footer>
+        <Footer className="mt-8" />
       </div>
     );
   } catch {
