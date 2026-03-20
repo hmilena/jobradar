@@ -45,6 +45,11 @@ services:
     ports:
       - "3000:3000"
     environment:
+      # Use API service name for SSR inside Docker (server-side fetch),
+      # and localhost for any client-side fetch from the user's browser.
+      NEXT_PUBLIC_API_URL_SERVER: http://api:8000
+      NEXT_PUBLIC_API_URL_BROWSER: http://localhost:8000
+      # Backwards compatibility for local runs / older envs.
       NEXT_PUBLIC_API_URL: http://localhost:8000
     volumes:
       - ./frontend:/app
