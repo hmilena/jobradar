@@ -362,7 +362,9 @@
     "careers_url": "https://jobs.organon.com/us/en/search-results",
     "category": "pharma",
     "city": "Lisboa",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "job_selector": "a[href*='job'], a[href*='career']",
+    "is_active": false,
+    "_note": "PT portal redirects to US — no Portugal-specific jobs"
   },
   {
     "name": "Vantiva",
