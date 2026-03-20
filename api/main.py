@@ -2,7 +2,11 @@
 JobRadar Portugal - API REST com FastAPI
 """
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import AsyncGenerator
+
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 import psycopg2
 from psycopg2.pool import ThreadedConnectionPool
