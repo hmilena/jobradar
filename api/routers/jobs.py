@@ -38,7 +38,9 @@ def build_jobs_query(
     ]
     params = []
 
-    if source:
+    if source == "remote":
+        conditions.append("j.source IN ('remoteok', 'weworkremotely')")
+    elif source:
         conditions.append("j.source = %s")
         params.append(source)
     if remote_type:

@@ -19,7 +19,7 @@ export default async function RemotePage({ searchParams }: PageProps) {
 
   const jobsData = await api.getJobs({
     ...searchParams,
-    source: "remoteok",
+    source: "remote",
     remote_type: "remote",
     page,
     limit: 20,
@@ -96,6 +96,10 @@ export default async function RemotePage({ searchParams }: PageProps) {
             Vagas via{" "}
             <a href="https://remoteok.com" className="underline underline-offset-2 hover:text-slate-600 transition-colors" target="_blank" rel="noopener noreferrer">
               RemoteOK
+            </a>
+            {" & "}
+            <a href="https://weworkremotely.com" className="underline underline-offset-2 hover:text-slate-600 transition-colors" target="_blank" rel="noopener noreferrer">
+              WeWorkRemotely
             </a>
             {" · "}
             <a href="https://github.com/hmilena/jobradar" className="underline underline-offset-2 hover:text-slate-600 transition-colors" target="_blank" rel="noopener noreferrer">
