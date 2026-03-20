@@ -52,7 +52,7 @@ export default function Header() {
             href="https://github.com/hmilena/jobradar"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 btn-primary text-xs py-1.5 px-3"
+            className="ml-2 btn-primary text-xs py-1.5 px-3 hidden sm:inline-flex"
           >
             <svg
               className="h-3.5 w-3.5"
