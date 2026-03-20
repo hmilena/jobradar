@@ -58,7 +58,7 @@ def get_company(slug: str):
             """
             SELECT id, title, url, location, remote_type, seniority, tech_stack, first_seen_at
             FROM jobs
-            WHERE company_id = %s AND is_active = TRUE AND is_consultoria = FALSE
+            WHERE company_id = %s AND is_active = TRUE AND is_consulting = FALSE
             ORDER BY first_seen_at DESC
             LIMIT 50
             """,

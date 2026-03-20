@@ -71,12 +71,12 @@ def stats():
     conn = pool.getconn()
     try:
         cur = conn.cursor()
-        cur.execute("SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consultoria = FALSE")
+        cur.execute("SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE")
         total_jobs = cur.fetchone()[0]
         cur.execute("SELECT COUNT(*) FROM companies WHERE is_active = TRUE")
         total_companies = cur.fetchone()[0]
         cur.execute(
-            "SELECT MAX(first_seen_at) FROM jobs WHERE is_active = TRUE AND is_consultoria = FALSE"
+            "SELECT MAX(first_seen_at) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE"
         )
         last_update = cur.fetchone()[0]
         return {

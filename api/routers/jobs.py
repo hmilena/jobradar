@@ -34,7 +34,7 @@ def build_jobs_query(
     """Constrói query dinâmica com filtros."""
     conditions = [
         "j.is_active = TRUE",
-        "j.is_consultoria = FALSE",
+        "j.is_consulting = FALSE",
     ]
     params = []
 
@@ -162,39 +162,39 @@ def get_filters():
 
         cur.execute("""
             SELECT DISTINCT remote_type FROM jobs
-            WHERE is_active = TRUE AND is_consultoria = FALSE AND remote_type IS NOT NULL
+            WHERE is_active = TRUE AND is_consulting = FALSE AND remote_type IS NOT NULL
         """)
         remote_types = [r["remote_type"] for r in cur.fetchall()]
 
         cur.execute("""
             SELECT DISTINCT seniority FROM jobs
-            WHERE is_active = TRUE AND is_consultoria = FALSE AND seniority IS NOT NULL
+            WHERE is_active = TRUE AND is_consulting = FALSE AND seniority IS NOT NULL
         """)
         seniorities = [r["seniority"] for r in cur.fetchall()]
 
         cur.execute("""
             SELECT DISTINCT c.city FROM jobs j
             JOIN companies c ON j.company_id = c.id
-            WHERE j.is_active = TRUE AND j.is_consultoria = FALSE AND c.city IS NOT NULL
+            WHERE j.is_active = TRUE AND j.is_consulting = FALSE AND c.city IS NOT NULL
         """)
         cities = [r["city"] for r in cur.fetchall()]
 
         cur.execute("""
             SELECT DISTINCT c.category FROM jobs j
             JOIN companies c ON j.company_id = c.id
-            WHERE j.is_active = TRUE AND j.is_consultoria = FALSE AND c.category IS NOT NULL
+            WHERE j.is_active = TRUE AND j.is_consulting = FALSE AND c.category IS NOT NULL
         """)
         categories = [r["category"] for r in cur.fetchall()]
 
         cur.execute("""
             SELECT DISTINCT unnest(tech_stack) as tech FROM jobs
-            WHERE is_active = TRUE AND is_consultoria = FALSE
+            WHERE is_active = TRUE AND is_consulting = FALSE
         """)
         techs = sorted({r["tech"] for r in cur.fetchall() if r["tech"]})
 
         cur.execute("""
             SELECT DISTINCT role FROM jobs
-            WHERE is_active = TRUE AND is_consultoria = FALSE AND role IS NOT NULL AND role != 'unknown'
+            WHERE is_active = TRUE AND is_consulting = FALSE AND role IS NOT NULL AND role != 'unknown'
         """)
         roles = sorted({r["role"] for r in cur.fetchall() if r["role"]})
 
@@ -226,7 +226,7 @@ def get_job(job_id: UUID):
                 c.city as company_city, c.logo_url as company_logo_url
             FROM jobs j
             LEFT JOIN companies c ON j.company_id = c.id
-            WHERE j.id = %s AND j.is_active = TRUE AND j.is_consultoria = FALSE
+            WHERE j.id = %s AND j.is_active = TRUE AND j.is_consulting = FALSE
             """,
             (str(job_id),),
         )
