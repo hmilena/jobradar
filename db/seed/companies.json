@@ -253,7 +253,8 @@
     "careers_url": "https://www.upwork.com/careers/jobs/explore",
     "category": "software",
     "city": "Lisboa",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "greenhouse_board": "upwork",
+    "greenhouse_location_filter": "lisbon|portugal|remote-europe"
   },
   {
     "name": "Critical TechWorks (BMW)",

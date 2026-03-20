@@ -212,6 +212,7 @@ async def load_all_content(page: Page) -> None:
 async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     """Usa a API pública do Greenhouse para obter todas as vagas."""
     board = company["greenhouse_board"]
+    location_filter = company.get("greenhouse_location_filter", "")
     try:
         resp = await client.get(
             f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs",
@@ -224,12 +225,16 @@ async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[Raw
             if not is_tech_job(job["title"]):
                 continue
             location = job.get("location", {}).get("name", "") or ""
+            if location_filter and not any(
+                kw.lower() in location.lower() for kw in location_filter.split("|")
+            ):
+                continue
             jobs.append(RawJob(
                 title=job["title"],
                 company_name=company["name"],
                 url=job["absolute_url"],
                 source="careers_page",
-                location=location,
+                location=location or company.get("city"),
             ))
         return jobs
     except Exception as e:
