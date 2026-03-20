@@ -7,9 +7,11 @@ import { REMOTE_LABELS, SENIORITY_LABELS, CATEGORY_LABELS } from "@/lib/utils";
 
 interface Props {
   filters: Filters;
+  basePath?: string;
+  allowedKeys?: string[];
 }
 
-export default function FilterBar({ filters }: Props) {
+export default function FilterBar({ filters, basePath = "/", allowedKeys }: Props) {
   const router = useRouter();
   const params = useSearchParams();
 
@@ -31,11 +33,11 @@ export default function FilterBar({ filters }: Props) {
       next.delete(key);
     }
     next.delete("page");
-    router.push(`/?${next.toString()}`);
+    router.push(`${basePath}?${next.toString()}`);
   }
 
   function clearAll() {
-    router.push("/");
+    router.push(basePath);
   }
 
   const hasFilters = Object.values(current).some(Boolean);
@@ -97,7 +99,7 @@ export default function FilterBar({ filters }: Props) {
             value: current.tech,
             options: filters.tech_stack.map((t) => ({ value: t, label: t })),
           },
-        ].map(({ key, label, value, options }) => (
+        ].filter(({ key }) => !allowedKeys || allowedKeys.includes(key)).map(({ key, label, value, options }) => (
           <div key={key} className="relative">
             <select
               className={`appearance-none text-sm px-3 py-2 pr-7 rounded-lg border transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-100 ${

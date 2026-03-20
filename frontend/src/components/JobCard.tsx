@@ -38,7 +38,7 @@ function CompanyAvatar({ name }: { name: string | null }) {
     "from-indigo-500 to-blue-600",
     "from-teal-500 to-green-600",
   ];
-  const colorIndex = name.charCodeAt(0) % colors.length;
+  const colorIndex = (name ?? "?").charCodeAt(0) % colors.length;
 
   return (
     <span

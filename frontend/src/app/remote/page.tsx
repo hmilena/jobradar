@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import { api } from "@/lib/api";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
+import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
 
 interface PageProps {
   searchParams: {
     q?: string;
     seniority?: string;
-    tech?: string;
     role?: string;
     page?: string;
   };
@@ -17,13 +17,16 @@ interface PageProps {
 export default async function RemotePage({ searchParams }: PageProps) {
   const page = Number(searchParams.page ?? 1);
 
-  const jobsData = await api.getJobs({
-    ...searchParams,
-    source: "remote",
-    remote_type: "remote",
-    page,
-    limit: 20,
-  });
+  const [jobsData, filters] = await Promise.all([
+    api.getJobs({
+      ...searchParams,
+      source: "remote",
+      remote_type: "remote",
+      page,
+      limit: 20,
+    }),
+    api.getFilters(),
+  ]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -61,6 +64,17 @@ export default async function RemotePage({ searchParams }: PageProps) {
       </div>
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+        {/* Filters */}
+        <div className="mb-6">
+          <Suspense>
+            <FilterBar
+              filters={filters}
+              basePath="/remote"
+              allowedKeys={["seniority", "role"]}
+            />
+          </Suspense>
+        </div>
+
         {jobsData.results.length === 0 ? (
           <div className="card flex flex-col items-center justify-center py-20 text-center">
             <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
