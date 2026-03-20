@@ -42,6 +42,12 @@ export default function Header() {
           >
             Empresas
           </Link>
+          <Link
+            href="/remote"
+            className="px-3 py-1.5 rounded-lg text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
+          >
+            🌍 Remote
+          </Link>
           <a
             href="https://github.com/hmilena/jobradar"
             target="_blank"

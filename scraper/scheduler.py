@@ -25,6 +25,7 @@ from .deduplicator import compute_hash, enrich_raw_job
 from .sources.base import RawJob
 from .sources.careers_pages import CareersPageScraper
 from .sources.itjobs import ITJobsScraper
+from .sources.remoteok import RemoteOKScraper
 
 logging.basicConfig(
     level=logging.INFO,
@@ -41,6 +42,32 @@ def get_db_connection():
     if not DATABASE_URL:
         raise RuntimeError("DATABASE_URL não definida")
     return psycopg2.connect(DATABASE_URL)
+
+
+def get_or_create_remote_company(cur, company_name: str) -> str:
+    """Busca ou cria empresa para vagas remote (RemoteOK, etc.)."""
+    cur.execute(
+        "SELECT id FROM companies WHERE LOWER(name) = LOWER(%s) LIMIT 1",
+        (company_name,),
+    )
+    row = cur.fetchone()
+    if row:
+        return str(row["id"])
+
+    company_id = str(uuid.uuid4())
+    slug = company_name.lower().replace(" ", "-").replace(".", "")[:60]
+    # Garante slug único
+    cur.execute("SELECT 1 FROM companies WHERE slug = %s", (slug,))
+    if cur.fetchone():
+        slug = f"{slug}-{company_id[:6]}"
+
+    cur.execute(
+        """INSERT INTO companies (id, name, slug, category, is_active)
+           VALUES (%s, %s, %s, 'remote', TRUE)
+           ON CONFLICT (slug) DO NOTHING""",
+        (company_id, company_name, slug),
+    )
+    return company_id
 
 
 def get_company_id(cur, company_name: str) -> str | None:
@@ -134,6 +161,14 @@ async def collect_jobs(source: str) -> list[RawJob]:
             jobs.append(job)
         logger.info(f"  → {len(jobs) - before} vagas do ITJobs")
 
+    if source in ("all", "remoteok"):
+        logger.info("🌍 Iniciando coleta do RemoteOK...")
+        before = len(jobs)
+        scraper = RemoteOKScraper()
+        async for job in scraper.fetch():
+            jobs.append(job)
+        logger.info(f"  → {len(jobs) - before} vagas do RemoteOK")
+
     return jobs
 
 
@@ -185,8 +220,11 @@ async def main(source: str = "all", dry_run: bool = False):
                 client=anthropic_client,
             )
 
-            # Busca company_id no banco
-            company_id = get_company_id(cur, job.company_name)
+            # Busca company_id no banco (cria automaticamente para vagas remote)
+            if job.source == "remoteok":
+                company_id = get_or_create_remote_company(cur, job.company_name)
+            else:
+                company_id = get_company_id(cur, job.company_name)
 
             # Persiste
             is_new, was_updated = upsert_job(cur, job, company_id, classifier_result, run_id)
@@ -251,7 +289,7 @@ async def main(source: str = "all", dry_run: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="JobRadar Scraper")
-    parser.add_argument("--source", choices=["all", "careers", "itjobs"], default="all")
+    parser.add_argument("--source", choices=["all", "careers", "itjobs", "remoteok"], default="all")
     parser.add_argument("--dry-run", action="store_true", help="Não persiste no banco")
     args = parser.parse_args()
 

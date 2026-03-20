@@ -27,6 +27,7 @@ def build_jobs_query(
     tech: str | None,
     role: str | None,
     q: str | None,
+    source: str | None,
     limit: int,
     offset: int,
 ) -> tuple[str, list]:
@@ -37,6 +38,9 @@ def build_jobs_query(
     ]
     params = []
 
+    if source:
+        conditions.append("j.source = %s")
+        params.append(source)
     if remote_type:
         conditions.append("j.remote_type = %s")
         params.append(remote_type)
@@ -113,6 +117,7 @@ def list_jobs(
     category: Annotated[str | None, Query(description="Categoria da empresa")] = None,
     tech: Annotated[str | None, Query(description="Tecnologia (ex: Python, React)")] = None,
     role: Annotated[str | None, Query(description="Área (ex: QA, Frontend, Backend)")] = None,
+    source: Annotated[str | None, Query(description="Fonte (ex: remoteok)")] = None,
     page: Annotated[int, Query(ge=1)] = 1,
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
 ):
@@ -123,7 +128,7 @@ def list_jobs(
         offset = (page - 1) * limit
 
         query, count_query, params_paginated, params_base = build_jobs_query(
-            remote_type, seniority, city, category, tech, role, q, limit, offset
+            remote_type, seniority, city, category, tech, role, q, source, limit, offset
         )
 
         cur.execute(count_query, params_base)

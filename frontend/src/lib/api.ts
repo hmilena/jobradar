@@ -56,6 +56,7 @@ export interface JobFiltersParams {
   category?: string;
   tech?: string;
   role?: string;
+  source?: string;
   page?: number;
   limit?: number;
 }
@@ -88,6 +89,7 @@ export const api = {
       ...(params.category && { category: params.category }),
       ...(params.tech && { tech: params.tech }),
       ...(params.role && { role: params.role }),
+      ...(params.source && { source: params.source }),
       page: String(params.page ?? 1),
       limit: String(params.limit ?? 20),
     }),
