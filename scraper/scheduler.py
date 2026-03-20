@@ -112,7 +112,7 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
         INSERT INTO jobs (
             company_id, title, url, location, remote_type, seniority,
             tech_stack, description_clean, source, hash, role,
-            is_consultoria, classifier_confidence, classifier_reason, classifier_ran_at
+            is_consulting, classifier_confidence, classifier_reason, classifier_ran_at
         ) VALUES (
             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW()
         )
@@ -135,7 +135,7 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
             job.source,
             job_hash,
             job.role or "unknown",
-            classifier_result.is_consultoria,
+            classifier_result.is_consulting,
             classifier_result.confidence,
             classifier_result.reason,
         ),
