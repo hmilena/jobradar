@@ -1,6 +1,6 @@
 import { Building2, Briefcase, RefreshCw } from "lucide-react";
 import type { Stats } from "@/lib/api";
-import { formatDate } from "@/lib/utils";
+import { formatISOToPTDate } from "@/lib/utils";
 
 export default function StatsBar({ stats }: { stats: Stats }) {
   return (
@@ -36,7 +36,7 @@ export default function StatsBar({ stats }: { stats: Stats }) {
           <div className="h-8 w-px bg-slate-200" />
           <div className="flex items-center gap-1.5 text-xs text-slate-400">
             <RefreshCw className="h-3.5 w-3.5" />
-            Atualizado {formatDate(stats.last_update)}
+            Atualizado {formatISOToPTDate(stats.last_update)}
           </div>
         </>
       )}
