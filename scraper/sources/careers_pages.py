@@ -35,6 +35,16 @@ SKIP_TITLE_KEYWORDS = [
     "hr manager", "recruiter", "office manager", "receptionist",
     "logistics", "supply chain", "warehouse", "driver", "motorista",
     "chef", "cozinheiro", "limpeza", "segurança", "porteiro",
+    # Finanças / RH / Operações
+    "payroll", "accounts payable", "accounts receivable", "order to cash",
+    "procure-to-pay", "financial analyst", "finance analyst", "tax analyst",
+    "tax specialist", "compliance analyst", "hrbp", "hr gbs", "hr specialist",
+    "talent acquisition", "talent services", "global mobility", "mobility analyst",
+    "immigration", "compensation", "benefits specialist", "treasury",
+    "cash specialist", "cash analyst", "sox control", "trade compliance",
+    "corporate real estate", "corporate development", "managing director",
+    "m&a integration", "director of communications", "communications manager",
+    "marketing manager", "brand manager", "sales director", "business development",
     "discover all", "career opportunities", "view all",
 ]
 

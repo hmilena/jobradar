@@ -65,9 +65,15 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
     existing = cur.fetchone()
 
     if existing:
-        # Atualiza last_seen_at para marcar como ainda ativo
+        # Atualiza last_seen_at e reativa apenas se estava inativo há mais de 25 dias
+        # (expirou naturalmente). Não reativa vagas manualmente desativadas.
         cur.execute(
-            "UPDATE jobs SET last_seen_at = NOW(), is_active = TRUE WHERE hash = %s",
+            """UPDATE jobs SET last_seen_at = NOW(),
+               is_active = CASE
+                   WHEN last_seen_at < NOW() - INTERVAL '25 days' THEN TRUE
+                   ELSE is_active
+               END
+               WHERE hash = %s""",
             (job_hash,),
         )
         return False, True
