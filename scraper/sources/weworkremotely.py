@@ -12,6 +12,7 @@ from typing import AsyncIterator
 import httpx
 
 from .base import BaseSource, RawJob
+from .careers_pages import SKIP_TITLE_KEYWORDS
 from ..deduplicator import extract_tech_stack, extract_seniority, extract_role
 
 logger = logging.getLogger(__name__)
@@ -103,9 +104,12 @@ class WeWorkRemotelyScraper(BaseSource):
                         continue
                     if not _is_eu_compatible(region):
                         continue
-                    # Rejeita se o próprio título indica restrição de localização
+                    # Rejeita restrição de localização no título
                     title_lower = raw_title.lower()
                     if any(kw in title_lower for kw in EXCLUDE_LOCATION_KEYWORDS):
+                        continue
+                    # Rejeita vagas não-tech
+                    if any(kw in title_lower for kw in SKIP_TITLE_KEYWORDS):
                         continue
 
                     company, title = _parse_company_title(raw_title)

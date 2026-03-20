@@ -45,6 +45,14 @@ SKIP_TITLE_KEYWORDS = [
     "corporate real estate", "corporate development", "managing director",
     "m&a integration", "director of communications", "communications manager",
     "marketing manager", "brand manager", "sales director", "business development",
+    # Suporte / Vendas / Não-tech
+    "customer support", "support agent", "support specialist", "support representative",
+    "account manager", "account executive", "sales engineer", "sales manager",
+    "customer success", "customer experience", "client success",
+    "technical account manager", "technical support",
+    # Design não-tech
+    "level designer", "game designer", "graphic designer", "motion designer",
+    "visual designer", "brand designer", "illustrator",
     "discover all", "career opportunities", "view all",
 ]
 

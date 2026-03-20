@@ -19,8 +19,8 @@ const REMOTE_DOT: Record<string, string> = {
   unknown: "bg-slate-300",
 };
 
-function CompanyAvatar({ name }: { name: string }) {
-  const initials = name
+function CompanyAvatar({ name }: { name: string | null }) {
+  const initials = (name || "?")
     .split(" ")
     .slice(0, 2)
     .map((w) => w[0])

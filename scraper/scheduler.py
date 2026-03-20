@@ -230,7 +230,7 @@ async def main(source: str = "all", dry_run: bool = False):
             )
 
             # Busca company_id no banco (cria automaticamente para vagas remote)
-            if job.source == "remoteok":
+            if job.source in ("remoteok", "weworkremotely"):
                 company_id = get_or_create_remote_company(cur, job.company_name)
             else:
                 company_id = get_company_id(cur, job.company_name)

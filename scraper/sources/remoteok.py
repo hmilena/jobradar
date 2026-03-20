@@ -8,6 +8,7 @@ from typing import AsyncIterator
 import httpx
 
 from .base import BaseSource, RawJob
+from .careers_pages import SKIP_TITLE_KEYWORDS
 from ..deduplicator import extract_tech_stack, extract_seniority, extract_role
 
 logger = logging.getLogger(__name__)
@@ -96,6 +97,8 @@ class RemoteOKScraper(BaseSource):
                 if url in seen_urls:
                     continue
                 if not is_tech_remoteok(title, tags):
+                    continue
+                if any(kw in title.lower() for kw in SKIP_TITLE_KEYWORDS):
                     continue
 
                 seen_urls.add(url)
