@@ -1,4 +1,19 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+declare const process: { env: Record<string, string | undefined> };
+
+const API_URL_BROWSER =
+  process.env.NEXT_PUBLIC_API_URL_BROWSER ??
+  process.env.NEXT_PUBLIC_API_URL ??
+  "http://localhost:8000";
+
+const API_URL_SERVER =
+  process.env.NEXT_PUBLIC_API_URL_SERVER ??
+  process.env.NEXT_PUBLIC_API_URL ??
+  "http://localhost:8000";
+
+// Next.js runs `apiFetch` during SSR inside the Node container. When SSR happens
+// in Docker, `localhost` would point to the frontend container, not the API.
+// Use a different base URL for server vs browser.
+const API_URL = typeof window === "undefined" ? API_URL_SERVER : API_URL_BROWSER;
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -71,8 +86,8 @@ async function apiFetch<T>(path: string, params?: Record<string, string>): Promi
     });
   }
   const res = await fetch(url.toString(), {
-    next: { revalidate: 60 }, // cache de 1 minuto
-  });
+    next: { revalidate: 60 }, // cache de 1 minuto (Next.js fetch option)
+  } as any);
   if (!res.ok) {
     throw new Error(`API error ${res.status}: ${await res.text()}`);
   }
