@@ -17,7 +17,8 @@ KNOWN_CONSULTING = {
     "inetum", "integer", "timwe", "link consulting", "growin", "dellent",
     "kcsit", "claranet", "syone", "uniksystem", "cgi", "atos", "infosys",
     "wipro", "tcs", "tata consultancy", "accenture", "ibm", "ntt data",
-    "everis", "nec", "logica", "indra", "atos origin",
+    "everis", "nec", "logica", "indra", "atos origin", "bold", "diamond",
+    "kwan", "smart consulting", "conkord", "deloitte", "primeit", "nexus consulting",
     # RH / Recruitment
     "michael page", "randstad", "adecco", "hays", "manpower", "kelly",
     "gi group", "lhh", "robert half", "pagegroup", "talenter", "dgs",
