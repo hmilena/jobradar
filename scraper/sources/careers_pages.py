@@ -24,10 +24,18 @@ JOB_HREF_KEYWORDS = [
     "oportunidade", "position", "opening", "vacanc", "offer", "opportunit"
 ]
 
-# Palavras que NÃO devem aparecer no título (falsos positivos)
+# Palavras que NÃO devem aparecer no título (falsos positivos e não-tech)
 SKIP_TITLE_KEYWORDS = [
     "cookie", "privacy", "terms", "sobre", "about", "contact",
-    "blog", "news", "login", "register", "home", "menu"
+    "blog", "news", "login", "register", "home", "menu",
+    # Vagas não-tech
+    "vendedor", "vendedora", "sales rep", "store manager", "hotel",
+    "fitness instructor", "procurement", "real estate", "facilities",
+    "legal counsel", "paralegal", "accountant", "controller",
+    "hr manager", "recruiter", "office manager", "receptionist",
+    "logistics", "supply chain", "warehouse", "driver", "motorista",
+    "chef", "cozinheiro", "limpeza", "segurança", "porteiro",
+    "discover all", "career opportunities", "view all",
 ]
 
 # Palavras-chave que indicam uma vaga tech
@@ -126,7 +134,7 @@ async def extract_jobs_from_page(
                 if not use_heuristics and (not text or len(text) < 5 or len(text) > 200):
                     continue
 
-                if not is_tech_job(text):
+                if not is_tech_job(text) or any(kw in text.lower() for kw in SKIP_TITLE_KEYWORDS):
                     continue
 
                 seen_urls.add(href)
