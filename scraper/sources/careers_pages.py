@@ -267,6 +267,7 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
 async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     """Usa a API pública do Lever para obter todas as vagas."""
     board = company["lever_board"]
+    location_filter = company.get("lever_location_filter", "")
     try:
         resp = await client.get(
             f"https://api.lever.co/v0/postings/{board}",
@@ -278,13 +279,17 @@ async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
         for job in resp.json():
             if not is_tech_job(job["text"]):
                 continue
-            location = job.get("categories", {}).get("location", company.get("city"))
+            location = job.get("categories", {}).get("location", company.get("city")) or ""
+            if location_filter and not any(
+                kw.lower() in location.lower() for kw in location_filter.split("|")
+            ):
+                continue
             jobs.append(RawJob(
                 title=job["text"],
                 company_name=company["name"],
                 url=job["hostedUrl"],
                 source="careers_page",
-                location=location,
+                location=location or company.get("city"),
             ))
         return jobs
     except Exception as e:

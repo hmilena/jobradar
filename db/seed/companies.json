@@ -75,7 +75,9 @@
     "name": "GoCardless",
     "slug": "gocardless",
     "domain": "https://gocardless.com",
-    "careers_url": "https://job-boards.greenhouse.io/gocardless?offices[]=246085",
+    "careers_url": "https://job-boards.greenhouse.io/gocardless",
+    "greenhouse_board": "gocardless",
+    "greenhouse_location_filter": "lisbon",
     "category": "fintech",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='greenhouse']"
@@ -87,7 +89,7 @@
     "careers_url": "https://jobs.mollie.com/vacancies",
     "category": "fintech",
     "city": "Lisboa",
-    "job_selector": "a[href*='vacanc'], a[href*='job']"
+    "job_selector": "a[href*='/vacancies/']"
   },
   {
     "name": "Pictet Technologies",
@@ -202,10 +204,10 @@
     "name": "Unbabel",
     "slug": "unbabel",
     "domain": "https://unbabel.com",
-    "careers_url": "https://unbabel.com/careers/",
+    "careers_url": "https://careers.unbabel.com/jobs",
     "category": "software",
     "city": "Lisboa",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "job_selector": "a[href*='/jobs/']"
   },
   {
     "name": "Sword Health",
@@ -214,7 +216,8 @@
     "careers_url": "https://swordhealth.com/careers",
     "category": "healthtech",
     "city": "Porto",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "lever_board": "swordhealth",
+    "lever_location_filter": "porto|portugal|lisboa|lisbon|remote (pt)"
   },
   {
     "name": "AUTODOC",
@@ -286,7 +289,7 @@
     "careers_url": "https://careers.enbw.com/en_US/careers/SearchJobs/?2402=[46754575]&listFilterMode=1",
     "category": "energia",
     "city": "Lisboa",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "job_selector": "a.opportunity-link, a[href*='SearchJobDetails']"
   },
   {
     "name": "EDP",
