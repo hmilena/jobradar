@@ -30,6 +30,36 @@ SKIP_TITLE_KEYWORDS = [
     "blog", "news", "login", "register", "home", "menu"
 ]
 
+# Palavras-chave que indicam uma vaga tech
+TECH_TITLE_KEYWORDS = [
+    # Roles genéricos
+    "engineer", "developer", "programador", "engenheiro", "architect",
+    "devops", "sre", "platform", "infrastructure", "cloud",
+    # Áreas
+    "software", "frontend", "front-end", "backend", "back-end", "fullstack",
+    "full-stack", "web", "mobile", "ios", "android",
+    "data", "machine learning", "ml", "ai ", " ia ", "analytics",
+    "security", "cybersecurity", "appsec",
+    "qa", "quality assurance", "tester", "test ",
+    "ux", "ui ", "product designer", "design",
+    # Tecnologias
+    "python", "java", "javascript", "typescript", "react", "angular", "vue",
+    "node", "django", "spring", "kubernetes", "docker", "terraform",
+    "sql", "database", "aws", "azure", "gcp",
+    # Gestão tech
+    "tech lead", "engineering manager", "cto", "cpo", "product manager",
+    "product owner", "scrum master", "agile",
+    # PT
+    "tecnologia", "sistemas", "informática", "ti ", " ti,", "digital",
+    "suporte técnico", "redes", "infraestrutura",
+]
+
+
+def is_tech_job(title: str) -> bool:
+    """Verifica se o título da vaga é tech. Rejeita vagas não-tech (vendedor, logística, etc.)"""
+    title_lower = title.lower()
+    return any(kw in title_lower for kw in TECH_TITLE_KEYWORDS)
+
 
 def is_job_link(href: str, text: str, careers_url: str = "") -> bool:
     """Heurística para identificar links de vagas individuais (não navegação)."""
@@ -94,6 +124,9 @@ async def extract_jobs_from_page(
                     continue
 
                 if not use_heuristics and (not text or len(text) < 5 or len(text) > 200):
+                    continue
+
+                if not is_tech_job(text):
                     continue
 
                 seen_urls.add(href)
@@ -180,6 +213,8 @@ async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[Raw
         resp.raise_for_status()
         jobs = []
         for job in resp.json().get("jobs", []):
+            if not is_tech_job(job["title"]):
+                continue
             location = job.get("location", {}).get("name", "") or ""
             jobs.append(RawJob(
                 title=job["title"],
@@ -206,6 +241,8 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
         resp.raise_for_status()
         jobs = []
         for job in resp.json().get("jobs", []):
+            if not is_tech_job(job["title"]):
+                continue
             jobs.append(RawJob(
                 title=job["title"],
                 company_name=company["name"],
@@ -231,6 +268,8 @@ async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
         resp.raise_for_status()
         jobs = []
         for job in resp.json():
+            if not is_tech_job(job["text"]):
+                continue
             location = job.get("categories", {}).get("location", company.get("city"))
             jobs.append(RawJob(
                 title=job["text"],
