@@ -322,7 +322,7 @@ result = classify_job(
     description='O nosso cliente, empresa de referência no setor financeiro...'
 )
 print(result)
-# Esperado: is_consultoria=True
+# Esperado: is_consulting=True
 "
 
 # Testar deduplicator
