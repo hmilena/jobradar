@@ -11,6 +11,46 @@ export function formatDate(iso: string): string {
   return `há ${Math.floor(diffDays / 30)} meses`;
 }
 
+export function formatISOToPTDate(dateString: string): string {
+  const now = Date.now();
+  const input = new Date(dateString).getTime();
+
+  const diffSeconds = Math.floor((now - input) / 1000);
+
+  const minutes = Math.floor(diffSeconds / 60);
+  const hours = Math.floor(diffSeconds / 3600);
+  const days = Math.floor(diffSeconds / 86400);
+  const weeks = Math.floor(diffSeconds / (86400 * 7));
+
+  if (minutes < 1) {
+    return "há 1 minuto";
+  }
+
+  if (minutes < 60) {
+    return `há ${minutes} ${minutes === 1 ? "minuto" : "minutos"}`;
+  }
+
+  if (hours < 24) {
+    return `há ${hours} ${hours === 1 ? "hora" : "horas"}`;
+  }
+
+  if (days < 7) {
+    const remainingHours = hours % 24;
+
+    const dayPart = `${days} ${days === 1 ? "dia" : "dias"}`;
+
+    if (remainingHours === 0) {
+      return `há ${dayPart}`;
+    }
+
+    const hourPart = `${remainingHours} ${remainingHours === 1 ? "hora" : "horas"}`;
+
+    return `há ${dayPart} e ${hourPart}`;
+  }
+
+  return `há ${weeks} ${weeks === 1 ? "semana" : "semanas"}`;
+}
+
 export const REMOTE_LABELS: Record<string, string> = {
   remote: "Remoto",
   hybrid: "Híbrido",
