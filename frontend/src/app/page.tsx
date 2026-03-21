@@ -1,10 +1,12 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { api } from "@/lib/api";
 import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
 import StatsBar from "@/components/StatsBar";
+import { Footer } from "@/components/Footer";
 
 interface PageProps {
   searchParams: {
@@ -19,14 +21,46 @@ interface PageProps {
   };
 }
 
+const JOBS_PAGE_SIZE = 20;
+
+function searchParamsToPageOneQuery(sp: PageProps["searchParams"]): string {
+  const next = new URLSearchParams();
+  for (const [key, value] of Object.entries(sp)) {
+    if (!value || key === "page") continue;
+    next.set(key, value);
+  }
+  next.set("page", "1");
+  const q = next.toString();
+  return q ? `/?${q}` : "/?page=1";
+}
+
 export default async function HomePage({ searchParams }: PageProps) {
-  const page = Number(searchParams.page ?? 1);
+  const raw = searchParams.page;
+  let page: number;
+  if (raw === undefined || raw === "") {
+    page = 1;
+  } else {
+    const n = Number(raw);
+    if (!Number.isInteger(n) || n < 1) {
+      redirect(searchParamsToPageOneQuery(searchParams));
+    }
+    page = n;
+  }
 
   const [jobsData, filters, stats] = await Promise.all([
-    api.getJobs({ ...searchParams, page, limit: 20 }),
+    api.getJobs({ ...searchParams, page, limit: JOBS_PAGE_SIZE }),
     api.getFilters(),
     api.getStats(),
   ]);
+
+  const totalPages = Math.ceil(jobsData.total / JOBS_PAGE_SIZE);
+  if (jobsData.total === 0) {
+    if (page > 1) {
+      redirect(searchParamsToPageOneQuery(searchParams));
+    }
+  } else if (page > totalPages) {
+    redirect(searchParamsToPageOneQuery(searchParams));
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -106,30 +140,11 @@ export default async function HomePage({ searchParams }: PageProps) {
 
         {/* Pagination */}
         <Suspense>
-          <Pagination total={jobsData.total} page={page} limit={20} />
+          <Pagination total={jobsData.total} page={page} limit={JOBS_PAGE_SIZE} />
         </Suspense>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-8">
-        <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-          <p className="font-medium text-slate-500">
-            JobRadar Portugal{" "}
-            <span className="text-xs text-slate-400">por Mia</span>
-          </p>
-          <p>
-            Vagas atualizadas a cada 6 horas ·{" "}
-            <a
-              href="https://github.com/hmilena/jobradar"
-              className="underline underline-offset-2 hover:text-slate-600 transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open Source
-            </a>
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

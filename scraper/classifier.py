@@ -11,13 +11,14 @@ import anthropic
 logger = logging.getLogger(__name__)
 
 # Consultorias e empresas de RH conhecidas em Portugal
-KNOWN_CONSULTORIAS = {
+KNOWN_CONSULTING = {
     # IT consulting
     "altran", "capgemini", "devoteam", "novabase", "aubay", "rumos",
     "inetum", "integer", "timwe", "link consulting", "growin", "dellent",
     "kcsit", "claranet", "syone", "uniksystem", "cgi", "atos", "infosys",
     "wipro", "tcs", "tata consultancy", "accenture", "ibm", "ntt data",
-    "everis", "nec", "logica", "indra", "atos origin",
+    "everis", "nec", "logica", "indra", "atos origin", "bold", "diamond",
+    "kwan", "smart consulting", "conkord", "deloitte", "primeit", "nexus consulting",
     # RH / Recruitment
     "michael page", "randstad", "adecco", "hays", "manpower", "kelly",
     "gi group", "lhh", "robert half", "pagegroup", "talenter", "dgs",
@@ -32,7 +33,7 @@ Sua tarefa: determinar se uma vaga foi publicada por uma CONSULTORIA/EMPRESA DE 
 (que vai alocar o candidato num cliente externo) ou por uma EMPRESA PRODUTO
 (que contrata diretamente para a própria equipa).
 
-SINAIS DE CONSULTORIA (is_consultoria = true):
+SINAIS DE CONSULTORIA (is_consulting = true):
 - Texto como "nosso cliente", "empresa parceira", "cliente final", "empresa de referência"
 - "alocação", "outsourcing", "prestação de serviços a clientes"
 - "projeto em cliente", "alocado em cliente"
@@ -41,7 +42,7 @@ SINAIS DE CONSULTORIA (is_consultoria = true):
 - Descrição vaga que não menciona o produto/serviço da própria empresa
 - "integrar a nossa pool de talentos"
 
-SINAIS DE EMPRESA PRODUTO (is_consultoria = false):
+SINAIS DE EMPRESA PRODUTO (is_consulting = false):
 - Descrevem claramente o produto ou serviço próprio da empresa
 - "join our engineering team", "a nossa equipa de produto"
 - Empresa claramente de produto (Farfetch, Talkdesk, OutSystems, NOS, etc.)
@@ -50,7 +51,7 @@ SINAIS DE EMPRESA PRODUTO (is_consultoria = false):
 
 Responda APENAS com JSON válido, sem markdown, sem texto extra:
 {
-  "is_consultoria": false,
+  "is_consulting": false,
   "confidence": 0.95,
   "reason": "empresa descreve produto próprio de pagamentos"
 }
@@ -59,15 +60,15 @@ Responda APENAS com JSON válido, sem markdown, sem texto extra:
 
 @dataclass
 class ClassifierResult:
-    is_consultoria: bool
+    is_consulting: bool
     confidence: float
     reason: str
 
 
-def is_known_consultoria(company_name: str) -> bool:
+def is_known_consulting(company_name: str) -> bool:
     """Verifica se o nome da empresa está na lista negra de consultorias."""
     name_lower = company_name.lower().strip()
-    return any(kw in name_lower for kw in KNOWN_CONSULTORIAS)
+    return any(kw in name_lower for kw in KNOWN_CONSULTING)
 
 
 def classify_job(
@@ -82,9 +83,9 @@ def classify_job(
     Só chama a API se necessário.
     """
     # Fast path: empresa conhecida na lista negra
-    if is_known_consultoria(company_name):
+    if is_known_consulting(company_name):
         return ClassifierResult(
-            is_consultoria=True,
+            is_consulting=True,
             confidence=0.99,
             reason=f"Empresa '{company_name}' identificada como consultoria/RH conhecida.",
         )
@@ -92,14 +93,14 @@ def classify_job(
     # Sem descrição: não há como classificar com confiança
     if not description or len(description.strip()) < 50:
         return ClassifierResult(
-            is_consultoria=False,
+            is_consulting=False,
             confidence=0.5,
             reason="Sem descrição suficiente para classificar.",
         )
 
     if client is None:
         return ClassifierResult(
-            is_consultoria=False,
+            is_consulting=False,
             confidence=0.5,
             reason="Sem API key — classificação ignorada.",
         )
@@ -119,13 +120,13 @@ Descrição (primeiros 2000 chars):
         raw = response.content[0].text.strip()
         data = json.loads(raw)
         return ClassifierResult(
-            is_consultoria=bool(data["is_consultoria"]),
+            is_consulting=bool(data["is_consulting"]),
             confidence=float(data.get("confidence", 0.8)),
             reason=data.get("reason", ""),
         )
     except json.JSONDecodeError as e:
         logger.error(f"Classifier JSON parse error: {e} | raw: {raw}")
-        return ClassifierResult(is_consultoria=False, confidence=0.5, reason="Erro de parse")
+        return ClassifierResult(is_consulting=False, confidence=0.5, reason="Erro de parse")
     except Exception as e:
         logger.error(f"Classifier API error: {e}")
-        return ClassifierResult(is_consultoria=False, confidence=0.5, reason=f"Erro: {e}")
+        return ClassifierResult(is_consulting=False, confidence=0.5, reason=f"Erro: {e}")

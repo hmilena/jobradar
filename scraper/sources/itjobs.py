@@ -5,6 +5,7 @@ Filtramos as vagas de consultorias depois via classifier.
 """
 import logging
 from datetime import datetime, timezone, timedelta
+import os
 from typing import AsyncIterator
 
 import httpx
@@ -14,7 +15,9 @@ from .base import BaseSource, RawJob
 logger = logging.getLogger(__name__)
 
 ITJOBS_API = "https://api.itjobs.pt/job/list.json"
-ITJOBS_API_KEY = "itjobs"  # chave pública, sem autenticação real necessária
+# ITJobs requires a valid API key for this endpoint.
+# Get it from https://www.itjobs.pt/api (they email it to you after sign-up).
+ITJOBS_API_KEY = os.environ.get("ITJOBS_API_KEY")
 MAX_JOB_AGE_DAYS = 60  # ignora vagas publicadas há mais de 60 dias
 
 # Categorias de tech no ITJobs
@@ -41,6 +44,13 @@ class ITJobsScraper(BaseSource):
         self.max_pages = max_pages
 
     async def fetch(self) -> AsyncIterator[RawJob]:
+        if not ITJOBS_API_KEY:
+            logger.error(
+                "ITJobs API key missing. Set ITJOBS_API_KEY env var "
+                "(see https://www.itjobs.pt/api)."
+            )
+            return
+
         async with httpx.AsyncClient(timeout=30) as client:
             for type_id in TECH_TYPE_IDS:
                 page = 1
@@ -55,9 +65,16 @@ class ITJobsScraper(BaseSource):
                                 "type": type_id,
                                 "country": 1,  # Portugal
                             },
+                            headers={
+                                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/537.36 Chrome/122 Safari/537.36"
+                            },
                         )
                         resp.raise_for_status()
                         data = resp.json()
+
+                        if isinstance(data, dict) and data.get("error"):
+                            logger.error(f"ITJobs API error payload: {data.get('error')}")
+                            return
 
                         results = data.get("results", [])
                         if not results:
@@ -69,6 +86,10 @@ class ITJobsScraper(BaseSource):
                             if published_at:
                                 try:
                                     pub_date = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
+                                    # Some ITJobs payloads may come without timezone info.
+                                    # Normalize to UTC-aware so comparisons work reliably.
+                                    if pub_date.tzinfo is None:
+                                        pub_date = pub_date.replace(tzinfo=timezone.utc)
                                     if pub_date < cutoff:
                                         continue
                                 except (ValueError, AttributeError):

@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
+import { Footer } from "@/components/Footer";
 
 interface PageProps {
   searchParams: {
@@ -100,28 +101,7 @@ export default async function RemotePage({ searchParams }: PageProps) {
         </Suspense>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-8">
-        <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-          <p className="font-medium text-slate-500">
-            JobRadar Portugal{" "}
-            <span className="text-xs text-slate-400">por Mia</span>
-          </p>
-          <p>
-            Vagas via{" "}
-            <a href="https://remoteok.com" className="underline underline-offset-2 hover:text-slate-600 transition-colors" target="_blank" rel="noopener noreferrer">
-              RemoteOK
-            </a>
-            {" & "}
-            <a href="https://weworkremotely.com" className="underline underline-offset-2 hover:text-slate-600 transition-colors" target="_blank" rel="noopener noreferrer">
-              WeWorkRemotely
-            </a>
-            {" · "}
-            <a href="https://github.com/hmilena/jobradar" className="underline underline-offset-2 hover:text-slate-600 transition-colors" target="_blank" rel="noopener noreferrer">
-              Open Source
-            </a>
-          </p>
-        </div>
-      </footer>
+      <Footer displayLinks />
     </div>
   );
 }

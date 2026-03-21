@@ -71,6 +71,31 @@ def get_or_create_remote_company(cur, company_name: str) -> str:
     return company_id
 
 
+def get_or_create_company_by_name(cur, company_name: str, category: str = "software") -> str:
+    """Cria uma empresa mínima quando o scraping encontra um nome novo."""
+    cur.execute(
+        "SELECT id FROM companies WHERE LOWER(name) = LOWER(%s) LIMIT 1",
+        (company_name,),
+    )
+    row = cur.fetchone()
+    if row:
+        return str(row["id"])
+
+    company_id = str(uuid.uuid4())
+    slug = company_name.lower().replace(" ", "-").replace(".", "")[:60]
+    cur.execute("SELECT 1 FROM companies WHERE slug = %s", (slug,))
+    if cur.fetchone():
+        slug = f"{slug}-{company_id[:6]}"
+
+    cur.execute(
+        """INSERT INTO companies (id, name, slug, category, is_active)
+           VALUES (%s, %s, %s, %s, TRUE)
+           ON CONFLICT (slug) DO NOTHING""",
+        (company_id, company_name, slug, category),
+    )
+    return company_id
+
+
 def get_company_id(cur, company_name: str) -> str | None:
     """Busca o UUID da empresa pelo nome (case-insensitive)."""
     cur.execute(
@@ -89,10 +114,12 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
     job_hash = compute_hash(job.title, job.company_name, job.url)
 
     # Verifica se já existe
-    cur.execute("SELECT id, last_seen_at FROM jobs WHERE hash = %s", (job_hash,))
+    cur.execute("SELECT id, last_seen_at, company_id FROM jobs WHERE hash = %s", (job_hash,))
     existing = cur.fetchone()
 
     if existing:
+        existing_company_id = existing.get("company_id")
+
         # Atualiza last_seen_at e reativa apenas se estava inativo há mais de 25 dias
         # (expirou naturalmente). Não reativa vagas manualmente desativadas.
         cur.execute(
@@ -104,7 +131,15 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
                WHERE hash = %s""",
             (job_hash,),
         )
-        return False, True
+
+        # Backfill: if we just seeded companies and the existing job has NULL company_id,
+        # fill it from the current run.
+        was_company_backfilled = False
+        if existing_company_id is None and company_id is not None:
+            cur.execute("UPDATE jobs SET company_id = %s WHERE hash = %s", (company_id, job_hash))
+            was_company_backfilled = True
+
+        return False, True if was_company_backfilled else False
 
     # Insere novo
     cur.execute(
@@ -112,7 +147,7 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
         INSERT INTO jobs (
             company_id, title, url, location, remote_type, seniority,
             tech_stack, description_clean, source, hash, role,
-            is_consultoria, classifier_confidence, classifier_reason, classifier_ran_at
+            is_consulting, classifier_confidence, classifier_reason, classifier_ran_at
         ) VALUES (
             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW()
         )
@@ -135,7 +170,7 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
             job.source,
             job_hash,
             job.role or "unknown",
-            classifier_result.is_consultoria,
+            classifier_result.is_consulting,
             classifier_result.confidence,
             classifier_result.reason,
         ),
@@ -234,6 +269,10 @@ async def main(source: str = "all", dry_run: bool = False):
                 company_id = get_or_create_remote_company(cur, job.company_name)
             else:
                 company_id = get_company_id(cur, job.company_name)
+                # Para ITJobs, a base de empresas pode ainda não estar completa.
+                # Criamos uma empresa mínima para conseguir associar `company_id`.
+                if company_id is None and job.source == "itjobs":
+                    company_id = get_or_create_company_by_name(cur, job.company_name, category="software")
 
             # Persiste
             is_new, was_updated = upsert_job(cur, job, company_id, classifier_result, run_id)

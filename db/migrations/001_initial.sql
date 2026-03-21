@@ -53,7 +53,7 @@ CREATE TABLE jobs (
   hash                  TEXT UNIQUE NOT NULL,  -- SHA256(title + company_slug + url)
 
   -- Classificação IA
-  is_consultoria        BOOLEAN,
+  is_consulting        BOOLEAN,
   classifier_confidence FLOAT,
   classifier_reason     TEXT,
   classifier_ran_at     TIMESTAMPTZ,
@@ -88,7 +88,7 @@ CREATE TABLE scraper_runs (
 -- ============================================================
 CREATE INDEX idx_jobs_company_id    ON jobs(company_id);
 CREATE INDEX idx_jobs_is_active     ON jobs(is_active);
-CREATE INDEX idx_jobs_is_consultoria ON jobs(is_consultoria);
+CREATE INDEX idx_jobs_is_consulting ON jobs(is_consulting);
 CREATE INDEX idx_jobs_remote_type   ON jobs(remote_type);
 CREATE INDEX idx_jobs_seniority     ON jobs(seniority);
 CREATE INDEX idx_jobs_first_seen_at ON jobs(first_seen_at DESC);
@@ -148,7 +148,7 @@ BEGIN
     1 - (jobs.embedding <=> query_embedding) AS similarity
   FROM jobs
   WHERE is_active = TRUE
-    AND is_consultoria = FALSE
+    AND is_consulting = FALSE
     AND 1 - (jobs.embedding <=> query_embedding) > match_threshold
   ORDER BY jobs.embedding <=> query_embedding
   LIMIT match_count;
