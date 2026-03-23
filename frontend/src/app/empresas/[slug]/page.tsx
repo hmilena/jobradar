@@ -45,7 +45,7 @@ export default async function EmpresaDetailPage({ params }: Props) {
 
           {/* Company card */}
           <div className="card p-6 mb-6">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col items-start justify-between gap-4">
               <div className="flex items-start gap-4">
                 <CompanyAvatar name={company.name} />
                 <div>
@@ -105,7 +105,9 @@ export default async function EmpresaDetailPage({ params }: Props) {
               <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-xl">
                 💼
               </span>
-              <p className="font-semibold text-slate-600">Nenhuma vaga ativa no momento</p>
+              <p className="font-semibold text-slate-600">
+                Nenhuma vaga ativa no momento
+              </p>
               <p className="mt-1 text-sm text-slate-400">
                 Confira a página de carreiras da empresa
               </p>

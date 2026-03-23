@@ -1,4 +1,10 @@
-import { MapPin, Clock, ExternalLink, Layers3, BriefcaseBusiness } from "lucide-react";
+import {
+  MapPin,
+  Clock,
+  ExternalLink,
+  Layers3,
+  BriefcaseBusiness,
+} from "lucide-react";
 import type { Job } from "@/lib/api";
 import {
   formatDate,
@@ -69,7 +75,7 @@ export default function JobCard({ job }: Props) {
         <CompanyAvatar name={job.company.name} />
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col items-start justify-between gap-4">
             <div className="min-w-0 flex-1">
               {/* Company */}
               <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -80,7 +86,8 @@ export default function JobCard({ job }: Props) {
                 {job.company.category && (
                   <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
                     <Layers3 className="mr-1 h-3 w-3" />
-                    {CATEGORY_LABELS[job.company.category] ?? job.company.category}
+                    {CATEGORY_LABELS[job.company.category] ??
+                      job.company.category}
                   </span>
                 )}
               </div>
@@ -97,7 +104,9 @@ export default function JobCard({ job }: Props) {
                     <FieldLabel>Localização</FieldLabel>
                     <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-700">
                       <MapPin className="h-4 w-4 shrink-0 text-slate-400" />
-                      <span className="truncate">{job.location ?? job.company.city}</span>
+                      <span className="truncate">
+                        {job.location ?? job.company.city}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -116,7 +125,9 @@ export default function JobCard({ job }: Props) {
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${REMOTE_COLORS[remote]}`}
                     >
-                      <span className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[remote]}`} />
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[remote]}`}
+                      />
                       {REMOTE_LABELS[remote]}
                     </span>
                   </div>
