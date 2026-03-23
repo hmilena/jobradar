@@ -25,7 +25,7 @@ import anthropic
 import psycopg2
 from psycopg2.extras import RealDictCursor, execute_values
 
-from .classifier import classify_job
+from .classifier import ClassifierResult, classify_job
 from .deduplicator import compute_hash, enrich_raw_job
 from .sources.base import RawJob
 from .sources.careers_pages import CareersPageScraper
@@ -146,6 +146,15 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
 
         return False, True if was_company_backfilled else False
 
+    # Verifica se já existe pela URL (caso o título tenha mudado e o hash seja diferente)
+    cur.execute("SELECT id FROM jobs WHERE url = %s", (job.url,))
+    if cur.fetchone():
+        cur.execute(
+            "UPDATE jobs SET last_seen_at = NOW(), hash = %s, title = %s WHERE url = %s",
+            (job_hash, job.title, job.url),
+        )
+        return False, True
+
     # Insere novo
     cur.execute(
         """
@@ -261,13 +270,22 @@ async def main(source: str = "all", dry_run: bool = False):
 
     for i, job in enumerate(enriched):
         try:
-            # Classificação
-            classifier_result = classify_job(
-                title=job.title,
-                company_name=job.company_name,
-                description=job.description,
-                client=anthropic_client,
-            )
+            # Classificação — só necessária para ITJobs (fonte mista).
+            # Careers pages são empresas curadas (nunca consultorias).
+            # RemoteOK e WeWorkRemotely já são filtrados por tech.
+            if job.source in ("careers_page", "remoteok", "weworkremotely"):
+                classifier_result = ClassifierResult(
+                    is_consulting=False,
+                    confidence=0.99,
+                    reason="Fonte curada — classificação desnecessária.",
+                )
+            else:
+                classifier_result = classify_job(
+                    title=job.title,
+                    company_name=job.company_name,
+                    description=job.description,
+                    client=anthropic_client,
+                )
 
             # Busca company_id no banco (cria automaticamente para vagas remote)
             if job.source in ("remoteok", "weworkremotely"):
@@ -295,6 +313,7 @@ async def main(source: str = "all", dry_run: bool = False):
         except Exception as e:
             logger.error(f"Erro ao processar vaga '{job.title}' ({job.company_name}): {e}")
             stats["errors"].append({"job": job.title, "company": job.company_name, "error": str(e)})
+            conn.rollback()  # Reset transaction so subsequent jobs can proceed
 
     conn.commit()
 
