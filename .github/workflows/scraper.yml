@@ -2,7 +2,7 @@ name: JobRadar Scraper
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # a cada 6 horas
+    - cron: "0 23 * * *"   # uma vez por dia às 23h UTC (meia-noite em Portugal)
   workflow_dispatch:          # permite rodar manualmente no GitHub
   push:
     paths:
