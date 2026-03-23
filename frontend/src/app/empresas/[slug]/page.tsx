@@ -45,7 +45,7 @@ export default async function EmpresaDetailPage({ params }: Props) {
 
           {/* Company card */}
           <div className="card p-6 mb-6">
-            <div className="flex sm:flex-col items-start justify-between gap-4">
+            <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-4">
                 <CompanyAvatar name={company.name} />
                 <div>

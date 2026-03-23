@@ -75,7 +75,7 @@ export default function JobCard({ job }: Props) {
         <CompanyAvatar name={job.company.name} />
 
         <div className="min-w-0 flex-1">
-          <div className="flex sm:flex-col items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 flex-1">
               {/* Company */}
               <div className="mb-1 flex flex-wrap items-center gap-2">
