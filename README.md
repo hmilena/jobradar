@@ -187,7 +187,7 @@ The list is curated and maintained. Companies are classified using an AI model t
 | API | FastAPI + PostgreSQL |
 | Database | Neon (PostgreSQL) |
 | Frontend | Next.js 14 + Tailwind CSS |
-| Cron | GitHub Actions (every 6h) |
+| Cron | GitHub Actions (daily) |
 | Deploy API | Render |
 | Deploy Frontend | Vercel |
 

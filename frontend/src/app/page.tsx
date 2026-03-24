@@ -71,7 +71,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         <div className="mx-auto max-w-6xl px-4 py-10">
           <div className="mb-1 inline-flex items-center gap-2 rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold text-brand-700">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse" />
-            Atualizado a cada 6 horas
+            Atualizado diariamente
           </div>
           <h1 className="mt-3 text-4xl font-extrabold text-slate-900 tracking-tight">
             Vagas tech em Portugal

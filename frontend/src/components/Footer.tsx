@@ -53,7 +53,7 @@ export function Footer({ className, displayLinks = false }: Props) {
           </div>
         )}
         <div>
-          Vagas atualizadas a cada 6 horas ·{" "}
+          Vagas atualizadas diariamente ·{" "}
           <a
             href="https://github.com/hmilena/jobradar"
             className={linkClass}
