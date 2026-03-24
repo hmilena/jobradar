@@ -64,7 +64,7 @@ jobrador/
 │           └── utils.ts      # formatDate, labels, helpers
 │
 ├── .github/workflows/
-│   └── scraper.yml           # Cron via GitHub Actions a cada 6h
+│   └── scraper.yml           # Cron via GitHub Actions (diário)
 │
 ├── docker-compose.yml        # Dev local: PostgreSQL + API + Frontend
 ├── Dockerfile.api
@@ -242,7 +242,7 @@ npx vercel --prod
 2. Adicionar:
    - `DATABASE_URL` — connection string do Supabase
    - `ANTHROPIC_API_KEY` — chave da Anthropic
-3. O workflow `.github/workflows/scraper.yml` roda automaticamente a cada 6h
+3. O workflow `.github/workflows/scraper.yml` roda automaticamente uma vez por dia
 4. Para rodar manualmente: **Actions → JobRadar Scraper → Run workflow**
 
 ---

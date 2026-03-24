@@ -85,7 +85,7 @@ export default async function RemotePage({ searchParams }: PageProps) {
               Nenhuma vaga remota de momento
             </p>
             <p className="mt-1 text-sm text-slate-400">
-              Tenta mais tarde — atualizamos a cada 6 horas
+              Tenta mais tarde — atualizamos diariamente
             </p>
           </div>
         ) : (
