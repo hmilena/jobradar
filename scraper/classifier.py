@@ -8,6 +8,8 @@ from dataclasses import dataclass
 
 import anthropic
 
+from .settings import ANTHROPIC_MODEL
+
 logger = logging.getLogger(__name__)
 
 # Consultorias e empresas de RH conhecidas em Portugal
@@ -65,6 +67,30 @@ class ClassifierResult:
     reason: str
 
 
+def parse_classifier_json(raw: str) -> ClassifierResult:
+    """
+    Converte a resposta textual do modelo (JSON único) em ClassifierResult.
+
+    Parameters
+    ----------
+    raw :
+        Corpo da resposta já sem markdown / texto extra.
+
+    Raises
+    ------
+    json.JSONDecodeError
+        Se `raw` não for JSON válido.
+    KeyError
+        Se faltar a chave obrigatória ``is_consulting``.
+    """
+    data = json.loads(raw.strip())
+    return ClassifierResult(
+        is_consulting=bool(data["is_consulting"]),
+        confidence=float(data.get("confidence", 0.8)),
+        reason=str(data.get("reason", "")),
+    )
+
+
 def is_known_consulting(company_name: str) -> bool:
     """Verifica se o nome da empresa está na lista negra de consultorias."""
     name_lower = company_name.lower().strip()
@@ -112,18 +138,13 @@ Descrição (primeiros 2000 chars):
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=ANTHROPIC_MODEL,
             max_tokens=200,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt}],
         )
         raw = response.content[0].text.strip()
-        data = json.loads(raw)
-        return ClassifierResult(
-            is_consulting=bool(data["is_consulting"]),
-            confidence=float(data.get("confidence", 0.8)),
-            reason=data.get("reason", ""),
-        )
+        return parse_classifier_json(raw)
     except json.JSONDecodeError as e:
         logger.error(f"Classifier JSON parse error: {e} | raw: {raw}")
         return ClassifierResult(is_consulting=False, confidence=0.5, reason="Erro de parse")

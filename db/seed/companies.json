@@ -39,7 +39,7 @@
     "name": "BNP Paribas Portugal",
     "slug": "bnp-paribas-portugal",
     "domain": "https://www.bnpparibas.pt",
-    "careers_url": "https://careers.bnpparibas.com/searches?country=Portugal",
+    "careers_url": "https://group.bnpparibas/en/careers/all-job-offers/portugal",
     "category": "banco",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='offer']"
@@ -296,7 +296,7 @@
     "name": "EDP",
     "slug": "edp",
     "domain": "https://www.edp.com",
-    "careers_url": "https://careers.edp.com/",
+    "careers_url": "https://jobs.edp.com/search/?q=&locationsearch=PT",
     "category": "energia",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='career'], a[href*='offer']"

@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   # ── PostgreSQL local (substitui Supabase no dev) ──────────────
   db:
@@ -29,6 +27,7 @@ services:
     environment:
       DATABASE_URL: postgresql://jobrador:jobrador@db:5432/jobrador
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-sonnet-4-20250514}
     depends_on:
       db:
         condition: service_healthy
