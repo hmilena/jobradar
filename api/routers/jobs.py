@@ -3,7 +3,6 @@ Endpoints de vagas.
 GET /jobs           - lista vagas com filtros
 GET /jobs/{id}      - detalhe de uma vaga
 """
-import os
 from typing import Annotated
 from uuid import UUID
 
@@ -30,7 +29,7 @@ def build_jobs_query(
     source: str | None,
     limit: int,
     offset: int,
-) -> tuple[str, list]:
+) -> tuple[str, str, list, list]:
     """Constrói query dinâmica com filtros."""
     conditions = [
         "j.is_active = TRUE",

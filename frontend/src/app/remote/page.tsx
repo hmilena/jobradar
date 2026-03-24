@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import { api } from "@/lib/api";
 import Header from "@/components/Header";
-import JobCard from "@/components/JobCard";
+import { JobListSection } from "@/components/JobListSection";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
 import { Footer } from "@/components/Footer";
+import { parseJobsPageParam } from "@/lib/jobListing";
 
 interface PageProps {
   searchParams: {
@@ -16,7 +17,7 @@ interface PageProps {
 }
 
 export default async function RemotePage({ searchParams }: PageProps) {
-  const page = Number(searchParams.page ?? 1);
+  const page = parseJobsPageParam(searchParams.page);
 
   const [jobsData, filters] = await Promise.all([
     api.getJobs({
@@ -76,25 +77,14 @@ export default async function RemotePage({ searchParams }: PageProps) {
           </Suspense>
         </div>
 
-        {jobsData.results.length === 0 ? (
-          <div className="card flex flex-col items-center justify-center py-20 text-center">
-            <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
-              🌍
-            </span>
-            <p className="font-semibold text-slate-700">
-              Nenhuma vaga remota de momento
-            </p>
-            <p className="mt-1 text-sm text-slate-400">
-              Tenta mais tarde — atualizamos a cada 6 horas
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {jobsData.results.map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
-          </div>
-        )}
+        <JobListSection
+          jobs={jobsData.results}
+          empty={{
+            emoji: "🌍",
+            title: "Nenhuma vaga remota de momento",
+            subtitle: "Tenta mais tarde — atualizamos a cada 6 horas",
+          }}
+        />
 
         <Suspense>
           <Pagination total={jobsData.total} page={page} limit={20} />
