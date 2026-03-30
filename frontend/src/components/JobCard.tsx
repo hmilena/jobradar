@@ -71,7 +71,7 @@ export default function JobCard({ job }: Props) {
     <article className="group relative rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-brand-200 hover:shadow-md">
       <div className="absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-brand-200 opacity-0 transition-opacity group-hover:opacity-100" />
 
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 items-center gap-4">
           <CompanyAvatar name={job.company.name} />
 
