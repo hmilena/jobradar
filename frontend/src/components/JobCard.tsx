@@ -75,7 +75,7 @@ export default function JobCard({ job }: Props) {
         <div className="flex flex-1 items-center gap-4">
           <CompanyAvatar name={job.company.name} />
 
-          <div className="flex gap-4 min-w-0 md:flex-col">
+          <div className="flex gap-2 min-w-0 md:flex-col">
             <span className="text-base font-semibold text-brand-600">
               {job.company.name ?? "—"}
             </span>
