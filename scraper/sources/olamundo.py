@@ -133,6 +133,7 @@ class OlaMundoScraper(BaseSource):
                 continue
 
             text = f"{title} {description}"
+            tech = extract_tech_stack(text)
             jobs.append(
                 RawJob(
                     title=title,
@@ -142,9 +143,9 @@ class OlaMundoScraper(BaseSource):
                     location=location,
                     description=description,
                     remote_type="remote",
-                    tech_stack=extract_tech_stack(text),
+                    tech_stack=tech,
                     seniority=extract_seniority(title, description),
-                    role=extract_role(title, description),
+                    role=extract_role(title, description, tech),
                 )
             )
 

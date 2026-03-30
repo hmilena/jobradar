@@ -121,7 +121,7 @@ class RemoteOKScraper(BaseSource):
                     remote_type="remote",
                     tech_stack=tech_stack,
                     seniority=extract_seniority(title, description),
-                    role=extract_role(title, description),
+                    role=extract_role(title, description, tech_stack),
                 )
 
             logger.info(f"  RemoteOK: {count} vagas tech aceites")

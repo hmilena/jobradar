@@ -103,6 +103,7 @@ class JobicyScraper(BaseSource):
                     level_raw = job.get("jobLevel") or ""
                     seniority = LEVEL_MAP.get(level_raw) or extract_seniority(title, description)
 
+                    tech = extract_tech_stack(title + " " + description)
                     yield RawJob(
                         title=title,
                         company_name=company,
@@ -111,9 +112,9 @@ class JobicyScraper(BaseSource):
                         location=geo or "Remote",
                         description=description,
                         remote_type="remote",
-                        tech_stack=extract_tech_stack(title + " " + description),
+                        tech_stack=tech,
                         seniority=seniority,
-                        role=extract_role(title, description),
+                        role=extract_role(title, description, tech),
                     )
 
             logger.info(f"  Jobicy: {count} vagas tech aceites")

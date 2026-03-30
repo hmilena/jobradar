@@ -85,6 +85,12 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
     ("Design", ["ux designer", "ui designer", "ui/ux", "ux/ui", "product designer", "ux researcher", "web designer"]),
 ]
 
+# Tech claramente de frontend (não usadas em backend)
+FRONTEND_ONLY_TECH = {"React", "Vue", "Angular"}
+
+# Tech claramente de backend (não usadas em frontend)
+BACKEND_ONLY_TECH = {"Python", "Java", "Go", "Rust", "C#", "PHP", "Ruby", "Scala", "Kotlin"}
+
 # ----------------------------------------------------------------
 # Remote type detection
 # ----------------------------------------------------------------
@@ -122,18 +128,36 @@ def extract_seniority(title: str, description: str = "") -> str:
     return "unknown"
 
 
-def extract_role(title: str, description: str = "") -> str:
-    """Infere a área/role a partir do título. Usa descrição só como fallback."""
+def extract_role(title: str, description: str = "", tech_stack: list[str] | None = None) -> str:
+    """
+    Infere a área/role a partir do título, tech stack e descrição.
+    Ordem de prioridade:
+      1. Match explícito no título
+      2. Tech stack misto (frontend + backend) → Fullstack
+      3. Fallback na descrição
+    """
     title_lower = title.lower()
+
+    # 1. Match no título
     for role, patterns in ROLE_PATTERNS:
         if any(p in title_lower for p in patterns):
             return role
-    # Fallback: descrição, mas só com padrões de título completo (evita falsos positivos)
+
+    # 2. Tech stack com tecnologias de ambos os lados → Fullstack
+    if tech_stack:
+        stack_set = set(tech_stack)
+        has_frontend = bool(stack_set & FRONTEND_ONLY_TECH)
+        has_backend = bool(stack_set & BACKEND_ONLY_TECH)
+        if has_frontend and has_backend:
+            return "Fullstack"
+
+    # 3. Fallback: descrição
     if description:
         desc_lower = description.lower()
         for role, patterns in ROLE_PATTERNS:
             if any(p in desc_lower for p in patterns):
                 return role
+
     return "unknown"
 
 
@@ -158,5 +182,5 @@ def enrich_raw_job(job: RawJob) -> RawJob:
     if not job.remote_type or job.remote_type == "unknown":
         job.remote_type = extract_remote_type(f"{job.title} {desc}")
     if not getattr(job, "role", None):
-        job.role = extract_role(job.title, desc)
+        job.role = extract_role(job.title, desc, job.tech_stack)
     return job
