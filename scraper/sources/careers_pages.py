@@ -57,6 +57,7 @@ SKIP_TITLE_KEYWORDS = [
     # C-suite / VP / Executivos — não são vagas de IC tech
     "vice president", "vp of", "vp,", "chief ", "ceo", "coo", "cfo", "cto,",
     "managing director", "executive director", "general manager",
+    "head of ", "head of,",
     # Vibe coding e AI hype não-técnico
     "vibe coding", "vibe code", "vibe coder",
     # Marketing / Social / Conteúdo
@@ -112,6 +113,12 @@ def is_tech_job(title: str) -> bool:
     """Verifica se o título da vaga é tech. Rejeita vagas não-tech (vendedor, logística, etc.)"""
     title_lower = title.lower()
     return any(kw in title_lower for kw in TECH_TITLE_KEYWORDS)
+
+
+def should_skip(title: str) -> bool:
+    """True se o título deve ser rejeitado (executivo, não-tech, etc.)."""
+    title_lower = title.lower()
+    return not is_tech_job(title) or any(kw in title_lower for kw in SKIP_TITLE_KEYWORDS)
 
 
 def is_job_link(href: str, text: str, careers_url: str = "") -> bool:
@@ -179,7 +186,7 @@ async def extract_jobs_from_page(
                 if not use_heuristics and (not text or len(text) < 5 or len(text) > 200):
                     continue
 
-                if not is_tech_job(text) or any(kw in text.lower() for kw in SKIP_TITLE_KEYWORDS):
+                if should_skip(text):
                     continue
 
                 seen_urls.add(href)
@@ -267,7 +274,7 @@ async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[Raw
         resp.raise_for_status()
         jobs = []
         for job in resp.json().get("jobs", []):
-            if not is_tech_job(job["title"]):
+            if should_skip(job["title"]):
                 continue
             location = job.get("location", {}).get("name", "") or ""
             if location_filter and not any(
@@ -299,7 +306,7 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
         resp.raise_for_status()
         jobs = []
         for job in resp.json().get("jobs", []):
-            if not is_tech_job(job["title"]):
+            if should_skip(job["title"]):
                 continue
             jobs.append(RawJob(
                 title=job["title"],
@@ -327,7 +334,7 @@ async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
         resp.raise_for_status()
         jobs = []
         for job in resp.json():
-            if not is_tech_job(job["text"]):
+            if should_skip(job["text"]):
                 continue
             location = job.get("categories", {}).get("location", company.get("city")) or ""
             if location_filter and not any(
