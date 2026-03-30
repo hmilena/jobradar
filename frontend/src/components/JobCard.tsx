@@ -72,10 +72,10 @@ export default function JobCard({ job }: Props) {
       <div className="absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-brand-200 opacity-0 transition-opacity group-hover:opacity-100" />
 
       <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-1 items-center gap-4">
           <CompanyAvatar name={job.company.name} />
 
-          <div className="flex flex-col min-w-0">
+          <div className="flex min-w-0">
             <span className="text-base font-semibold text-brand-600">
               {job.company.name ?? "—"}
             </span>
@@ -105,91 +105,93 @@ export default function JobCard({ job }: Props) {
         </a>
       </div>
 
-      {/* Title */}
-      <h2 className="text-xl font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand-700">
-        {job.title}
-      </h2>
+      <div className="mt-4">
+        {/* Title */}
+        <h2 className="text-xl font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand-700">
+          {job.title}
+        </h2>
 
-      {/* Structured meta */}
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {(job.location ?? job.company.city) && (
+        {/* Structured meta */}
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {(job.location ?? job.company.city) && (
+            <div className="min-w-0">
+              <FieldLabel>Localização</FieldLabel>
+              <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-700">
+                <MapPin className="h-4 w-4 shrink-0 text-slate-400" />
+                <span className="truncate">
+                  {job.location ?? job.company.city}
+                </span>
+              </div>
+            </div>
+          )}
+
           <div className="min-w-0">
-            <FieldLabel>Localização</FieldLabel>
+            <FieldLabel>Publicado</FieldLabel>
             <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-700">
-              <MapPin className="h-4 w-4 shrink-0 text-slate-400" />
-              <span className="truncate">
-                {job.location ?? job.company.city}
+              <Clock className="h-4 w-4 shrink-0 text-slate-400" />
+              <span>{formatISOToPTDate(job.first_seen_at)}</span>
+            </div>
+          </div>
+
+          <div className="min-w-0">
+            <FieldLabel>Modalidade</FieldLabel>
+            <div className="mt-1">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${REMOTE_COLORS[remote]}`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[remote]}`}
+                />
+                {REMOTE_LABELS[remote]}
               </span>
             </div>
           </div>
-        )}
 
-        <div className="min-w-0">
-          <FieldLabel>Publicado</FieldLabel>
-          <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-700">
-            <Clock className="h-4 w-4 shrink-0 text-slate-400" />
-            <span>{formatISOToPTDate(job.first_seen_at)}</span>
+          <div className="min-w-0">
+            <FieldLabel>Nível</FieldLabel>
+            <div className="mt-1">
+              {seniority !== "unknown" ? (
+                <span className="inline-flex items-center rounded-full border border-purple-100 bg-purple-50 px-2.5 py-1 text-xs font-medium text-purple-700">
+                  {SENIORITY_LABELS[seniority]}
+                </span>
+              ) : (
+                <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500">
+                  Não informado
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="min-w-0">
-          <FieldLabel>Modalidade</FieldLabel>
-          <div className="mt-1">
-            <span
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${REMOTE_COLORS[remote]}`}
-            >
-              <span
-                className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[remote]}`}
-              />
-              {REMOTE_LABELS[remote]}
-            </span>
-          </div>
-        </div>
+        {/* Tech stack */}
+        <div className="mt-4">
+          <FieldLabel>Tecnologias</FieldLabel>
 
-        <div className="min-w-0">
-          <FieldLabel>Nível</FieldLabel>
-          <div className="mt-1">
-            {seniority !== "unknown" ? (
-              <span className="inline-flex items-center rounded-full border border-purple-100 bg-purple-50 px-2.5 py-1 text-xs font-medium text-purple-700">
-                {SENIORITY_LABELS[seniority]}
-              </span>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {job.tech_stack.length > 0 ? (
+              <>
+                {job.tech_stack.slice(0, 5).map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[12px] font-medium text-slate-700"
+                  >
+                    <BriefcaseBusiness className="mr-1.5 h-3 w-3 text-slate-400" />
+                    <span className="font-mono">{tech}</span>
+                  </span>
+                ))}
+
+                {job.tech_stack.length > 5 && (
+                  <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 text-[12px] font-medium text-slate-500">
+                    +{job.tech_stack.length - 5} tecnologias
+                  </span>
+                )}
+              </>
             ) : (
               <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500">
                 Não informado
               </span>
             )}
           </div>
-        </div>
-      </div>
-
-      {/* Tech stack */}
-      <div className="mt-4">
-        <FieldLabel>Tecnologias</FieldLabel>
-
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {job.tech_stack.length > 0 ? (
-            <>
-              {job.tech_stack.slice(0, 5).map((tech) => (
-                <span
-                  key={tech}
-                  className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[12px] font-medium text-slate-700"
-                >
-                  <BriefcaseBusiness className="mr-1.5 h-3 w-3 text-slate-400" />
-                  <span className="font-mono">{tech}</span>
-                </span>
-              ))}
-
-              {job.tech_stack.length > 5 && (
-                <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 text-[12px] font-medium text-slate-500">
-                  +{job.tech_stack.length - 5} tecnologias
-                </span>
-              )}
-            </>
-          ) : (
-            <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-500">
-              Não informado
-            </span>
-          )}
         </div>
       </div>
     </article>
