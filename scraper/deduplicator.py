@@ -143,13 +143,17 @@ def extract_role(title: str, description: str = "", tech_stack: list[str] | None
         if any(p in title_lower for p in patterns):
             return role
 
-    # 2. Tech stack com tecnologias de ambos os lados → Fullstack
+    # 2. Inferir pelo tech stack quando o título não é explícito
     if tech_stack:
         stack_set = set(tech_stack)
         has_frontend = bool(stack_set & FRONTEND_ONLY_TECH)
         has_backend = bool(stack_set & BACKEND_ONLY_TECH)
         if has_frontend and has_backend:
             return "Fullstack"
+        if has_backend and not has_frontend:
+            return "Backend"
+        if has_frontend and not has_backend:
+            return "Frontend"
 
     # 3. Fallback: descrição
     if description:
