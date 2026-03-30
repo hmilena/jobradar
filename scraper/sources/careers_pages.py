@@ -71,6 +71,9 @@ SKIP_TITLE_KEYWORDS = [
     # Vendas adicionais
     "sales lead", "sales associate", "sales representative",
     "embedded sales", "revenue operations", "partnerships manager",
+    # Formulários / candidaturas espontâneas (não são vagas reais)
+    "candidatura espontânea", "candidatura espontanea", "spontaneous application",
+    "open application", "talento", "talent pool", "join our talent",
     # Saúde / Medicina (Sonae, retalho, etc.)
     "veterinary", "veterinário", "veterinaria",
     "médico", "medico", "doctor", "physician", "nurse", "enfermeiro", "enfermeira",
@@ -297,6 +300,7 @@ async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[Raw
 async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     """Usa a API pública do Ashby para obter todas as vagas."""
     board = company["ashby_board"]
+    location_filter = company.get("ashby_location_filter", "")
     try:
         resp = await client.post(
             "https://api.ashbyhq.com/posting-api/job-board",
@@ -308,12 +312,17 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
         for job in resp.json().get("jobs", []):
             if should_skip(job["title"]):
                 continue
+            location = job.get("location") or company.get("city") or ""
+            if location_filter and not any(
+                kw.lower() in location.lower() for kw in location_filter.split("|")
+            ):
+                continue
             jobs.append(RawJob(
                 title=job["title"],
                 company_name=company["name"],
                 url=job["jobUrl"],
                 source="careers_page",
-                location=job.get("location", company.get("city")),
+                location=location or company.get("city"),
             ))
         return jobs
     except Exception as e:

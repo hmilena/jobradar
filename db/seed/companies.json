@@ -189,7 +189,8 @@
     "greenhouse_board": "feedzai",
     "category": "software",
     "city": "Coimbra",
-    "job_selector": "a[href*='gh_jid']"
+    "job_selector": "a[href*='gh_jid']",
+    "greenhouse_location_filter": "porto|lisboa|lisbon|portugal|remote"
   },
   {
     "name": "Talkdesk",
@@ -609,7 +610,8 @@
     "ashby_board": "moxie",
     "category": "software",
     "city": "Lisboa",
-    "job_selector": "a[href*='ashbyhq.com/moxie']"
+    "job_selector": "a[href*='ashbyhq.com/moxie']",
+    "ashby_location_filter": "lisboa|lisbon|porto|portugal|remote"
   },
   {
     "name": "Viator (TripAdvisor)",
