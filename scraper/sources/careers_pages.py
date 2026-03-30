@@ -68,6 +68,9 @@ SKIP_TITLE_KEYWORDS = [
     "benefits manager", "people partner", "people operations",
     "grc consultant", "grc analyst", "risk consultant",
     "office coordinator", "executive assistant", "chief of staff",
+    # Produto / Gestão não-técnica
+    "product manager", "product owner", "program manager", "project manager",
+    "scrum master", "agile coach", "delivery manager",
     # Vendas adicionais
     "sales lead", "sales associate", "sales representative",
     "embedded sales", "revenue operations", "partnerships manager",
@@ -103,9 +106,8 @@ TECH_TITLE_KEYWORDS = [
     "python", "java", "javascript", "typescript", "react", "angular", "vue",
     "node", "django", "spring", "kubernetes", "docker", "terraform",
     "sql", "database", "aws", "azure", "gcp",
-    # Gestão tech
-    "tech lead", "engineering manager", "cto", "cpo", "product manager",
-    "product owner", "scrum master", "agile",
+    # Gestão técnica (só liderança de engenharia, sem PM/PO)
+    "tech lead", "engineering manager",
     # PT
     "tecnologia", "sistemas", "informática", "ti ", " ti,", "digital",
     "suporte técnico", "redes", "infraestrutura",
