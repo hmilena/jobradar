@@ -58,8 +58,10 @@ export interface Filters {
 }
 
 export interface Stats {
-  total_jobs: number;
-  total_companies: number;
+  jobs_portugal: number;
+  jobs_remote: number;
+  companies_portugal: number;
+  companies_remote: number;
   last_update: string;
 }
 

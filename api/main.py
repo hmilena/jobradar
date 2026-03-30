@@ -71,17 +71,31 @@ def stats():
     conn = pool.getconn()
     try:
         cur = conn.cursor()
-        cur.execute("SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE")
-        total_jobs = cur.fetchone()[0]
-        cur.execute("SELECT COUNT(*) FROM companies WHERE is_active = TRUE")
-        total_companies = cur.fetchone()[0]
+        cur.execute(
+            "SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source = 'careers_page'"
+        )
+        jobs_portugal = cur.fetchone()[0]
+        cur.execute(
+            "SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source IN ('remoteok', 'jobicy', 'olamundo')"
+        )
+        jobs_remote = cur.fetchone()[0]
+        cur.execute(
+            "SELECT COUNT(DISTINCT company_id) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source = 'careers_page'"
+        )
+        companies_portugal = cur.fetchone()[0]
+        cur.execute(
+            "SELECT COUNT(DISTINCT company_id) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source IN ('remoteok', 'jobicy', 'olamundo')"
+        )
+        companies_remote = cur.fetchone()[0]
         cur.execute(
             "SELECT MAX(first_seen_at) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE"
         )
         last_update = cur.fetchone()[0]
         return {
-            "total_jobs": total_jobs,
-            "total_companies": total_companies,
+            "jobs_portugal": jobs_portugal,
+            "jobs_remote": jobs_remote,
+            "companies_portugal": companies_portugal,
+            "companies_remote": companies_remote,
             "last_update": last_update,
         }
     finally:
