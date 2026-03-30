@@ -335,7 +335,7 @@
     "careers_url": "https://recrutamento.sonae.pt/",
     "category": "retalho",
     "city": "Porto",
-    "job_selector": "a[href*='job'], a[href*='career']"
+    "job_selector": "a[href*='/job/']"
   },
   {
     "name": "Jerónimo Martins",

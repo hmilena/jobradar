@@ -70,6 +70,17 @@ SKIP_TITLE_KEYWORDS = [
     # Vendas adicionais
     "sales lead", "sales associate", "sales representative",
     "embedded sales", "revenue operations", "partnerships manager",
+    # Saúde / Medicina (Sonae, retalho, etc.)
+    "veterinary", "veterinário", "veterinaria",
+    "médico", "medico", "doctor", "physician", "nurse", "enfermeiro", "enfermeira",
+    "farmacêutico", "farmaceutico", "pharmacist", "farmácia", "farmacia",
+    "dentist", "dentista", "nutricionista", "nutritionist",
+    "fisioterapeuta", "physiotherapist", "psicólogo", "psicologo",
+    # Retalho / Operações de loja
+    "diretor de loja", "gerente de loja", "chefe de loja", "store director",
+    "assistente de loja", "shop assistant", "operador de loja",
+    "repositor", "caixa ", "operador de caixa",
+    "talho", "padaria", "peixaria", "açougue",
 ]
 
 # Palavras-chave que indicam uma vaga tech
