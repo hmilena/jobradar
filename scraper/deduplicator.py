@@ -59,23 +59,30 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
     ("QA", ["qa ", "quality assurance", "tester", "test engineer", "quality engineer", "qa engineer", "automation engineer", "qa analyst", "software tester", "testing engineer"]),
     ("Frontend", [
         "frontend", "front-end", "front end",
-        "web developer", "web engineer", "web programmer",
-        "programador web", "programador ui", "programador ux",
-        "programador ux/ui", "programador front",
         "ui developer", "ui engineer", "ui/ux developer", "ui/ux engineer",
         "ux/ui developer", "ux/ui engineer",
-        "javascript developer", "javascript engineer",
         "react developer", "react engineer",
-        "vue developer", "angular developer",
-        "html", "css developer",
+        "vue developer", "vue engineer",
+        "angular developer", "angular engineer",
+        "css developer", "css engineer",
     ]),
-    ("Backend", ["backend", "back-end", "back end", "server-side"]),
+    ("Backend", [
+        "backend", "back-end", "back end", "server-side",
+        "backend developer", "backend engineer",
+        "api developer", "api engineer",
+        "python developer", "python engineer",
+        "java developer", "java engineer",
+        "ruby developer", "ruby engineer",
+        "go developer", "golang developer",
+        "php developer", "php engineer",
+        "node developer", "node.js developer",
+    ]),
     ("Fullstack", ["fullstack", "full-stack", "full stack"]),
-    ("DevOps", ["devops", "dev ops", "sre", "site reliability", "platform engineer", "infrastructure engineer", "cloud engineer"]),
+    ("DevOps", ["devops", "dev ops", "sre", "site reliability", "platform engineer", "infrastructure engineer", "cloud engineer", "cloud architect"]),
     ("Data", ["data engineer", "data scientist", "data analyst", "analytics engineer", "ml engineer", "machine learning engineer", "ai engineer"]),
-    ("Mobile", ["mobile", "android developer", "ios developer", "react native"]),
+    ("Mobile", ["mobile developer", "mobile engineer", "android developer", "ios developer", "react native developer", "flutter developer"]),
     ("Security", ["security engineer", "security analyst", "appsec", "cybersecurity", "pen tester", "penetration tester"]),
-    ("Design", ["ux designer", "ui designer", "ui/ux", "ux/ui", "product designer", "ux researcher", "web designer", "graphic designer"]),
+    ("Design", ["ux designer", "ui designer", "ui/ux", "ux/ui", "product designer", "ux researcher", "web designer"]),
 ]
 
 # ----------------------------------------------------------------
@@ -116,11 +123,17 @@ def extract_seniority(title: str, description: str = "") -> str:
 
 
 def extract_role(title: str, description: str = "") -> str:
-    """Infere a área/role a partir do título e descrição."""
-    combined = f"{title} {description}".lower()
+    """Infere a área/role a partir do título. Usa descrição só como fallback."""
+    title_lower = title.lower()
     for role, patterns in ROLE_PATTERNS:
-        if any(p in combined for p in patterns):
+        if any(p in title_lower for p in patterns):
             return role
+    # Fallback: descrição, mas só com padrões de título completo (evita falsos positivos)
+    if description:
+        desc_lower = description.lower()
+        for role, patterns in ROLE_PATTERNS:
+            if any(p in desc_lower for p in patterns):
+                return role
     return "unknown"
 
 

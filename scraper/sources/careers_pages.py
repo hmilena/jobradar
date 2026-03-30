@@ -54,6 +54,19 @@ SKIP_TITLE_KEYWORDS = [
     "level designer", "game designer", "graphic designer", "motion designer",
     "visual designer", "brand designer", "illustrator",
     "discover all", "career opportunities", "view all",
+    # Vibe coding e AI hype não-técnico
+    "vibe coding", "vibe code", "vibe coder",
+    # Marketing / Social / Conteúdo
+    "social media", "content creator", "content manager", "content strategist",
+    "copywriter", "seo specialist", "growth marketer", "email marketer",
+    "community manager", "influencer",
+    # RH / Operações adicionais
+    "benefits manager", "people partner", "people operations",
+    "grc consultant", "grc analyst", "risk consultant",
+    "office coordinator", "executive assistant", "chief of staff",
+    # Vendas adicionais
+    "sales lead", "sales associate", "sales representative",
+    "embedded sales", "revenue operations", "partnerships manager",
 ]
 
 # Palavras-chave que indicam uma vaga tech

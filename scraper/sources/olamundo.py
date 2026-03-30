@@ -11,6 +11,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 from .base import BaseSource, RawJob
+from .careers_pages import SKIP_TITLE_KEYWORDS, is_tech_job
 from ..deduplicator import extract_tech_stack, extract_seniority, extract_role
 
 logger = logging.getLogger(__name__)
@@ -125,6 +126,10 @@ class OlaMundoScraper(BaseSource):
             location = location_obj.get("name", "Remote") if isinstance(location_obj, dict) else "Remote"
 
             if not title or not job_url or not company:
+                continue
+            if not is_tech_job(title):
+                continue
+            if any(kw in title.lower() for kw in SKIP_TITLE_KEYWORDS):
                 continue
 
             text = f"{title} {description}"

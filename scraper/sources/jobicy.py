@@ -8,7 +8,7 @@ from typing import AsyncIterator
 import httpx
 
 from .base import BaseSource, RawJob
-from .careers_pages import SKIP_TITLE_KEYWORDS
+from .careers_pages import SKIP_TITLE_KEYWORDS, is_tech_job
 from ..deduplicator import extract_tech_stack, extract_seniority, extract_role
 
 logger = logging.getLogger(__name__)
@@ -88,6 +88,8 @@ class JobicyScraper(BaseSource):
                     if not title or not company or not url:
                         continue
                     if url in seen_urls:
+                        continue
+                    if not is_tech_job(title):
                         continue
                     if any(kw in title.lower() for kw in SKIP_TITLE_KEYWORDS):
                         continue
