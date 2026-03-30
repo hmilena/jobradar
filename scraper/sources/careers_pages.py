@@ -54,6 +54,9 @@ SKIP_TITLE_KEYWORDS = [
     "level designer", "game designer", "graphic designer", "motion designer",
     "visual designer", "brand designer", "illustrator",
     "discover all", "career opportunities", "view all",
+    # C-suite / VP / Executivos — não são vagas de IC tech
+    "vice president", "vp of", "vp,", "chief ", "ceo", "coo", "cfo", "cto,",
+    "managing director", "executive director", "general manager",
     # Vibe coding e AI hype não-técnico
     "vibe coding", "vibe code", "vibe coder",
     # Marketing / Social / Conteúdo
