@@ -30,6 +30,7 @@ from .deduplicator import compute_hash, enrich_raw_job
 from .sources.base import RawJob
 from .sources.careers_pages import CareersPageScraper
 from .sources.jobicy import JobicyScraper
+from .sources.olamundo import OlaMundoScraper
 from .sources.remoteok import RemoteOKScraper
 
 logging.basicConfig(
@@ -218,6 +219,14 @@ async def collect_jobs(source: str) -> list[RawJob]:
             jobs.append(job)
         logger.info(f"  → {len(jobs) - before} vagas do Jobicy")
 
+    if source in ("all", "olamundo"):
+        logger.info("🌍 Iniciando coleta do Olá Mundo...")
+        before = len(jobs)
+        scraper = OlaMundoScraper()
+        async for job in scraper.fetch():
+            jobs.append(job)
+        logger.info(f"  → {len(jobs) - before} vagas do Olá Mundo")
+
     return jobs
 
 
@@ -264,7 +273,7 @@ async def main(source: str = "all", dry_run: bool = False):
             # Classificação — só necessária para ITJobs (fonte mista).
             # Careers pages são empresas curadas (nunca consultorias).
             # RemoteOK e WeWorkRemotely já são filtrados por tech.
-            if job.source in ("careers_page", "remoteok", "weworkremotely"):
+            if job.source in ("careers_page", "remoteok", "weworkremotely", "jobicy"):
                 classifier_result = ClassifierResult(
                     is_consulting=False,
                     confidence=0.99,
@@ -279,7 +288,7 @@ async def main(source: str = "all", dry_run: bool = False):
                 )
 
             # Busca company_id no banco (cria automaticamente para vagas remote)
-            if job.source in ("remoteok", "jobicy"):
+            if job.source in ("remoteok", "jobicy", "olamundo"):
                 company_id = get_or_create_remote_company(cur, job.company_name)
             else:
                 company_id = get_company_id(cur, job.company_name)
@@ -352,7 +361,7 @@ async def main(source: str = "all", dry_run: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="JobRadar Scraper")
-    parser.add_argument("--source", choices=["all", "careers", "remoteok", "jobicy"], default="all")
+    parser.add_argument("--source", choices=["all", "careers", "remoteok", "jobicy", "olamundo"], default="all")
     parser.add_argument("--dry-run", action="store_true", help="Não persiste no banco")
     args = parser.parse_args()
 
