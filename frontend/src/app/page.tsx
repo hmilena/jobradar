@@ -69,10 +69,6 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* Hero */}
       <div className="bg-gradient-to-b from-brand-50 to-slate-50 border-b border-slate-200/60">
         <div className="mx-auto max-w-6xl px-4 py-10">
-          <div className="mb-1 inline-flex items-center gap-2 rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold text-brand-700">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse" />
-            Atualizado a cada 6 horas
-          </div>
           <h1 className="mt-3 text-4xl font-extrabold text-slate-900 tracking-tight">
             Vagas tech em Portugal
           </h1>
@@ -140,7 +136,11 @@ export default async function HomePage({ searchParams }: PageProps) {
 
         {/* Pagination */}
         <Suspense>
-          <Pagination total={jobsData.total} page={page} limit={JOBS_PAGE_SIZE} />
+          <Pagination
+            total={jobsData.total}
+            page={page}
+            limit={JOBS_PAGE_SIZE}
+          />
         </Suspense>
       </main>
 
