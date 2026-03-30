@@ -39,13 +39,14 @@ def build_jobs_query(
     params = []
 
     if source == "remote":
-        conditions.append("j.source IN ('remoteok', 'weworkremotely')")
+        # Página Remote: empresas estrangeiras que contratam remotamente em Portugal/UE
+        conditions.append("j.source IN ('remoteok', 'jobicy', 'olamundo')")
     elif source:
         conditions.append("j.source = %s")
         params.append(source)
     else:
-        # Homepage: só vagas de Portugal (exclui fontes globais de remote)
-        conditions.append("j.source NOT IN ('remoteok', 'weworkremotely')")
+        # Homepage: só empresas portuguesas curadas (careers pages)
+        conditions.append("j.source = 'careers_page'")
     if remote_type:
         conditions.append("j.remote_type = %s")
         params.append(remote_type)
