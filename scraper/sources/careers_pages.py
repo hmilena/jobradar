@@ -58,6 +58,8 @@ SKIP_TITLE_KEYWORDS = [
     "vice president", "vp of", "vp,", "chief ", "ceo", "coo", "cfo", "cto,",
     "managing director", "executive director", "general manager",
     "head of ", "head of,",
+    "engineering director", "director of engineering", "director of product",
+    "director, ", "financial crimes",
     # Vibe coding e AI hype não-técnico
     "vibe coding", "vibe code", "vibe coder",
     # Marketing / Social / Conteúdo
@@ -77,6 +79,13 @@ SKIP_TITLE_KEYWORDS = [
     # Formulários / candidaturas espontâneas (não são vagas reais)
     "candidatura espontânea", "candidatura espontanea", "spontaneous application",
     "open application", "talento", "talent pool", "join our talent",
+    # Anotação / treino de IA (freelance, não engenharia)
+    "ai trainer", "ai training", "data annotator", "data annotation",
+    "freelance ai", "physics expert", "math expert", "language expert",
+    # Business / Análise não-técnica
+    "business analyst", "salesforce administrator", "salesforce admin",
+    # Conteúdo / Social (adicionais)
+    "content creator", "social media",
     # Saúde / Medicina (Sonae, retalho, etc.)
     "veterinary", "veterinário", "veterinaria",
     "médico", "medico", "doctor", "physician", "nurse", "enfermeiro", "enfermeira",
