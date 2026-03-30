@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
+import StatsBar from "@/components/StatsBar";
 import { Footer } from "@/components/Footer";
 
 interface PageProps {
@@ -18,7 +19,7 @@ interface PageProps {
 export default async function RemotePage({ searchParams }: PageProps) {
   const page = Number(searchParams.page ?? 1);
 
-  const [jobsData, filters] = await Promise.all([
+  const [jobsData, filters, stats] = await Promise.all([
     api.getJobs({
       ...searchParams,
       source: "remote",
@@ -27,6 +28,7 @@ export default async function RemotePage({ searchParams }: PageProps) {
       limit: 20,
     }),
     api.getFilters(),
+    api.getStats(),
   ]);
 
   return (
@@ -58,8 +60,8 @@ export default async function RemotePage({ searchParams }: PageProps) {
             </span>
           </div>
 
-          <div className="mt-4 text-sm text-slate-500">
-            <strong className="text-slate-700">{jobsData.total.toLocaleString()}</strong> vagas remotas disponíveis
+          <div className="mt-5">
+            <StatsBar stats={stats} remoteOnly />
           </div>
         </div>
       </div>

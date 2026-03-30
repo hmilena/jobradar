@@ -2,22 +2,32 @@ import { Building2, Briefcase, Globe, RefreshCw } from "lucide-react";
 import type { Stats } from "@/lib/api";
 import { formatISOToPTDate } from "@/lib/utils";
 
-export default function StatsBar({ stats }: { stats: Stats }) {
+export default function StatsBar({
+  stats,
+  remoteOnly = false,
+}: {
+  stats: Stats;
+  remoteOnly?: boolean;
+}) {
   return (
     <div className="flex flex-wrap items-center gap-6">
-      <div className="flex items-center gap-2">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
-          <Briefcase className="h-4 w-4" />
-        </span>
-        <div>
-          <p className="text-lg font-bold text-slate-900 leading-none">
-            {stats.jobs_portugal.toLocaleString()}
-          </p>
-          <p className="text-xs text-slate-400 mt-0.5">vagas em Portugal</p>
-        </div>
-      </div>
+      {!remoteOnly && (
+        <>
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+              <Briefcase className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-lg font-bold text-slate-900 leading-none">
+                {stats.jobs_portugal.toLocaleString()}
+              </p>
+              <p className="text-xs text-slate-400 mt-0.5">vagas em Portugal</p>
+            </div>
+          </div>
 
-      <div className="h-8 w-px bg-slate-200" />
+          <div className="h-8 w-px bg-slate-200" />
+        </>
+      )}
 
       <div className="flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
@@ -33,19 +43,23 @@ export default function StatsBar({ stats }: { stats: Stats }) {
 
       <div className="h-8 w-px bg-slate-200" />
 
-      <div className="flex items-center gap-2">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
-          <Building2 className="h-4 w-4" />
-        </span>
-        <div>
-          <p className="text-lg font-bold text-slate-900 leading-none">
-            {stats.companies_portugal.toLocaleString()}
-          </p>
-          <p className="text-xs text-slate-400 mt-0.5">empresas portuguesas</p>
-        </div>
-      </div>
+      {!remoteOnly && (
+        <>
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+              <Building2 className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-lg font-bold text-slate-900 leading-none">
+                {stats.companies_portugal.toLocaleString()}
+              </p>
+              <p className="text-xs text-slate-400 mt-0.5">empresas portuguesas</p>
+            </div>
+          </div>
 
-      <div className="h-8 w-px bg-slate-200" />
+          <div className="h-8 w-px bg-slate-200" />
+        </>
+      )}
 
       <div className="flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
