@@ -39,7 +39,7 @@
     "name": "BNP Paribas Portugal",
     "slug": "bnp-paribas-portugal",
     "domain": "https://www.bnpparibas.pt",
-    "careers_url": "https://careers.bnpparibas.com/searches?country=Portugal",
+    "careers_url": "https://www.bnpparibas.pt/en/jobs/",
     "category": "banco",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='offer']"
@@ -113,7 +113,7 @@
     "name": "MEO / Altice Portugal",
     "slug": "meo-altice",
     "domain": "https://www.meo.pt",
-    "careers_url": "https://www.altice.pt/pessoas-e-cultura/oportunidades",
+    "careers_url": "https://www.telecom.pt/pt-pt/carreiras",
     "category": "telco",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='opportunit']"
@@ -176,7 +176,7 @@
     "name": "Farfetch",
     "slug": "farfetch",
     "domain": "https://www.farfetch.com",
-    "careers_url": "https://www.farfetchcareers.com/",
+    "careers_url": "https://farfetchgroupcareers.com/jobs",
     "category": "ecommerce",
     "city": "Porto",
     "job_selector": "a[href*='job'], a[href*='career']"
@@ -296,7 +296,7 @@
     "name": "EDP",
     "slug": "edp",
     "domain": "https://www.edp.com",
-    "careers_url": "https://careers.edp.com/",
+    "careers_url": "https://jobs.edp.com/",
     "category": "energia",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='career'], a[href*='offer']"
@@ -332,7 +332,7 @@
     "name": "Sonae (Continente)",
     "slug": "sonae",
     "domain": "https://www.sonae.pt",
-    "careers_url": "https://careers.sonae.pt/",
+    "careers_url": "https://recrutamento.sonae.pt/",
     "category": "retalho",
     "city": "Porto",
     "job_selector": "a[href*='job'], a[href*='career']"
@@ -488,7 +488,7 @@
     "name": "LastPass",
     "slug": "lastpass",
     "domain": "https://www.lastpass.com",
-    "careers_url": "https://www.lastpass.com/pt/company/careers",
+    "careers_url": "https://job-boards.greenhouse.io/lastpass",
     "category": "ciberseguranca",
     "city": null,
     "job_selector": "a[href*='job'], a[href*='career']"
@@ -512,15 +512,6 @@
     "job_selector": "a[href*='careers.google.com/jobs']"
   },
   {
-    "name": "Microsoft Portugal",
-    "slug": "microsoft-portugal",
-    "domain": "https://www.microsoft.com/pt-pt",
-    "careers_url": "https://careers.microsoft.com/us/en/search-results?qstate=Lisbon&qcountry=Portugal",
-    "category": "software",
-    "city": "Lisboa",
-    "job_selector": "a[href*='careers.microsoft.com'], a[href*='jobs.careers.microsoft.com']"
-  },
-  {
     "name": "JYSK Portugal",
     "slug": "jysk-portugal",
     "domain": "https://www.jysk.pt",
@@ -542,7 +533,7 @@
     "name": "FNAC Portugal",
     "slug": "fnac-portugal",
     "domain": "https://www.fnac.pt",
-    "careers_url": "https://recrutamento.fnac.pt/go/Todas-as-oportunidades/8935955/",
+    "careers_url": "https://recrutamento-mediamarkt.fnac.pt/go/Todas-as-oportunidades/8935955/",
     "category": "retalho",
     "city": "Lisboa",
     "job_selector": "a[href*='recrutamento.fnac.pt'], a[href*='job'], a[href*='oportunidade']"

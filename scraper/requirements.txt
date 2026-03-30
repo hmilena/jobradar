@@ -17,3 +17,4 @@ anthropic==0.34.2
 # Utilities
 python-dotenv==1.0.1
 pydantic==2.8.2
+beautifulsoup4==4.12.3

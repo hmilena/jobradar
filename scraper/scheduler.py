@@ -29,9 +29,8 @@ from .classifier import ClassifierResult, classify_job
 from .deduplicator import compute_hash, enrich_raw_job
 from .sources.base import RawJob
 from .sources.careers_pages import CareersPageScraper
-from .sources.itjobs import ITJobsScraper
+from .sources.jobicy import JobicyScraper
 from .sources.remoteok import RemoteOKScraper
-from .sources.weworkremotely import WeWorkRemotelyScraper
 
 logging.basicConfig(
     level=logging.INFO,
@@ -203,14 +202,6 @@ async def collect_jobs(source: str) -> list[RawJob]:
             jobs.append(job)
         logger.info(f"  → {len(jobs)} vagas das careers pages")
 
-    if source in ("all", "itjobs"):
-        logger.info("📡 Iniciando coleta do ITJobs...")
-        before = len(jobs)
-        scraper = ITJobsScraper(max_pages=5)
-        async for job in scraper.fetch():
-            jobs.append(job)
-        logger.info(f"  → {len(jobs) - before} vagas do ITJobs")
-
     if source in ("all", "remoteok"):
         logger.info("🌍 Iniciando coleta do RemoteOK...")
         before = len(jobs)
@@ -219,13 +210,13 @@ async def collect_jobs(source: str) -> list[RawJob]:
             jobs.append(job)
         logger.info(f"  → {len(jobs) - before} vagas do RemoteOK")
 
-    if source in ("all", "weworkremotely"):
-        logger.info("💼 Iniciando coleta do WeWorkRemotely...")
+    if source in ("all", "jobicy"):
+        logger.info("💼 Iniciando coleta do Jobicy...")
         before = len(jobs)
-        scraper = WeWorkRemotelyScraper()
+        scraper = JobicyScraper()
         async for job in scraper.fetch():
             jobs.append(job)
-        logger.info(f"  → {len(jobs) - before} vagas do WeWorkRemotely")
+        logger.info(f"  → {len(jobs) - before} vagas do Jobicy")
 
     return jobs
 
@@ -361,7 +352,7 @@ async def main(source: str = "all", dry_run: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="JobRadar Scraper")
-    parser.add_argument("--source", choices=["all", "careers", "itjobs", "remoteok", "weworkremotely"], default="all")
+    parser.add_argument("--source", choices=["all", "careers", "remoteok", "jobicy"], default="all")
     parser.add_argument("--dry-run", action="store_true", help="Não persiste no banco")
     args = parser.parse_args()
 
