@@ -75,10 +75,6 @@ export default async function HomePage({ searchParams }: PageProps) {
           <p className="mt-2 text-slate-500">
             Só empresas que contratam diretamente —{" "}
             <span className="text-slate-700 font-medium">
-              zero consultorias
-            </span>
-            ,{" "}
-            <span className="text-slate-700 font-medium">
               zero intermediários
             </span>
             .

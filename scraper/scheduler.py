@@ -33,6 +33,27 @@ from .sources.jobicy import JobicyScraper
 from .sources.olamundo import OlaMundoScraper
 from .sources.remoteok import RemoteOKScraper
 
+# Empresas bloqueadas: consultorias, staffing, marketplaces de freelancers ou non-tech.
+# Qualquer vaga destas empresas é ignorada mesmo que apareça nas fontes remotas.
+COMPANY_BLOCKLIST: set[str] = {
+    # Consultorias / IT Services / Agências
+    "3Pillar", "Accenture Federal Services", "Argano", "Atmosera", "Atos", "Automat-it",
+    "BPM LLP", "Bold Business", "Brandtech+", "C4Media", "CI&T", "CROZ DACH", "Callibrity",
+    "Constructive", "Cortes 23", "DoiT International", "FONCÉ Agency", "Fluxon", "HugeInc",
+    "Ibility", "Ingemark", "Lucyd Media", "Marketerx", "Mercier Consultancy Group", "Mind Source",
+    "Miratech", "Mobena", "Nagarro", "Nebulab", "New Iron", "Obungi", "Precision Medicine Group",
+    "RWS Group", "Rare Days", "Sanctuary Computer", "TechMagic", "Tempesta Technologies",
+    "Tribe AI", "WALTER", "XXIX", "Yoko Co", "abstraction", "Uncanny Owl",
+    # Staffing / Talent Marketplaces / Recrutamento
+    "A.Team", "CloudDevs", "Coders Brain Technology", "High Tech Genesis", "Hyphen Connect Limited",
+    "Intro.io", "Lemon.io", "Mindrift", "Office Hours", "Proxify", "Remote VA",
+    "Skillcloud HCM", "Storetasker", "Turing", "Uptalent.io", "Zigsaw", "micro1",
+    # Non-tech
+    "10Beauty", "ALX Africa", "DeweyLearn Inc.", "ELECTE S.R.L", "ELECTE S.R.L.",
+    "Ivy Tech", "National Guitar Academy", "Remote Chess Academy", "Search Dates",
+    "UCAS", "Voyage Privé", "alexnerney.com",
+}
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -50,8 +71,11 @@ def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
 
 
-def get_or_create_remote_company(cur, company_name: str) -> str:
-    """Busca ou cria empresa para vagas remote (RemoteOK, etc.)."""
+def get_or_create_remote_company(cur, company_name: str) -> str | None:
+    """Busca ou cria empresa para vagas remote (RemoteOK, etc.).
+    Retorna None se a empresa estiver na blocklist."""
+    if company_name in COMPANY_BLOCKLIST:
+        return None
     cur.execute(
         "SELECT id FROM companies WHERE LOWER(name) = LOWER(%s) LIMIT 1",
         (company_name,),
