@@ -78,6 +78,22 @@ export default async function RemotePage({ searchParams }: PageProps) {
           </Suspense>
         </div>
 
+        {/* Results header */}
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-sm text-slate-500">
+            {jobsData.total === 0 ? (
+              "Nenhuma vaga encontrada"
+            ) : (
+              <>
+                <strong className="text-slate-900">
+                  {jobsData.total.toLocaleString()}
+                </strong>{" "}
+                {jobsData.total === 1 ? "vaga encontrada" : "vagas encontradas"}
+              </>
+            )}
+          </p>
+        </div>
+
         {jobsData.results.length === 0 ? (
           <div className="card flex flex-col items-center justify-center py-20 text-center">
             <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">

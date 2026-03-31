@@ -66,8 +66,10 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
         "angular developer", "angular engineer",
         "css developer", "css engineer",
     ]),
+    ("Fullstack", ["fullstack", "full-stack", "full stack"]),
     ("Backend", [
         "backend", "back-end", "back end", "server-side",
+        "software engineer", "software developer",
         "backend developer", "backend engineer",
         "api developer", "api engineer",
         "python developer", "python engineer",
@@ -77,7 +79,6 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
         "php developer", "php engineer",
         "node developer", "node.js developer",
     ]),
-    ("Fullstack", ["fullstack", "full-stack", "full stack"]),
     ("DevOps", ["devops", "dev ops", "sre", "site reliability", "platform engineer", "infrastructure engineer", "cloud engineer", "cloud architect"]),
     ("Data", ["data engineer", "data scientist", "data analyst", "analytics engineer", "ml engineer", "machine learning engineer", "ai engineer"]),
     ("Mobile", ["mobile developer", "mobile engineer", "android developer", "ios developer", "react native developer", "flutter developer"]),
