@@ -40,7 +40,7 @@ def build_jobs_query(
 
     if source == "remote":
         # Página Remote: empresas estrangeiras que contratam remotamente em Portugal/UE
-        conditions.append("j.source IN ('remoteok', 'jobicy', 'olamundo')")
+        conditions.append("j.source IN ('remoteok', 'jobicy', 'olamundo', 'direct_remote')")
     elif source:
         conditions.append("j.source = %s")
         params.append(source)

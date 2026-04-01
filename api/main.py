@@ -76,7 +76,7 @@ def stats():
         )
         jobs_portugal = cur.fetchone()[0]
         cur.execute(
-            "SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source IN ('remoteok', 'jobicy', 'olamundo')"
+            "SELECT COUNT(*) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source IN ('remoteok', 'jobicy', 'olamundo', 'direct_remote')"
         )
         jobs_remote = cur.fetchone()[0]
         cur.execute(
@@ -84,7 +84,7 @@ def stats():
         )
         companies_portugal = cur.fetchone()[0]
         cur.execute(
-            "SELECT COUNT(DISTINCT company_id) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source IN ('remoteok', 'jobicy', 'olamundo')"
+            "SELECT COUNT(DISTINCT company_id) FROM jobs WHERE is_active = TRUE AND is_consulting = FALSE AND source IN ('remoteok', 'jobicy', 'olamundo', 'direct_remote')"
         )
         companies_remote = cur.fetchone()[0]
         cur.execute(

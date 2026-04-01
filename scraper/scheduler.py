@@ -295,9 +295,9 @@ async def main(source: str = "all", dry_run: bool = False):
     for i, job in enumerate(enriched):
         try:
             # Classificação — só necessária para ITJobs (fonte mista).
-            # Careers pages são empresas curadas (nunca consultorias).
-            # RemoteOK e WeWorkRemotely já são filtrados por tech.
-            if job.source in ("careers_page", "remoteok", "weworkremotely", "jobicy"):
+            # Careers pages e direct_remote são empresas curadas (nunca consultorias).
+            # RemoteOK, Jobicy e OláMundo já são filtrados por tech.
+            if job.source in ("careers_page", "direct_remote", "remoteok", "weworkremotely", "jobicy", "olamundo"):
                 classifier_result = ClassifierResult(
                     is_consulting=False,
                     confidence=0.99,
@@ -311,10 +311,11 @@ async def main(source: str = "all", dry_run: bool = False):
                     client=anthropic_client,
                 )
 
-            # Busca company_id no banco (cria automaticamente para vagas remote)
+            # Busca company_id no banco (cria automaticamente para vagas remote anónimas)
             if job.source in ("remoteok", "jobicy", "olamundo"):
                 company_id = get_or_create_remote_company(cur, job.company_name)
             else:
+                # careers_page e direct_remote: empresa já existe no seed
                 company_id = get_company_id(cur, job.company_name)
                 # Para ITJobs, a base de empresas pode ainda não estar completa.
                 # Criamos uma empresa mínima para conseguir associar `company_id`.

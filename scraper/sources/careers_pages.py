@@ -275,10 +275,16 @@ async def load_all_content(page: Page) -> None:
             break
 
 
+def _job_source(company: dict) -> str:
+    """Retorna 'direct_remote' para empresas estrangeiras, 'careers_page' para PT."""
+    return "direct_remote" if company.get("remote_company") else "careers_page"
+
+
 async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     """Usa a API pública do Greenhouse para obter todas as vagas."""
     board = company["greenhouse_board"]
     location_filter = company.get("greenhouse_location_filter", "")
+    source = _job_source(company)
     try:
         resp = await client.get(
             f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs",
@@ -299,7 +305,7 @@ async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[Raw
                 title=job["title"],
                 company_name=company["name"],
                 url=job["absolute_url"],
-                source="careers_page",
+                source=source,
                 location=location or company.get("city"),
             ))
         return jobs
@@ -312,6 +318,7 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     """Usa a API pública do Ashby para obter todas as vagas."""
     board = company["ashby_board"]
     location_filter = company.get("ashby_location_filter", "")
+    source = _job_source(company)
     try:
         resp = await client.post(
             "https://api.ashbyhq.com/posting-api/job-board",
@@ -332,7 +339,7 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
                 title=job["title"],
                 company_name=company["name"],
                 url=job["jobUrl"],
-                source="careers_page",
+                source=source,
                 location=location or company.get("city"),
             ))
         return jobs
@@ -345,6 +352,7 @@ async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
     """Usa a API pública do Lever para obter todas as vagas."""
     board = company["lever_board"]
     location_filter = company.get("lever_location_filter", "")
+    source = _job_source(company)
     try:
         resp = await client.get(
             f"https://api.lever.co/v0/postings/{board}",
@@ -365,7 +373,7 @@ async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
                 title=job["text"],
                 company_name=company["name"],
                 url=job["hostedUrl"],
-                source="careers_page",
+                source=source,
                 location=location or company.get("city"),
             ))
         return jobs

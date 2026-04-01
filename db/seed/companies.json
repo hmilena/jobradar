@@ -630,5 +630,105 @@
     "category": "software",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='requisitionId']"
+  },
+
+  {
+    "name": "Typeform",
+    "slug": "typeform",
+    "domain": "https://www.typeform.com",
+    "careers_url": "https://www.typeform.com/careers/",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "typeform",
+    "greenhouse_location_filter": "portugal|emea|europe",
+    "remote_company": true
+  },
+  {
+    "name": "Canonical",
+    "slug": "canonical",
+    "domain": "https://canonical.com",
+    "careers_url": "https://canonical.com/careers",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "canonical",
+    "greenhouse_location_filter": "emea|worldwide",
+    "remote_company": true
+  },
+  {
+    "name": "GitLab",
+    "slug": "gitlab",
+    "domain": "https://about.gitlab.com",
+    "careers_url": "https://about.gitlab.com/jobs/",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "gitlab",
+    "greenhouse_location_filter": "emea|europe",
+    "remote_company": true
+  },
+  {
+    "name": "Aircall",
+    "slug": "aircall",
+    "domain": "https://aircall.io",
+    "careers_url": "https://aircall.io/careers/",
+    "category": "remote",
+    "city": null,
+    "lever_board": "aircall",
+    "lever_location_filter": "portugal|emea|europe|remote",
+    "remote_company": true
+  },
+  {
+    "name": "PagerDuty",
+    "slug": "pagerduty",
+    "domain": "https://www.pagerduty.com",
+    "careers_url": "https://careers.pagerduty.com/",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "pagerduty",
+    "greenhouse_location_filter": "lisbon|portugal|emea|europe",
+    "remote_company": true
+  },
+  {
+    "name": "Salsify",
+    "slug": "salsify",
+    "domain": "https://www.salsify.com",
+    "careers_url": "https://www.salsify.com/careers",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "salsify",
+    "greenhouse_location_filter": "portugal|lisbon",
+    "remote_company": true
+  },
+  {
+    "name": "Gympass",
+    "slug": "gympass",
+    "domain": "https://wellhub.com",
+    "careers_url": "https://wellhub.com/careers/",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "gympass",
+    "greenhouse_location_filter": "portugal",
+    "remote_company": true
+  },
+  {
+    "name": "PandaDoc",
+    "slug": "pandadoc",
+    "domain": "https://www.pandadoc.com",
+    "careers_url": "https://www.pandadoc.com/careers/",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "pandadoc",
+    "greenhouse_location_filter": "portugal|europe|emea",
+    "remote_company": true
+  },
+  {
+    "name": "Lokalise",
+    "slug": "lokalise",
+    "domain": "https://lokalise.com",
+    "careers_url": "https://lokalise.com/careers",
+    "category": "remote",
+    "city": null,
+    "greenhouse_board": "lokalise",
+    "greenhouse_location_filter": "europe|emea|remote",
+    "remote_company": true
   }
 ]
