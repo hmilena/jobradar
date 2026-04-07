@@ -27,6 +27,8 @@ class JobOut(BaseModel):
     company: CompanyOut
     first_seen_at: datetime
     last_seen_at: datetime
+    republish_count: int
+    age_days: int
 
     class Config:
         from_attributes = True

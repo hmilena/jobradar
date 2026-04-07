@@ -39,6 +39,8 @@ export interface Job {
   company: Company;
   first_seen_at: string;
   last_seen_at: string;
+  republish_count: number;
+  age_days: number;
 }
 
 export interface JobList {
@@ -74,6 +76,7 @@ export interface JobFiltersParams {
   tech?: string;
   role?: string;
   source?: string;
+  max_days?: string;
   page?: number;
   limit?: number;
 }
@@ -107,6 +110,7 @@ export const api = {
       ...(params.tech && { tech: params.tech }),
       ...(params.role && { role: params.role }),
       ...(params.source && { source: params.source }),
+      ...(params.max_days && { max_days: params.max_days }),
       page: String(params.page ?? 1),
       limit: String(params.limit ?? 20),
     }),

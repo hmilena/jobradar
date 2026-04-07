@@ -17,6 +17,7 @@ interface PageProps {
     category?: string;
     tech?: string;
     role?: string;
+    max_days?: string;
     page?: string;
   };
 }

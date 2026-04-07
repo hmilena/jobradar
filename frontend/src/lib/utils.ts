@@ -95,6 +95,46 @@ export const CATEGORY_LABELS: Record<string, string> = {
   seguranca_publica: "Segurança Pública",
 };
 
+export type FreshnessLevel = "fresh" | "aging" | "stale";
+
+export function getJobFreshness(ageDays: number): {
+  level: FreshnessLevel;
+  label: string;
+  color: string;
+  bgColor: string;
+  darkBgColor: string;
+  darkColor: string;
+} {
+  if (ageDays >= 90) {
+    return {
+      level: "stale",
+      label: `${ageDays} dias`,
+      color: "#791F1F",
+      bgColor: "#FCEBEB",
+      darkBgColor: "#501313",
+      darkColor: "#F7C1C1",
+    };
+  }
+  if (ageDays >= 31) {
+    return {
+      level: "aging",
+      label: `${ageDays} dias`,
+      color: "#633806",
+      bgColor: "#FAEEDA",
+      darkBgColor: "#633806",
+      darkColor: "#FAC775",
+    };
+  }
+  return {
+    level: "fresh",
+    label: `${ageDays} dias`,
+    color: "#27500A",
+    bgColor: "#EAF3DE",
+    darkBgColor: "#27500A",
+    darkColor: "#C0DD97",
+  };
+}
+
 export function getDomain(url: string | null): string | null {
   if (!url) return null;
   try {

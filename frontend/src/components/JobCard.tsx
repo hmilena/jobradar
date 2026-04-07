@@ -14,6 +14,7 @@ import {
   CATEGORY_LABELS,
   formatISOToPTDate,
 } from "@/lib/utils";
+import { FreshnessBadge, JobHistoryBar } from "@/components/FreshnessBadge";
 
 interface Props {
   job: Job;
@@ -93,16 +94,19 @@ export default function JobCard({ job }: Props) {
           </div>
         </div>
 
-        {/* CTA */}
-        <a
-          href={job.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
-        >
-          Ver vaga
-          <ExternalLink className="h-4 w-4" />
-        </a>
+        <div className="flex shrink-0 items-center gap-2">
+          <FreshnessBadge ageDays={job.age_days} />
+          {/* CTA */}
+          <a
+            href={job.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
+          >
+            Ver vaga
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
       </div>
 
       <div className="mt-4">
@@ -193,6 +197,11 @@ export default function JobCard({ job }: Props) {
             )}
           </div>
         </div>
+
+        <JobHistoryBar
+          firstSeenAt={job.first_seen_at}
+          republishCount={job.republish_count}
+        />
       </div>
     </article>
   );

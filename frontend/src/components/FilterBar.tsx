@@ -70,6 +70,7 @@ export default function FilterBar({ filters, basePath = "/", allowedKeys }: Prop
     category: params.get("category") ?? "",
     tech: params.get("tech") ?? "",
     role: params.get("role") ?? "",
+    max_days: params.get("max_days") ?? "",
   };
 
   function updateParam(key: string, value: string) {
@@ -101,6 +102,16 @@ export default function FilterBar({ filters, basePath = "/", allowedKeys }: Prop
   const selectFilters = useMemo<SelectFilter[]>(
     () =>
       [
+        {
+          key: "max_days",
+          label: "Recentes",
+          value: current.max_days,
+          options: [
+            { value: "7", label: "Última semana" },
+            { value: "14", label: "Últimas 2 semanas" },
+            { value: "30", label: "Último mês" },
+          ],
+        },
         {
           key: "remote_type",
           label: "Regime",
@@ -139,7 +150,7 @@ export default function FilterBar({ filters, basePath = "/", allowedKeys }: Prop
           options: filters.tech_stack.map((t) => ({ value: t, label: t })),
         },
       ].filter(({ key }) => !allowedKeys || allowedKeys.includes(key)),
-    [allowedKeys, current.category, current.city, current.remote_type, current.role, current.seniority, current.tech, filters],
+    [allowedKeys, current.category, current.city, current.max_days, current.remote_type, current.role, current.seniority, current.tech, filters],
   );
 
   return (

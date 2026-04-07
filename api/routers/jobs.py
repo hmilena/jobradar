@@ -28,6 +28,7 @@ def build_jobs_query(
     role: str | None,
     q: str | None,
     source: str | None,
+    max_days: int | None,
     limit: int,
     offset: int,
 ) -> tuple[str, list]:
@@ -65,6 +66,9 @@ def build_jobs_query(
     if role:
         conditions.append("j.role = %s")
         params.append(role)
+    if max_days:
+        conditions.append("j.first_seen_at >= NOW() - make_interval(days => %s)")
+        params.append(max_days)
     if q:
         conditions.append("(j.title ILIKE %s OR j.description_clean ILIKE %s OR c.name ILIKE %s)")
         params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
@@ -75,6 +79,8 @@ def build_jobs_query(
         SELECT
             j.id, j.title, j.url, j.location, j.remote_type, j.seniority,
             j.tech_stack, j.role, j.first_seen_at, j.last_seen_at,
+            COALESCE(j.republish_count, 0) as republish_count,
+            EXTRACT(DAY FROM NOW() - j.first_seen_at)::INTEGER as age_days,
             c.id as company_id, c.name as company_name, c.slug as company_slug,
             c.domain as company_domain, c.category as company_category,
             c.city as company_city, c.logo_url as company_logo_url
@@ -102,6 +108,8 @@ def row_to_job(row: dict) -> dict:
         "role": row["role"],
         "first_seen_at": row["first_seen_at"],
         "last_seen_at": row["last_seen_at"],
+        "republish_count": row.get("republish_count", 0),
+        "age_days": row.get("age_days", 0),
         "company": {
             "id": row["company_id"],
             "name": row["company_name"],
@@ -124,6 +132,7 @@ def list_jobs(
     tech: Annotated[str | None, Query(description="Tecnologia (ex: Python, React)")] = None,
     role: Annotated[str | None, Query(description="Área (ex: QA, Frontend, Backend)")] = None,
     source: Annotated[str | None, Query(description="Fonte (ex: remoteok)")] = None,
+    max_days: Annotated[int | None, Query(description="Vagas dos últimos N dias")] = None,
     page: Annotated[int, Query(ge=1)] = 1,
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
 ):
@@ -134,7 +143,7 @@ def list_jobs(
         offset = (page - 1) * limit
 
         query, count_query, params_paginated, params_base = build_jobs_query(
-            remote_type, seniority, city, category, tech, role, q, source, limit, offset
+            remote_type, seniority, city, category, tech, role, q, source, max_days, limit, offset
         )
 
         cur.execute(count_query, params_base)
@@ -222,6 +231,8 @@ def get_job(job_id: UUID):
             SELECT
                 j.id, j.title, j.url, j.location, j.remote_type, j.seniority,
                 j.tech_stack, j.description_clean, j.first_seen_at, j.last_seen_at,
+                COALESCE(j.republish_count, 0) as republish_count,
+                EXTRACT(DAY FROM NOW() - j.first_seen_at)::INTEGER as age_days,
                 c.id as company_id, c.name as company_name, c.slug as company_slug,
                 c.domain as company_domain, c.category as company_category,
                 c.city as company_city, c.logo_url as company_logo_url

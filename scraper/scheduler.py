@@ -151,11 +151,16 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
 
         # Atualiza last_seen_at e reativa apenas se estava inativo há mais de 25 dias
         # (expirou naturalmente). Não reativa vagas manualmente desativadas.
+        # Incrementa republish_count quando a vaga é reativada após ficar inativa.
         cur.execute(
             """UPDATE jobs SET last_seen_at = NOW(),
                is_active = CASE
                    WHEN last_seen_at < NOW() - INTERVAL '25 days' THEN TRUE
                    ELSE is_active
+               END,
+               republish_count = CASE
+                   WHEN last_seen_at < NOW() - INTERVAL '25 days' THEN republish_count + 1
+                   ELSE republish_count
                END
                WHERE hash = %s""",
             (job_hash,),
