@@ -37,7 +37,7 @@ const FilterSelect = memo(function FilterSelect({ filter, onChange }: FilterSele
   return (
     <div key={key} className="relative">
       <select
-        className={`appearance-none text-sm px-3 py-2 pr-7 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-brand-100 ${
+        className={`w-full appearance-none text-sm px-3 py-2 pr-7 rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-brand-100 ${
           value
             ? "border-brand-300 bg-brand-50 text-brand-700 font-medium"
             : "border-slate-200 bg-white text-slate-600"
@@ -168,7 +168,7 @@ export default function FilterBar({ filters, basePath = "/", allowedKeys }: Prop
       </div>
 
       {/* Filter selects */}
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
         {selectFilters.map((filter) => (
           <FilterSelect key={filter.key} filter={filter} onChange={updateParam} />
         ))}
@@ -176,7 +176,7 @@ export default function FilterBar({ filters, basePath = "/", allowedKeys }: Prop
         {hasFilters && (
           <button
             onClick={clearAll}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-red-200 text-red-500 hover:bg-red-50 transition-colors"
+            className="col-span-2 sm:col-span-1 flex justify-center sm:justify-start items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-red-200 text-red-500 hover:bg-red-50 transition-colors"
           >
             <X className="h-3.5 w-3.5" />
             Limpar

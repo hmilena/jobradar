@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import type { Job } from "@/lib/api";
 import {
-  formatDate,
   REMOTE_LABELS,
   REMOTE_COLORS,
   SENIORITY_LABELS,
@@ -49,7 +48,7 @@ function CompanyAvatar({ name }: { name: string | null }) {
 
   return (
     <span
-      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${colors[colorIndex]} text-white text-sm font-bold shadow-sm ring-1 ring-black/5`}
+      className={`flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br ${colors[colorIndex]} text-white text-sm font-bold shadow-sm ring-1 ring-black/5`}
     >
       {initials}
     </span>
@@ -72,7 +71,7 @@ export default function JobCard({ job }: Props) {
     <article className="group relative rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-brand-200 hover:shadow-md">
       <div className="absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-brand-200 opacity-0 transition-opacity group-hover:opacity-100" />
 
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <div className="flex flex-1 items-center gap-4">
           <CompanyAvatar name={job.company.name} />
 
@@ -94,14 +93,14 @@ export default function JobCard({ job }: Props) {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2 self-end sm:self-auto">
           <FreshnessBadge ageDays={job.age_days} />
           {/* CTA */}
           <a
             href={job.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
           >
             Ver vaga
             <ExternalLink className="h-4 w-4" />
@@ -111,7 +110,7 @@ export default function JobCard({ job }: Props) {
 
       <div className="mt-4">
         {/* Title */}
-        <h2 className="text-xl font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand-700">
+        <h2 className="text-lg sm:text-xl font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand-700">
           {job.title}
         </h2>
 

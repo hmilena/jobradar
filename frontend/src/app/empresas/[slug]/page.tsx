@@ -19,7 +19,7 @@ function CompanyAvatar({ name }: { name: string }) {
     .join("")
     .toUpperCase();
   return (
-    <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white text-xl font-bold shadow-md">
+    <span className="flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white text-xl font-bold shadow-md">
       {initials}
     </span>
   );
@@ -45,11 +45,11 @@ export default async function EmpresaDetailPage({ params }: Props) {
 
           {/* Company card */}
           <div className="card p-6 mb-6">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex items-start gap-4">
                 <CompanyAvatar name={company.name} />
                 <div>
-                  <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                     {company.name}
                   </h1>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -82,7 +82,7 @@ export default async function EmpresaDetailPage({ params }: Props) {
                   href={company.careers_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary shrink-0"
+                  className="btn-primary w-full sm:w-auto"
                 >
                   <Briefcase className="h-4 w-4" />
                   Ver todas as vagas

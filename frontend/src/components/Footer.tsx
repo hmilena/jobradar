@@ -22,7 +22,7 @@ const linkClass =
 export function Footer({ className, displayLinks = false }: Props) {
   return (
     <footer className={clsx("border-t border-slate-200 bg-white py-8", className)}>
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-sm text-slate-400 sm:flex-row">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-xs sm:text-sm text-slate-400 sm:flex-row text-center sm:text-left">
         <div className="font-medium text-slate-500">
           JobRadar Portugal <span className="text-xs text-slate-400"> por </span>
           <a

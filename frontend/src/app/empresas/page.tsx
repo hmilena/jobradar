@@ -98,8 +98,8 @@ export default async function EmpresasPage() {
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-brand-50 to-slate-50 border-b border-slate-200/60">
-        <div className="mx-auto max-w-6xl px-4 py-10">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Empresas</h1>
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:py-10">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Empresas</h1>
           <p className="mt-2 text-slate-500">
             <strong className="text-slate-700">{ptCompanies.length} empresas portuguesas</strong>
             {" "}que contratam diretamente, mais{" "}
@@ -123,7 +123,7 @@ export default async function EmpresasPage() {
                 Contratam diretamente — escritório em Portugal, sem intermediários
               </p>
             </div>
-            <span className="ml-auto rounded-full bg-brand-50 border border-brand-100 px-3 py-1 text-sm font-semibold text-brand-700">
+            <span className="hidden sm:inline-flex ml-auto rounded-full bg-brand-50 border border-brand-100 px-3 py-1 text-sm font-semibold text-brand-700">
               {ptCompanies.length} empresas
             </span>
           </div>
@@ -164,7 +164,7 @@ export default async function EmpresasPage() {
                 Podem estar em qualquer parte do mundo — aceitam candidatos a partir de Portugal
               </p>
             </div>
-            <span className="ml-auto rounded-full bg-emerald-50 border border-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
+            <span className="hidden sm:inline-flex ml-auto rounded-full bg-emerald-50 border border-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
               {remoteCompanies.length} empresas
             </span>
           </div>

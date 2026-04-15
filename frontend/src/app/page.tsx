@@ -69,8 +69,8 @@ export default async function HomePage({ searchParams }: PageProps) {
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-brand-50 to-slate-50 border-b border-slate-200/60">
-        <div className="mx-auto max-w-6xl px-4 py-10">
-          <h1 className="mt-3 text-4xl font-extrabold text-slate-900 tracking-tight">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:py-10">
+          <h1 className="mt-3 text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Vagas tech em Portugal
           </h1>
           <p className="mt-2 text-slate-500">

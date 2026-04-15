@@ -37,12 +37,12 @@ export default async function RemotePage({ searchParams }: PageProps) {
 
       {/* Hero */}
       <div className="bg-gradient-to-b from-emerald-50 to-slate-50 border-b border-slate-200/60">
-        <div className="mx-auto max-w-6xl px-4 py-10">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:py-10">
           <div className="mb-1 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             100% Remote
           </div>
-          <h1 className="mt-3 text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="mt-3 text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Remote from Portugal
           </h1>
           <p className="mt-2 text-slate-500">
@@ -50,7 +50,7 @@ export default async function RemotePage({ searchParams }: PageProps) {
           </p>
 
           {/* Disclaimer */}
-          <div className="mt-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <div className="mt-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs sm:text-sm text-amber-800">
             <svg className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
             </svg>

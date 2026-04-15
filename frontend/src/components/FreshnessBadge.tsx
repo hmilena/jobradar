@@ -52,6 +52,7 @@ export function JobHistoryBar({
         fontSize: "12px",
         color: "#6B6B6B",
         display: "flex",
+        flexWrap: "wrap",
         alignItems: "center",
         gap: "8px",
         marginTop: "12px",
