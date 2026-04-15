@@ -1,0 +1,20 @@
+wing: direct_contract
+rooms:
+- name: scraper
+  description: Files from scraper/
+  keywords:
+  - scraper
+  - scraper
+- name: frontend
+  description: Files from frontend/
+  keywords:
+  - frontend
+  - frontend
+- name: backend
+  description: Files from db/
+  keywords:
+  - backend
+  - db
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []
