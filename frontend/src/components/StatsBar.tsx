@@ -19,7 +19,7 @@ export default function StatsBar({
           </div>
         </>
       )}
-      <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:items-center sm:gap-6">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
         {!remoteOnly && (
           <>
             <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export default function StatsBar({
           </div>
         </div>
 
-        <div className="h-8 w-px bg-slate-200" />
+        <div className="hidden sm:block h-8 w-px bg-slate-200" />
 
         <div className="flex items-center gap-2">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">

@@ -1,7 +1,6 @@
 import {
   MapPin,
   Clock,
-  ExternalLink,
   Layers3,
   BriefcaseBusiness,
 } from "lucide-react";
@@ -68,42 +67,31 @@ export default function JobCard({ job }: Props) {
   const seniority = job.seniority ?? "unknown";
 
   return (
-    <article className="group relative rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-brand-200 hover:shadow-md">
+    <a
+      href={job.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative block rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-brand-200 hover:shadow-md"
+    >
       <div className="absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-brand-200 opacity-0 transition-opacity group-hover:opacity-100" />
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <div className="flex flex-1 items-start gap-4">
-          <CompanyAvatar name={job.company.name} />
+      <div className="flex flex-1 items-start gap-4">
+        <CompanyAvatar name={job.company.name} />
 
-          <div className="flex flex-1 gap-0.5 min-w-0 flex-col">
-            <span className="text-base font-semibold text-brand-600">
-              {job.company.name ?? "—"}
-            </span>
+        <div className="flex flex-1 gap-0.5 min-w-0 flex-col">
+          <span className="text-base font-semibold text-brand-600">
+            {job.company.name ?? "—"}
+          </span>
 
-            {/* Company */}
-            <div className="mb-1 flex flex-wrap items-center gap-2">
-              {job.company.category && (
-                <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                  <Layers3 className="mr-1 h-3 w-3" />
-                  {CATEGORY_LABELS[job.company.category] ??
-                    job.company.category}
-                </span>
-              )}
-            </div>
+          <div className="mb-1 flex flex-wrap items-center gap-2">
+            {job.company.category && (
+              <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
+                <Layers3 className="mr-1 h-3 w-3" />
+                {CATEGORY_LABELS[job.company.category] ?? job.company.category}
+              </span>
+            )}
+            <FreshnessBadge ageDays={job.age_days} />
           </div>
-        </div>
-
-        <div className="flex flex-col shrink-0 items-center gap-2 self-end sm:self-auto">
-          <FreshnessBadge ageDays={job.age_days} />
-          {/* CTA */}
-          <a
-            href={job.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 p-0.3 sm:px-5 sm:py-1.5 text-xs sm:text-xs font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
-          >
-            <ExternalLink size={17} className="text-xs sm:text-xs" />
-          </a>
         </div>
       </div>
 
@@ -201,6 +189,6 @@ export default function JobCard({ job }: Props) {
           republishCount={job.republish_count}
         />
       </div>
-    </article>
+    </a>
   );
 }
