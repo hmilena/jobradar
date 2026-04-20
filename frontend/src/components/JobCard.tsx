@@ -72,10 +72,10 @@ export default function JobCard({ job }: Props) {
       <div className="absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-brand-200 opacity-0 transition-opacity group-hover:opacity-100" />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <div className="flex flex-1 items-center gap-4">
+        <div className="flex flex-1 items-start gap-4">
           <CompanyAvatar name={job.company.name} />
 
-          <div className="flex gap-0.5 min-w-0 flex-col">
+          <div className="flex flex-1 gap-0.5 min-w-0 flex-col">
             <span className="text-base font-semibold text-brand-600">
               {job.company.name ?? "—"}
             </span>
@@ -93,17 +93,16 @@ export default function JobCard({ job }: Props) {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 self-end sm:self-auto">
+        <div className="flex flex-col shrink-0 items-center gap-2 self-end sm:self-auto">
           <FreshnessBadge ageDays={job.age_days} />
           {/* CTA */}
           <a
             href={job.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-3 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 p-0.3 sm:px-5 sm:py-1.5 text-xs sm:text-xs font-semibold text-white shadow-sm transition-all hover:bg-brand-700 hover:shadow active:scale-95"
           >
-            Ver vaga
-            <ExternalLink className="h-4 w-4" />
+            <ExternalLink size={17} className="text-xs sm:text-xs" />
           </a>
         </div>
       </div>
