@@ -34,13 +34,15 @@ export function JobHistoryBar({
       : `Republicada ${republishCount} ${republishCount === 1 ? "vez" : "vezes"}`;
 
   return (
-    <div className="bg-[#F5F5F0] rounded-lg py-2.5 px-3.5 text-xs text-[#6B6B6B] flex flex-wrap items-center gap-2 mt-3">
+    <div className="bg-[#F5F5F0] rounded-lg py-2.5 px-3.5 text-xs text-[#6B6B6B] flex items-center gap-2 mt-3">
       <Clock size={14} className="flex-shrink-0" />
       <span>
         Vista pela primeira vez em{" "}
         <strong className="text-[#1A1A1A]">{formattedDate}</strong>
         {" · "}
-        <span className={`font-medium${republishCount > 0 ? " text-[#A32D2D]" : ""}`}>
+        <span
+          className={`font-medium${republishCount > 0 ? " text-[#A32D2D]" : ""}`}
+        >
           {republishText}
         </span>
       </span>
