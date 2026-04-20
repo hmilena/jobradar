@@ -6,18 +6,8 @@ export function FreshnessBadge({ ageDays }: { ageDays: number }) {
 
   return (
     <span
-      style={{
-        fontSize: "12px",
-        fontWeight: 500,
-        padding: "3px 10px",
-        borderRadius: "8px",
-        backgroundColor: bgColor,
-        color: color,
-        whiteSpace: "nowrap",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "4px",
-      }}
+      className="text-xs font-medium py-[3px] px-[10px] rounded-lg whitespace-nowrap inline-flex items-center gap-1"
+      style={{ backgroundColor: bgColor, color }}
     >
       <Clock size={12} />
       {label}
@@ -44,31 +34,13 @@ export function JobHistoryBar({
       : `Republicada ${republishCount} ${republishCount === 1 ? "vez" : "vezes"}`;
 
   return (
-    <div
-      style={{
-        backgroundColor: "#F5F5F0",
-        borderRadius: "8px",
-        padding: "10px 14px",
-        fontSize: "12px",
-        color: "#6B6B6B",
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        gap: "8px",
-        marginTop: "12px",
-      }}
-    >
-      <Clock size={14} style={{ flexShrink: 0 }} />
+    <div className="bg-[#F5F5F0] rounded-lg py-2.5 px-3.5 text-xs text-[#6B6B6B] flex flex-wrap items-center gap-2 mt-3">
+      <Clock size={14} className="flex-shrink-0" />
       <span>
         Vista pela primeira vez em{" "}
-        <strong style={{ color: "#1A1A1A" }}>{formattedDate}</strong>
+        <strong className="text-[#1A1A1A]">{formattedDate}</strong>
         {" · "}
-        <span
-          style={{
-            fontWeight: 500,
-            color: republishCount > 0 ? "#A32D2D" : undefined,
-          }}
-        >
+        <span className={`font-medium${republishCount > 0 ? " text-[#A32D2D]" : ""}`}>
           {republishText}
         </span>
       </span>

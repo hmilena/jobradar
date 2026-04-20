@@ -347,18 +347,27 @@ async def main(source: str = "all", dry_run: bool = False):
 
     conn.commit()
 
-    # Marca como inativas vagas não vistas há mais de 30 dias
+    # Marca como inativas vagas não vistas recentemente.
+    # Careers pages: 7 dias (vaga desapareceu do site da empresa → preenchida)
+    # Fontes remotas: 14 dias (APIs podem ter falhas pontuais de paginação)
     cur.execute(
         """
         UPDATE jobs SET is_active = FALSE
         WHERE is_active = TRUE
-          AND last_seen_at < NOW() - INTERVAL '30 days'
+          AND (
+            (source = 'careers_page'  AND last_seen_at < NOW() - INTERVAL '7 days')
+            OR
+            (source IN ('remoteok', 'jobicy', 'olamundo', 'direct_remote')
+             AND last_seen_at < NOW() - INTERVAL '14 days')
+            OR
+            last_seen_at < NOW() - INTERVAL '30 days'
+          )
         """
     )
     deactivated = cur.rowcount
     conn.commit()
     if deactivated:
-        logger.info(f"🗑️ {deactivated} vagas marcadas como inativas (não vistas há +30 dias)")
+        logger.info(f"🗑️ {deactivated} vagas marcadas como inativas (careers_page: 7d, remote: 14d)")
 
     # Atualiza run com resultado
     cur.execute(
