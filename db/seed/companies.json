@@ -113,7 +113,7 @@
     "name": "MEO / Altice Portugal",
     "slug": "meo-altice",
     "domain": "https://www.meo.pt",
-    "careers_url": "https://www.telecom.pt/pt-pt/carreiras",
+    "careers_url": "https://www.telecom.pt/en-us/carreiras",
     "category": "telco",
     "city": "Lisboa",
     "job_selector": "a[href*='job'], a[href*='opportunit']"
@@ -176,7 +176,7 @@
     "name": "Farfetch",
     "slug": "farfetch",
     "domain": "https://www.farfetch.com",
-    "careers_url": "https://farfetchgroupcareers.com/jobs",
+    "careers_url": "https://www.farfetch.com/pt/careers",
     "category": "ecommerce",
     "city": "Porto",
     "job_selector": "a[href*='job'], a[href*='career']"
@@ -730,5 +730,24 @@
     "greenhouse_board": "lokalise",
     "greenhouse_location_filter": "europe|emea|remote",
     "remote_company": true
+  },
+  {
+    "name": "LastPass",
+    "slug": "lastpass",
+    "domain": "https://www.lastpass.com",
+    "careers_url": "https://www.lastpass.com/company/careers",
+    "category": "ciberseguranca",
+    "city": "Lisboa",
+    "greenhouse_board": "lastpass",
+    "greenhouse_location_filter": "portugal|lisbon|remote"
+  },
+  {
+    "name": "Microsoft Portugal",
+    "slug": "microsoft-portugal",
+    "domain": "https://www.microsoft.com/pt-pt",
+    "careers_url": "https://careers.microsoft.com/global/en/search-results?lc=Portugal",
+    "category": "software",
+    "city": "Lisboa",
+    "job_selector": "a[href*='careers.microsoft.com/global/en/job']"
   }
 ]

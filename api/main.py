@@ -48,9 +48,15 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+import os as _os
+_allowed_origins = _os.environ.get(
+    "ALLOWED_ORIGINS",
+    "https://jobradarpt.vercel.app,http://localhost:3000"
+).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção, troque pelo domínio do frontend
+    allow_origins=_allowed_origins,
     allow_methods=["GET"],
     allow_headers=["*"],
 )
