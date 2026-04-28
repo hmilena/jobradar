@@ -1,10 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const navLink = (href: string, exact = false) => {
+    const active = exact ? pathname === href : pathname.startsWith(href);
+    return active
+      ? "px-3 py-1.5 rounded-lg text-sm font-medium text-slate-900 bg-slate-100"
+      : "px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors";
+  };
+
+  const drawerLink = (href: string, exact = false) => {
+    const active = exact ? pathname === href : pathname.startsWith(href);
+    return active
+      ? "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-900 bg-slate-100"
+      : "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors";
+  };
 
   return (
     <>
@@ -36,23 +52,24 @@ export default function Header() {
 
           {/* Nav desktop */}
           <nav className="hidden sm:flex items-center gap-1">
-            <Link
-              href="/"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
-            >
+            <Link href="/" className={navLink("/", true)}>
               Vagas
             </Link>
-            <Link
-              href="/empresas"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
-            >
+            <Link href="/empresas" className={navLink("/empresas")}>
               Empresas
             </Link>
             <Link
               href="/remote"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
+              className={
+                pathname.startsWith("/remote")
+                  ? "px-3 py-1.5 rounded-lg text-sm font-medium text-emerald-700 bg-emerald-50"
+                  : "px-3 py-1.5 rounded-lg text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
+              }
             >
               🌍 Remote
+            </Link>
+            <Link href="/sobre" className={navLink("/sobre")}>
+              Sobre
             </Link>
             <a
               href="https://github.com/hmilena/jobradar"
@@ -116,26 +133,25 @@ export default function Header() {
 
         {/* Drawer links */}
         <nav className="flex flex-col gap-1 p-4 flex-1">
-          <Link
-            href="/"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors"
-          >
+          <Link href="/" onClick={() => setOpen(false)} className={drawerLink("/", true)}>
             Vagas
           </Link>
-          <Link
-            href="/empresas"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors"
-          >
+          <Link href="/empresas" onClick={() => setOpen(false)} className={drawerLink("/empresas")}>
             Empresas
           </Link>
           <Link
             href="/remote"
             onClick={() => setOpen(false)}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
+            className={
+              pathname.startsWith("/remote")
+                ? "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-emerald-700 bg-emerald-50"
+                : "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 transition-colors"
+            }
           >
             🌍 Remote
+          </Link>
+          <Link href="/sobre" onClick={() => setOpen(false)} className={drawerLink("/sobre")}>
+            Sobre
           </Link>
         </nav>
 
