@@ -143,15 +143,13 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
     job_hash = compute_hash(job.title, job.company_name, job.url)
 
     # Verifica se já existe
-    cur.execute("SELECT id, last_seen_at, company_id FROM jobs WHERE hash = %s", (job_hash,))
+    cur.execute("SELECT id, last_seen_at, company_id, description_clean FROM jobs WHERE hash = %s", (job_hash,))
     existing = cur.fetchone()
 
     if existing:
         existing_company_id = existing.get("company_id")
+        has_description = bool(existing.get("description_clean"))
 
-        # Atualiza last_seen_at e reativa apenas se estava inativo há mais de 25 dias
-        # (expirou naturalmente). Não reativa vagas manualmente desativadas.
-        # Incrementa republish_count quando a vaga é reativada após ficar inativa.
         cur.execute(
             """UPDATE jobs SET last_seen_at = NOW(),
                is_active = CASE
@@ -161,26 +159,36 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
                republish_count = CASE
                    WHEN last_seen_at < NOW() - INTERVAL '25 days' THEN republish_count + 1
                    ELSE republish_count
+               END,
+               description_clean = CASE
+                   WHEN description_clean IS NULL OR description_clean = '' THEN %s
+                   ELSE description_clean
                END
                WHERE hash = %s""",
-            (job_hash,),
+            (job.description, job_hash),
         )
 
-        # Backfill: if we just seeded companies and the existing job has NULL company_id,
-        # fill it from the current run.
         was_company_backfilled = False
         if existing_company_id is None and company_id is not None:
             cur.execute("UPDATE jobs SET company_id = %s WHERE hash = %s", (company_id, job_hash))
             was_company_backfilled = True
 
-        return False, True if was_company_backfilled else False
+        was_updated = was_company_backfilled or (not has_description and bool(job.description))
+        return False, was_updated
 
     # Verifica se já existe pela URL (caso o título tenha mudado e o hash seja diferente)
-    cur.execute("SELECT id FROM jobs WHERE url = %s", (job.url,))
-    if cur.fetchone():
+    cur.execute("SELECT id, description_clean FROM jobs WHERE url = %s", (job.url,))
+    existing_by_url = cur.fetchone()
+    if existing_by_url:
+        has_description = bool(existing_by_url.get("description_clean"))
         cur.execute(
-            "UPDATE jobs SET last_seen_at = NOW(), hash = %s, title = %s WHERE url = %s",
-            (job_hash, job.title, job.url),
+            """UPDATE jobs SET last_seen_at = NOW(), hash = %s, title = %s,
+               description_clean = CASE
+                   WHEN description_clean IS NULL OR description_clean = '' THEN %s
+                   ELSE description_clean
+               END
+               WHERE url = %s""",
+            (job_hash, job.title, job.description, job.url),
         )
         return False, True
 
@@ -199,7 +207,11 @@ def upsert_job(cur, job: RawJob, company_id: str | None, classifier_result, run_
             remote_type = EXCLUDED.remote_type,
             seniority = EXCLUDED.seniority,
             tech_stack = EXCLUDED.tech_stack,
-            role = EXCLUDED.role
+            role = EXCLUDED.role,
+            description_clean = CASE
+                WHEN jobs.description_clean IS NULL OR jobs.description_clean = '' THEN EXCLUDED.description_clean
+                ELSE jobs.description_clean
+            END
         """,
         (
             company_id,

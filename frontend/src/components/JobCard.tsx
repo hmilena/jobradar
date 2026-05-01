@@ -13,9 +13,11 @@ import {
   formatISOToPTDate,
 } from "@/lib/utils";
 import { FreshnessBadge, JobHistoryBar } from "@/components/FreshnessBadge";
+import { CompanyAvatar } from "@/components/CompanyAvatar";
 
 interface Props {
   job: Job;
+  onSelect?: (id: string) => void;
 }
 
 const REMOTE_DOT: Record<string, string> = {
@@ -25,35 +27,6 @@ const REMOTE_DOT: Record<string, string> = {
   unknown: "bg-slate-300",
 };
 
-function CompanyAvatar({ name }: { name: string | null }) {
-  const initials = (name || "?")
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-
-  const colors = [
-    "from-violet-500 to-purple-600",
-    "from-blue-500 to-cyan-600",
-    "from-emerald-500 to-teal-600",
-    "from-orange-500 to-red-600",
-    "from-pink-500 to-rose-600",
-    "from-amber-500 to-yellow-600",
-    "from-indigo-500 to-blue-600",
-    "from-teal-500 to-green-600",
-  ];
-  const colorIndex = (name ?? "?").charCodeAt(0) % colors.length;
-
-  return (
-    <span
-      className={`flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br ${colors[colorIndex]} text-white text-sm font-bold shadow-sm ring-1 ring-black/5`}
-    >
-      {initials}
-    </span>
-  );
-}
-
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
@@ -62,17 +35,15 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function JobCard({ job }: Props) {
+const cardClass =
+  "group relative block rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-brand-200 hover:shadow-md text-left w-full";
+
+export default function JobCard({ job, onSelect }: Props) {
   const remote = job.remote_type ?? "unknown";
   const seniority = job.seniority ?? "unknown";
 
-  return (
-    <a
-      href={job.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group relative block rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-brand-200 hover:shadow-md"
-    >
+  const inner = (
+    <>
       <div className="absolute left-0 top-4 bottom-4 w-0.5 rounded-full bg-brand-200 opacity-0 transition-opacity group-hover:opacity-100" />
 
       <div className="flex flex-1 items-start gap-4">
@@ -96,12 +67,10 @@ export default function JobCard({ job }: Props) {
       </div>
 
       <div className="mt-4">
-        {/* Title */}
         <h2 className="text-lg sm:text-xl font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand-700">
           {job.title}
         </h2>
 
-        {/* Structured meta */}
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {(job.location ?? job.company.city) && (
             <div className="min-w-0">
@@ -129,9 +98,7 @@ export default function JobCard({ job }: Props) {
               <span
                 className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${REMOTE_COLORS[remote]}`}
               >
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[remote]}`}
-                />
+                <span className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[remote]}`} />
                 {REMOTE_LABELS[remote]}
               </span>
             </div>
@@ -153,10 +120,8 @@ export default function JobCard({ job }: Props) {
           </div>
         </div>
 
-        {/* Tech stack */}
         <div className="mt-4">
           <FieldLabel>Tecnologias</FieldLabel>
-
           <div className="mt-2 flex flex-wrap gap-1.5">
             {job.tech_stack.length > 0 ? (
               <>
@@ -169,7 +134,6 @@ export default function JobCard({ job }: Props) {
                     <span className="font-mono">{tech}</span>
                   </span>
                 ))}
-
                 {job.tech_stack.length > 5 && (
                   <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 text-[12px] font-medium text-slate-500">
                     +{job.tech_stack.length - 5} tecnologias
@@ -189,6 +153,29 @@ export default function JobCard({ job }: Props) {
           republishCount={job.republish_count}
         />
       </div>
+    </>
+  );
+
+  if (onSelect) {
+    return (
+      <button
+        className={cardClass}
+        onClick={() => onSelect(job.id)}
+        data-job-id={job.id}
+      >
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <a
+      href={job.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cardClass}
+    >
+      {inner}
     </a>
   );
 }

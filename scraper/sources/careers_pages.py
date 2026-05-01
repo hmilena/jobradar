@@ -5,6 +5,8 @@ Para empresas com ATS conhecido (Greenhouse, Ashby, Lever), usa a API JSON diret
 """
 import json
 import logging
+from html import unescape
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import AsyncIterator
 from urllib.parse import urljoin, urlparse
@@ -301,12 +303,15 @@ async def fetch_greenhouse(company: dict, client: httpx.AsyncClient) -> list[Raw
                 kw.lower() in location.lower() for kw in location_filter.split("|")
             ):
                 continue
+            raw_content = job.get("content", "") or ""
+            description = unescape(raw_content).strip() or None
             jobs.append(RawJob(
                 title=job["title"],
                 company_name=company["name"],
                 url=job["absolute_url"],
                 source=source,
                 location=location or company.get("city"),
+                description=description,
             ))
         return jobs
     except Exception as e:
@@ -335,12 +340,28 @@ async def fetch_ashby(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
                 kw.lower() in location.lower() for kw in location_filter.split("|")
             ):
                 continue
+
+            # Buscar descrição individual (não incluída na listagem)
+            description = None
+            try:
+                detail_resp = await client.post(
+                    "https://api.ashbyhq.com/posting-api/job-board/job",
+                    json={"organizationHostedJobsPageName": board, "jobId": job["id"]},
+                    timeout=15,
+                )
+                if detail_resp.status_code == 200:
+                    detail = detail_resp.json().get("job", {})
+                    description = detail.get("descriptionHtml") or detail.get("descriptionPlain") or None
+            except Exception:
+                pass
+
             jobs.append(RawJob(
                 title=job["title"],
                 company_name=company["name"],
                 url=job["jobUrl"],
                 source=source,
                 location=location or company.get("city"),
+                description=description,
             ))
         return jobs
     except Exception as e:
@@ -369,17 +390,65 @@ async def fetch_lever(company: dict, client: httpx.AsyncClient) -> list[RawJob]:
                 kw.lower() in location.lower() for kw in location_filter.split("|")
             ):
                 continue
+            description = job.get("descriptionPlain") or job.get("description") or None
             jobs.append(RawJob(
                 title=job["text"],
                 company_name=company["name"],
                 url=job["hostedUrl"],
                 source=source,
                 location=location or company.get("city"),
+                description=description,
             ))
         return jobs
     except Exception as e:
         logger.error(f"Lever API error ({board}): {e}")
         return []
+
+
+class _TextExtractor(HTMLParser):
+    """Extracts visible text from HTML, skipping non-content tags."""
+    SKIP_TAGS = frozenset(["script", "style", "head", "nav", "header", "footer", "noscript", "svg", "path"])
+
+    def __init__(self):
+        super().__init__()
+        self._skip = 0
+        self.parts: list[str] = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.SKIP_TAGS:
+            self._skip += 1
+
+    def handle_endtag(self, tag):
+        if tag in self.SKIP_TAGS and self._skip > 0:
+            self._skip -= 1
+
+    def handle_data(self, data):
+        if self._skip == 0:
+            t = data.strip()
+            if t:
+                self.parts.append(t)
+
+
+async def fetch_job_description(url: str, client: httpx.AsyncClient) -> str | None:
+    """Fetches a job page and extracts visible text content."""
+    try:
+        resp = await client.get(
+            url,
+            timeout=12,
+            follow_redirects=True,
+            headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"},
+        )
+        if resp.status_code != 200:
+            return None
+        content_type = resp.headers.get("content-type", "")
+        if "text/html" not in content_type:
+            return None
+        extractor = _TextExtractor()
+        extractor.feed(resp.text)
+        text = "\n".join(extractor.parts)
+        return text[:8000] if len(text) > 100 else None
+    except Exception:
+        return None
 
 
 class CareersPageScraper(BaseSource):
@@ -459,9 +528,10 @@ class CareersPageScraper(BaseSource):
                         await load_all_content(page)
 
                         jobs = await extract_jobs_from_page(page, company, careers_url)
-                        logger.info(f"  ✅ {len(jobs)} vagas encontradas")
+                        logger.info(f"  ✅ {len(jobs)} vagas encontradas — a buscar descrições...")
 
                         for job in jobs:
+                            job.description = await fetch_job_description(job.url, http_client)
                             yield job
 
                     except Exception as e:

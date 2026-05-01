@@ -14,6 +14,23 @@
   }
 }
 
+@layer utilities {
+  .job-description h1, .job-description h2, .job-description h3 {
+    @apply font-semibold text-slate-900 mt-4 mb-1;
+  }
+  .job-description h2 { @apply text-base; }
+  .job-description h3 { @apply text-sm; }
+  .job-description p  { @apply text-slate-700 leading-relaxed mb-3; }
+  .job-description ul, .job-description ol {
+    @apply pl-5 mb-3 space-y-1 text-slate-700;
+  }
+  .job-description ul { @apply list-disc; }
+  .job-description ol { @apply list-decimal; }
+  .job-description li { @apply leading-relaxed; }
+  .job-description a  { @apply text-brand-600 underline underline-offset-2; }
+  .job-description strong { @apply font-semibold text-slate-900; }
+}
+
 @layer components {
   /* ── Badges ───────────────────────────────────────── */
   .badge {

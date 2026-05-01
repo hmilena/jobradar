@@ -230,7 +230,7 @@ def get_job(job_id: UUID):
             """
             SELECT
                 j.id, j.title, j.url, j.location, j.remote_type, j.seniority,
-                j.tech_stack, j.description_clean, j.first_seen_at, j.last_seen_at,
+                j.tech_stack, j.role, j.description_clean, j.first_seen_at, j.last_seen_at,
                 COALESCE(j.republish_count, 0) as republish_count,
                 EXTRACT(DAY FROM NOW() - j.first_seen_at)::INTEGER as age_days,
                 c.id as company_id, c.name as company_name, c.slug as company_slug,
@@ -245,6 +245,8 @@ def get_job(job_id: UUID):
         row = cur.fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="Vaga não encontrada")
-        return row_to_job(dict(row))
+        result = row_to_job(dict(row))
+        result["description_clean"] = row.get("description_clean") or ""
+        return result
     finally:
         pool.putconn(conn)

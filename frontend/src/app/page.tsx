@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { api } from "@/lib/api";
 import Header from "@/components/Header";
-import JobCard from "@/components/JobCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
 import StatsBar from "@/components/StatsBar";
 import { Footer } from "@/components/Footer";
+import { JobListClient } from "@/components/JobListClient";
 
 interface PageProps {
   searchParams: {
@@ -19,15 +19,17 @@ interface PageProps {
     role?: string;
     max_days?: string;
     page?: string;
+    job?: string;
   };
 }
 
 const JOBS_PAGE_SIZE = 20;
+const FILTER_KEYS = ["remote_type", "seniority", "city", "category", "tech", "role", "max_days"] as const;
 
 function searchParamsToPageOneQuery(sp: PageProps["searchParams"]): string {
   const next = new URLSearchParams();
   for (const [key, value] of Object.entries(sp)) {
-    if (!value || key === "page") continue;
+    if (!value || key === "page" || key === "job") continue;
     next.set(key, value);
   }
   next.set("page", "1");
@@ -56,11 +58,15 @@ export default async function HomePage({ searchParams }: PageProps) {
 
   const totalPages = Math.ceil(jobsData.total / JOBS_PAGE_SIZE);
   if (jobsData.total === 0) {
-    if (page > 1) {
-      redirect(searchParamsToPageOneQuery(searchParams));
-    }
+    if (page > 1) redirect(searchParamsToPageOneQuery(searchParams));
   } else if (page > totalPages) {
     redirect(searchParamsToPageOneQuery(searchParams));
+  }
+
+  const activeFilters: Record<string, string> = {};
+  for (const key of FILTER_KEYS) {
+    const val = searchParams[key];
+    if (val) activeFilters[key] = val;
   }
 
   return (
@@ -75,10 +81,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           </h1>
           <p className="mt-2 text-slate-500">
             Só empresas que contratam diretamente —{" "}
-            <span className="text-slate-700 font-medium">
-              zero intermediários
-            </span>
-            .
+            <span className="text-slate-700 font-medium">zero intermediários</span>.
           </p>
           <div className="mt-5">
             <StatsBar stats={stats} />
@@ -110,34 +113,14 @@ export default async function HomePage({ searchParams }: PageProps) {
           </p>
         </div>
 
-        {/* Job list */}
-        {jobsData.results.length === 0 ? (
-          <div className="card flex flex-col items-center justify-center py-20 text-center">
-            <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
-              🔍
-            </span>
-            <p className="font-semibold text-slate-700">
-              Nenhuma vaga com esses filtros
-            </p>
-            <p className="mt-1 text-sm text-slate-400">
-              Tente remover alguns filtros
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {jobsData.results.map((job) => (
-              <JobCard key={job.id} job={job} />
-            ))}
-          </div>
-        )}
+        {/* Job list with drawer */}
+        <Suspense>
+          <JobListClient jobs={jobsData.results} activeFilters={activeFilters} />
+        </Suspense>
 
         {/* Pagination */}
         <Suspense>
-          <Pagination
-            total={jobsData.total}
-            page={page}
-            limit={JOBS_PAGE_SIZE}
-          />
+          <Pagination total={jobsData.total} page={page} limit={JOBS_PAGE_SIZE} />
         </Suspense>
       </main>
 
