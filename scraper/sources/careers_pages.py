@@ -451,6 +451,38 @@ async def fetch_job_description(url: str, client: httpx.AsyncClient) -> str | No
         return None
 
 
+async def fetch_job_description_playwright(url: str, context) -> str | None:
+    """Fallback: usa Playwright para renderizar páginas SPA com JavaScript."""
+    page = None
+    try:
+        page = await context.new_page()
+        await page.goto(url, timeout=20_000, wait_until="domcontentloaded")
+        # Aguarda o conteúdo JS carregar
+        await page.wait_for_timeout(2500)
+        # Extrai texto visível do body, excluindo header/footer/nav
+        content = await page.evaluate("""() => {
+            const selectors = ['main', 'article', '[class*="job-description"]',
+                '[class*="job_description"]', '[class*="description"]',
+                '[class*="content"]', '[class*="posting"]', 'body'];
+            for (const sel of selectors) {
+                const el = document.querySelector(sel);
+                if (el) {
+                    const text = el.innerText || el.textContent || '';
+                    if (text.trim().length > 150) return text.trim();
+                }
+            }
+            return document.body.innerText || '';
+        }""")
+        if content and len(content.strip()) > 100:
+            return content.strip()[:8000]
+        return None
+    except Exception:
+        return None
+    finally:
+        if page:
+            await page.close()
+
+
 class CareersPageScraper(BaseSource):
     """
     Scrapa páginas de careers das empresas em companies.json.
@@ -532,6 +564,9 @@ class CareersPageScraper(BaseSource):
 
                         for job in jobs:
                             job.description = await fetch_job_description(job.url, http_client)
+                            if not job.description:
+                                logger.debug(f"    ↳ httpx vazio, tentando Playwright: {job.url}")
+                                job.description = await fetch_job_description_playwright(job.url, context)
                             yield job
 
                     except Exception as e:

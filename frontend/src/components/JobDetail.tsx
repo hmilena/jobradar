@@ -80,15 +80,55 @@ function sanitizeHtml(html: string): string {
   });
 }
 
-function NoDescription() {
+function NoDescription({ job }: { job?: FullJob }) {
+  const hasMeta =
+    job &&
+    (job.tech_stack.length > 0 ||
+      (job.remote_type && job.remote_type !== "unknown") ||
+      (job.seniority && job.seniority !== "unknown") ||
+      (job.role && job.role !== "unknown"));
+
   return (
-    <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-500">
-      <p className="font-medium text-slate-600 mb-1">Descrição não disponível</p>
-      <p>
-        Esta empresa publica as vagas no seu próprio site e a descrição não é acessível
-        automaticamente. Clica em <span className="font-medium text-slate-700">Ver vaga original</span> para
-        ler todos os detalhes diretamente na fonte.
-      </p>
+    <div className="space-y-3">
+      {hasMeta && (
+        <div className="flex flex-wrap gap-1.5">
+          {job!.remote_type && job!.remote_type !== "unknown" && (
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${REMOTE_COLORS[job!.remote_type]}`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full ${REMOTE_DOT[job!.remote_type]}`} />
+              {REMOTE_LABELS[job!.remote_type]}
+            </span>
+          )}
+          {job!.seniority && job!.seniority !== "unknown" && (
+            <span className="inline-flex items-center rounded-full border border-purple-100 bg-purple-50 px-2.5 py-1 text-xs font-medium text-purple-700">
+              {SENIORITY_LABELS[job!.seniority]}
+            </span>
+          )}
+          {job!.role && job!.role !== "unknown" && (
+            <span className="inline-flex items-center rounded-full border border-sky-100 bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-700">
+              {job!.role}
+            </span>
+          )}
+          {job!.tech_stack.map((tech) => (
+            <span
+              key={tech}
+              className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[12px] font-mono font-medium text-slate-700"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-500">
+        <p className="font-medium text-slate-600 mb-1">Descrição não disponível</p>
+        <p>
+          Esta empresa publica as vagas no seu próprio site e a descrição não é acessível
+          automaticamente. Clica em{" "}
+          <span className="font-medium text-slate-700">Ver vaga original</span> para ler
+          todos os detalhes diretamente na fonte.
+        </p>
+      </div>
     </div>
   );
 }
@@ -205,7 +245,7 @@ function DrawerContent({
       {job.description_clean ? (
         <Description content={job.description_clean} />
       ) : (
-        <NoDescription />
+        <NoDescription job={job} />
       )}
     </div>
   );
@@ -319,7 +359,7 @@ function PageContent({ job }: { job: FullJob }) {
         </>
       ) : (
         <div className="mt-5">
-          <NoDescription />
+          <NoDescription job={job} />
         </div>
       )}
     </div>

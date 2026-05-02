@@ -96,9 +96,19 @@ BACKEND_ONLY_TECH = {"Python", "Java", "Go", "Rust", "C#", "PHP", "Ruby", "Scala
 # Remote type detection
 # ----------------------------------------------------------------
 REMOTE_PATTERNS: list[tuple[str, list[str]]] = [
-    ("remote", ["full remote", "100% remoto", "100% remote", "trabalho remoto", "fully remote", "(remote)", "- remote", "| remote", "remote only", "remote-first"]),
-    ("hybrid", ["híbrido", "hibrido", "hybrid", "modelo híbrido", "(hybrid)", "- hybrid", "| hybrid"]),
-    ("onsite", ["presencial", "on-site", "onsite", "escritório", "(on-site)", "(onsite)"]),
+    ("remote", [
+        "full remote", "100% remoto", "100% remote", "trabalho remoto", "fully remote",
+        "(remote)", "- remote", "| remote", "remote only", "remote-first",
+        "work from home", "wfh", "anywhere", "distributed team",
+    ]),
+    ("hybrid", [
+        "híbrido", "hibrido", "hybrid", "modelo híbrido",
+        "(hybrid)", "- hybrid", "| hybrid", "flex work", "flexible work",
+    ]),
+    ("onsite", [
+        "presencial", "on-site", "onsite", "escritório",
+        "(on-site)", "(onsite)", "in office", "in-office",
+    ]),
 ]
 
 
@@ -166,13 +176,13 @@ def extract_role(title: str, description: str = "", tech_stack: list[str] | None
     return "unknown"
 
 
-def extract_remote_type(description: str = "") -> str:
-    """Infere o modelo de trabalho a partir da descrição."""
-    if not description:
+def extract_remote_type(description: str = "", title: str = "") -> str:
+    """Infere o modelo de trabalho a partir da descrição e título."""
+    combined = f"{title} {description}".lower()
+    if not combined.strip():
         return "unknown"
-    desc_lower = description.lower()
     for remote_type, patterns in REMOTE_PATTERNS:
-        if any(p in desc_lower for p in patterns):
+        if any(p in combined for p in patterns):
             return remote_type
     return "unknown"
 
@@ -185,7 +195,7 @@ def enrich_raw_job(job: RawJob) -> RawJob:
     if not job.seniority:
         job.seniority = extract_seniority(job.title, desc)
     if not job.remote_type or job.remote_type == "unknown":
-        job.remote_type = extract_remote_type(f"{job.title} {desc}")
+        job.remote_type = extract_remote_type(desc, job.title)
     if not getattr(job, "role", None):
         job.role = extract_role(job.title, desc, job.tech_stack)
     return job
